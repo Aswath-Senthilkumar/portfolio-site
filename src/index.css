@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -334,6 +335,18 @@
   mask-image: radial-gradient(ellipse 85% 85% at 50% 100%, #000 60%, transparent 100%);
   z-index: -1;
   pointer-events: none;
+}
+
+/* canvas- styles */
+.canvas-loader {
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  animation: mulShdSpin 1.1s infinite ease;
+  transform: translateZ(0);
 }
 
 /* 562px to 767px: Show 2-line version */

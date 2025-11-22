@@ -10,7 +10,7 @@ const DESKTOP_HREF_TO_SECTION_MAP: Record<string, DesktopSectionId> = {
   '#about': 'about',
   '#experience': 'experience',
   '#skills': 'skills',
-  '#about-me': 'about-me',
+  '#projects': 'projects',
 };
 
 export const Tab = ({ children, setPosition, href, isActive }: TabProps) => {

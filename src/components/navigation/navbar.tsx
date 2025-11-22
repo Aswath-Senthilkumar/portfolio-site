@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Globe } from "lucide-react";
 import { navigationItems } from "@/constants/index";
 import { Tab } from "./tab";
@@ -6,8 +6,15 @@ import { Cursor } from "./cursor";
 import { Sidebar } from "./sidebar/sidebar";
 import { useNavigationStore } from "@/stores/navigationStore";
 import type { Position } from "./types";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
-export function NavBar() {
+interface NavBarProps {
+  show?: boolean;
+}
+
+export function NavBar({ show = true }: NavBarProps) {
+  const navRef = useRef<HTMLElement>(null);
   const [position, setPosition] = useState<Position>({
     left: 0,
     width: 0,
@@ -17,10 +24,29 @@ export function NavBar() {
   // Get active navigation item using optimized selector
   const activeNavigationItem = useNavigationStore(state => state.getActiveNavigationItem());
 
+  useGSAP(() => {
+    if (show) {
+      gsap.to(navRef.current, {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out",
+      });
+    } else {
+      gsap.set(navRef.current, {
+        y: -100,
+        opacity: 0,
+      });
+    }
+  }, [show]);
+
   return (
     <>
       {/* Desktop Navigation - Hidden on mobile, visible on md+ */}
-      <nav className="fixed top-7 left-1/2 -translate-x-1/2 z-50 hidden md:block">
+      <nav 
+        ref={navRef}
+        className="fixed top-7 left-1/2 -translate-x-1/2 z-50 hidden md:block opacity-0 -translate-y-24"
+      >
         <ul
           onMouseLeave={() => {
             setPosition((pv) => ({

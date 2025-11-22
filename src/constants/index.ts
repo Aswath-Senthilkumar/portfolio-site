@@ -21,14 +21,14 @@ export const navigationItems: NavigationItem[] = [
         mobileLink: "#experience-mobile"
     },
     {
+        name: "Projects",
+        link: "#projects",
+        mobileLink: "#projects-mobile"
+    },
+    {
         name: "Skills",
         link: "#skills",
         mobileLink: "#skills-mobile"
-    },
-    {
-        name: "About me",
-        link: "#about-me",
-        mobileLink: "#about-me-mobile"
     },
     {
         name: "Contact",

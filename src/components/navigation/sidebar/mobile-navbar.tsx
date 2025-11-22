@@ -13,7 +13,7 @@ const MOBILE_HREF_TO_SECTION_MAP: Record<string, MobileSectionId> = {
   '#about-mobile': 'about-mobile',
   '#experience-mobile': 'experience-mobile',
   '#skills-mobile': 'skills-mobile',
-  '#about-me-mobile': 'about-me-mobile',
+  '#projects-mobile': 'projects-mobile',
 };
 
 export function MobileNav({ onNavigationClick }: MobileNavProps) {

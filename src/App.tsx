@@ -24,19 +24,10 @@ function DesktopView() {
 
 function App() {
   const [animationComplete, setAnimationComplete] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   useEffect(() => {
-    const handleLoad = () => setIsLoaded(true);
-
-    if (document.readyState === 'complete') {
-      setIsLoaded(true);
-    } else {
-      window.addEventListener('load', handleLoad);
-    }
-
-    return () => window.removeEventListener('load', handleLoad);
+    // Preload logic if needed
   }, []);
 
   return (

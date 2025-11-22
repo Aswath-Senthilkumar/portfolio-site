@@ -20,12 +20,12 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile Logo - Left side */}
-      <div className="fixed top-7 left-6 z-50 md:hidden">
+      {/* <div className="fixed top-7 left-6 z-50 md:hidden">
         <img 
           src=""
           className="w-12 h-12" 
         />
-      </div>
+      </div> */}
 
       {/* Mobile Hamburger Menu - Right side */}
       <div className="fixed top-7 right-6 z-50 md:hidden">
