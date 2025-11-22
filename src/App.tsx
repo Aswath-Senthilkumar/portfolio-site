@@ -2,10 +2,30 @@ import { useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useEffect } from 'react'
 import LoadingAnimation from '@/components/animations/LoadingAnimation'
+import {Routes, Route} from 'react-router';
+import { Home } from '@/pages/Home';
+import { MobileHome } from '@/pages/MobileHome';
+
+function MobileView() {
+  return (
+    <Routes>
+      <Route path="/" element={<MobileHome />} />
+    </Routes>
+  );
+}
+
+function DesktopView() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+    </Routes>
+  );
+}
 
 function App() {
   const [animationComplete, setAnimationComplete] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
   useEffect(() => {
     const handleLoad = () => setIsLoaded(true);
@@ -20,11 +40,12 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-hidden">
+    <div className="dark min-h-screen bg-black text-white overflow-hidden">
       {!animationComplete ? (
         <LoadingAnimation onComplete={() => setAnimationComplete(true)} />
       ) : (
         <>
+          {isMobile ? <MobileView /> : <DesktopView />}
         </>
       )}
     </div>
