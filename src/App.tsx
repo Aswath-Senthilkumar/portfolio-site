@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { useMediaQuery } from 'react-responsive'
-import { useEffect } from 'react'
-import LoadingAnimation from '@/components/animations/LoadingAnimation'
-import {Routes, Route} from 'react-router';
-import { Home } from '@/pages/Home';
-import { MobileHome } from '@/pages/MobileHome';
+import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import { useEffect } from "react";
+import LoadingAnimation from "@/components/animations/LoadingAnimation";
+import { Routes, Route } from "react-router";
+import { Home } from "@/pages/Home";
+import { MobileHome } from "@/pages/MobileHome";
+import { GlobalDrawer } from "@/components/drawer/global-drawer";
 
 function MobileView() {
   return (
@@ -24,7 +25,7 @@ function DesktopView() {
 
 function App() {
   const [animationComplete, setAnimationComplete] = useState(false);
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
   useEffect(() => {
     // Preload logic if needed
@@ -35,12 +36,11 @@ function App() {
       {!animationComplete ? (
         <LoadingAnimation onComplete={() => setAnimationComplete(true)} />
       ) : (
-        <>
-          {isMobile ? <MobileView /> : <DesktopView />}
-        </>
+        <>{isMobile ? <MobileView /> : <DesktopView />}</>
       )}
+      <GlobalDrawer />
     </div>
   );
 }
 
-export default App
+export default App;
