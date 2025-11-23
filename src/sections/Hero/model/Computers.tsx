@@ -5,7 +5,7 @@ import React, {
   useLayoutEffect,
   useRef,
 } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import {
   OrbitControls,
   Preload,
@@ -29,7 +29,6 @@ interface ComputersProps {
 const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
   const computer = useGLTF("./desktop_pc/scene.gltf");
   const ref = useRef<THREE.Group>(null);
-  // const { camera } = useThree();
 
   useLayoutEffect(() => {
     if (!ref.current) return;
@@ -52,7 +51,7 @@ const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
           zIndex: 20,
           duration: 0, // Immediate switch
         },
-        0
+        0.05 // Delay switch to allow interaction at top
       )
         .to(
           ref.current.rotation,

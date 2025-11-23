@@ -26,14 +26,14 @@ export default function Hero() {
         />
       </div>
 
-      <div id="model-container" className="absolute inset-0 z-10">
+      <div id="model-container" className="absolute inset-0 z-0">
         <ComputersCanvas />
       </div>
 
       {/* Content Layer */}
       <div
         id="content-container"
-        className="absolute inset-0 z-10 flex flex-col items-start justify-start pt-32 pl-8 md:pl-20 pointer-events-none"
+        className="absolute inset-0 z-12 flex flex-col items-start justify-start pt-32 pl-8 md:pl-20 pointer-events-none"
       >
         <div className="pointer-events-auto">
           <HomeTitle />

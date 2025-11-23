@@ -3,10 +3,10 @@ import { useNavigationStore, type SectionId } from '@/stores/navigationStore';
 
 const SECTIONS = [
     'home',
-    'about',
+    'what-i-do',
     'experience',
+    'about-me',
     'skills',
-    'projects',
     'footer'
 ] as const;
 
