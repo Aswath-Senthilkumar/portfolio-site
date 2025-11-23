@@ -1,7 +1,8 @@
 import { NavBar } from "@/components/navigation/navbar";
 import { useSectionTracker } from "@/hooks/useSectionTracker";
 import Hero from "@/sections/Hero";
-import About from "@/sections/About";
+import WhatIDo from "@/sections/WhatIDo";
+import Experience from "@/sections/Experience";
 
 export function Home() {
   useSectionTracker();
@@ -11,7 +12,8 @@ export function Home() {
         <NavBar show={true} />
         <main className="w-full max-w-[1550px] mx-auto">
           <Hero />
-          <About />
+          <WhatIDo />
+          <Experience />
         </main>
       </div>
     </>

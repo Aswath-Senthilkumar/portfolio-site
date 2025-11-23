@@ -1,33 +1,33 @@
 import { create } from 'zustand';
 
 // Desktop Section IDs
-type DesktopSectionId = 'home' | 'about' | 'experience' | 'skills' | 'projects';
+type DesktopSectionId = 'home' | 'what-i-do' | 'experience' | 'about-me' | 'skills';
 
 // Mobile Section IDs  
-type MobileSectionId = 'home-mobile' | 'about-mobile' | 'experience-mobile' | 'skills-mobile' | 'projects-mobile';
+type MobileSectionId = 'home-mobile' | 'what-i-do-mobile' | 'experience-mobile' | 'about-me-mobile' | 'skills-mobile';
 
 // Combined Section IDs
 type SectionId = DesktopSectionId | MobileSectionId;
 
 // Navigation item names from the constants
-type NavigationItem = "Home" | "About" | "Experience" | "Skills" | "Projects";
+type NavigationItem = "Home" | "What I Do" | "Experience" | "About Me" | "Skills";
 
 // Mapping from desktop section IDs to navigation item names
 const DESKTOP_SECTION_TO_NAV_MAP: Record<DesktopSectionId, NavigationItem> = {
     'home': "Home",
-    'about': "About",
+    'what-i-do': "What I Do",
     'experience': "Experience",
+    'about-me': "About Me",
     'skills': "Skills",
-    'projects': "Projects",
 };
 
 // Mapping from mobile section IDs to navigation item names
 const MOBILE_SECTION_TO_NAV_MAP: Record<MobileSectionId, NavigationItem> = {
     'home-mobile': "Home",
-    'about-mobile': "About",
+    'what-i-do-mobile': "What I Do",
     'experience-mobile': "Experience",
+    'about-me-mobile': "About Me",
     'skills-mobile': "Skills",
-    'projects-mobile': "Projects",
 };
 
 // Helper function to detect if we're on mobile
