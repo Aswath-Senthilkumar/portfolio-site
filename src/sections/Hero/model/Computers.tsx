@@ -1,10 +1,26 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF, useProgress } from "@react-three/drei";
+import React, {
+  Suspense,
+  useEffect,
+  useState,
+  useLayoutEffect,
+  useRef,
+} from "react";
+import { Canvas, useThree } from "@react-three/fiber";
+import {
+  OrbitControls,
+  Preload,
+  useGLTF,
+  useProgress,
+} from "@react-three/drei";
 import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import CanvasLoader from "./Loader"
+import CanvasLoader from "./Loader";
 import Lights from "../../../components/three/Lights";
+import * as THREE from "three";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ComputersProps {
   isMobile: boolean;
@@ -12,16 +28,83 @@ interface ComputersProps {
 
 const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
   const computer = useGLTF("./desktop_pc/scene.gltf");
+  const ref = useRef<THREE.Group>(null);
+  // const { camera } = useThree();
+
+  useLayoutEffect(() => {
+    if (!ref.current) return;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#home",
+        start: "top top",
+        end: "+=2000", // Reduced scroll distance
+        scrub: 0.5, // Reduced scrub delay for tighter response
+        pin: true, // Pin the home section
+        // markers: true,
+      },
+    });
+
+    if (!isMobile) {
+      tl.to(
+        "#model-container",
+        {
+          zIndex: 20,
+          duration: 0, // Immediate switch
+        },
+        0
+      )
+        .to(
+          ref.current.rotation,
+          {
+            y: 0.65, // Rotate to face screen flat
+            x: 0,
+            z: 0,
+            ease: "power1.inOut",
+          },
+          0
+        )
+        .to(
+          ref.current.position,
+          {
+            x: 12.8, // Center horizontally
+            y: -0.4, // Center vertically
+            z: 19, // Zoom in
+            ease: "power1.inOut",
+          },
+          0
+        );
+      // .to(
+      //   ref.current.scale,
+      //   {
+      //     x: 3, // Correctly target x, y, z
+      //     y: 3,
+      //     z: 3,
+      //     ease: "power1.inOut",
+      //   },
+      //   0
+      // );
+    }
+
+    return () => {
+      tl.kill();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, [isMobile]);
 
   return (
     <mesh>
       <Lights />
-      <primitive
-        object={computer.scene}
-        scale={isMobile ? 0.5 : 0.6}
-        position={isMobile ? [0, -3, -2.2] : [6, -1.75, -12]}
-        rotation={[0, 3.8, 0]}
-      />
+      <group ref={ref}>
+        <primitive
+          object={computer.scene}
+          scale={isMobile ? 0.5 : 0.8}
+          // position={isMobile ? [0, -3, -2.2] : [2.45, -2.45, -4.5]}
+          position={isMobile ? [0, -3, -2.2] : [6, -2, -25]}
+          // rotation={[0, -1.55, 0]}
+          rotation={[0, -2.2, 0]}
+        />
+      </group>
     </mesh>
   );
 };
@@ -63,8 +146,8 @@ const ComputersCanvas = () => {
         <Canvas
           shadows
           dpr={[1, 2]}
-          camera={{ position: [0, 0, 0], fov: 50 }}
-          gl={{ preserveDrawingBuffer: true }}
+          camera={{ position: [0, 0, 0], fov: 25 }}
+          gl={{ preserveDrawingBuffer: true, alpha: true }}
         >
           <Suspense fallback={null}>
             <OrbitControls

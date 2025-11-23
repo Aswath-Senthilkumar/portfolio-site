@@ -17,13 +17,13 @@ const Lights = () => {
   return (
     <>
       <primitive object={target} />
-      <hemisphereLight intensity={0.5} groundColor='black' />
+      <hemisphereLight intensity={0.5} groundColor="black" />
       <spotLight
         ref={spotLightRef}
         position={[0, 20, 10]}
         angle={1.0}
         penumbra={1}
-        intensity={2000}
+        intensity={3000}
         castShadow
         shadow-mapSize={1024}
         target={target}
