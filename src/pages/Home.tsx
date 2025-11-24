@@ -3,6 +3,8 @@ import { useSectionTracker } from "@/hooks/useSectionTracker";
 import Hero from "@/sections/Hero";
 import WhatIDo from "@/sections/WhatIDo";
 import Experience from "@/sections/Experience";
+import Projects from "@/sections/Projects";
+import Skills from "@/sections/Skills";
 
 export function Home() {
   useSectionTracker();
@@ -14,6 +16,8 @@ export function Home() {
           <Hero />
           <WhatIDo />
           <Experience />
+          <Projects />
+          <Skills />
         </main>
       </div>
     </>

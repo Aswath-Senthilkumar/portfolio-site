@@ -176,7 +176,7 @@ export const projects = [
     {
       title: "API Canvas - Public API Explorer",
       description:
-        "Developed a modern, responsive web application that catalogs and showcases public APIs. Features include intuitive search functionality, advanced filtering by categories, authentication, HTTPS and CORS, detailed API information with usage examples, and user authentication for saving favorite APIs. The app uses a GraphQL API layer over a curated collection of public APIs, providing a seamless browsing experience with pagination and dark/light mode.",
+        "Developed a responsive web app to explore and manage public APIs, featuring search, category filters, authentication, and API details with examples. Implemented a GraphQL layer over curated APIs for efficient querying, pagination, and personalized browsing.",
       image: "/images/api-canvas.png",
       tags: [
         "Next.js",
@@ -195,7 +195,7 @@ export const projects = [
     {
       title: "Image-Based Search and Relevance Optimization",
       description:
-        "Designed a machine learning–driven image search system using feature descriptors like Color Moments and ResNet‑1000, extended with Latent Semantic Analysis on the Caltech‑101 dataset. Achieved 92% query accuracy on over 8,000 images and built a custom PageRank-based algorithm with user feedback to optimize search relevance.",
+        "Designed an ML (Machine Learning)–based image search using ResNet-1000 and Color Moments with LSA (Latent Semantic Analysis) on Caltech-101, achieving 92% accuracy and refining relevance via a PageRank-inspired feedback algorithm.",
       image: "/images/relevant_image.webp",
       tags: [
         "Python",
@@ -214,7 +214,7 @@ export const projects = [
     {
       title: "Smart Automated Library Management System",
       description:
-        "Designed and developed an intelligent library management system integrating RFID and IoT to automate real‑time book inventory tracking, secure user authentication, and proactive SMS/email alerts for due dates, fines, and availability. The solution also offers multi‑attribute search, personalized reading recommendations based on borrowing history, and seamless online fine payment.",
+        "Developed an IoT (Internet of Things) and RFID-enabled library management system with real-time tracking, secure authentication, and automated SMS/email alerts. Added multi-attribute search, personalized book recommendations, and online fine payment for seamless user experience.",
       image: "/images/library.webp",
       tags: ["IoT", "RFID", "React", "Node.js", "MongoDB", "Python"],
       links: {
@@ -254,7 +254,7 @@ export const projects = [
     {
       title: "Software Bug Severity Detection System",
       description:
-        "Developed an advanced bug severity prediction system leveraging RoBERTa transformer embeddings and optimized ML algorithms (Random Forest, SVM, Decision Trees) on Defects4J and Bugs.jar datasets. Improved classification accuracy and triaging efficiency via fine‑tuned models and stratified data preprocessing.",
+        "Built a bug severity prediction system using RoBERTa embeddings and optimized ML (Machine Learning) models on Defects4J and Bugs.jar datasets, improving classification accuracy and triage efficiency through fine-tuned training and stratified preprocessing.",
       image: "/images/bug.webp",
       tags: [
         "Python",
@@ -273,7 +273,7 @@ export const projects = [
     {
       title: "Medication Reminder System",
       description:
-        "Built an automated healthcare communication platform using Twilio for patient medication reminders. Implemented real-time speech recognition with Google Cloud STT for transcribing patient responses, deployed voice/SMS notifications with intelligent answering machine detection, and stored interaction data in MongoDB. Features include full call recording, live transcription, and a comprehensive call log API for healthcare providers.",
+        "Developed an automated healthcare communication system using Twilio for voice/SMS medication reminders with Google Cloud STT (Speech-to-Text) for real-time transcription. Integrated call recording, live transcription, and a call log API (Application Programming Interface) for healthcare providers with data stored in MongoDB.",
       image: "/images/twilio_reminder.png",
       tags: [
         "Node.js",
@@ -292,7 +292,7 @@ export const projects = [
     {
       title: "Scrollytelling with D3.js - Fast Food Industry Evolution",
       description:
-        "Developed an interactive data visualization that tells the story of the fast food industry's evolution in America through scroll-based storytelling. The project features ten D3.js-powered charts: timelines, bar chart races, maps, and radar charts - integrated with Scrollama.js for smooth scroll-triggered transitions. Built with vanilla JavaScript, D3.js, and Vite, it emphasizes modular architecture, responsive design, and engaging user interactions like tooltips, zoom, and play/pause controls. Data is sourced from industry statistics, processed in real time, and the project is optimized for modern browsers and mobile devices.",
+        "Created an interactive scrollytelling visualization on the U.S. fast-food industry using D3.js and Scrollama.js with 10 dynamic charts. Built with vanilla JavaScript and Vite for modular, responsive design featuring real-time data processing, tooltips, and smooth scroll-triggered transitions.",
       image: "/images/scrollytelling.png",
       tags: [
         "D3.js",
