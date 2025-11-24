@@ -1,6 +1,6 @@
-import { SkillPill } from "./skill-pill";
+import { SkillPill } from "../../../components/ui/skill-pill";
 import { skillRows } from "./constants";
-import { useSkillRowAnimation } from "./useSkillRowAnimation";
+import { useSkillRowAnimation } from "../../../hooks/useSkillRowAnimation";
 
 export function Capabilities() {
   const containerRef = useSkillRowAnimation();

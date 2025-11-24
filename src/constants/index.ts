@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export type NavigationItem = {
     name: string;
     link: string;
@@ -36,3 +38,15 @@ export const navigationItems: NavigationItem[] = [
         mobileLink: "#contact"
     }
 ];
+
+export interface Skill {
+  icon: ReactNode;
+  name: string;
+}
+
+export interface Service {
+  icon: ReactNode;
+  iconBg: string;
+  title: string;
+  description: string;
+}

@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { ServiceCard } from "./service-card";
+import { ServiceCard } from "../../../components/ui/service-card";
 import { services } from "./constants";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";

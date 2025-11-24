@@ -1,22 +1,26 @@
 import MagicBento, {
   type BentoCardProps,
 } from "@/components/animations/MagicBento";
-import { Capabilities } from "./components/capabilities";
-import { ExperiencedIn } from "./components/experienced-in";
+import { Capabilities } from "./capabilities";
+import { ExperiencedIn } from "./experienced-in";
+
+import { Scale, ShieldCheck, Zap, Trophy } from "lucide-react";
 
 export default function WhatIDo() {
   const cards: BentoCardProps[] = [
     {
-      title: "Results",
-      description: "Delivering impactful outcomes",
-      label: "Impact",
+      title: "Scalable",
+      description: "Built for high scale",
+      label: "Architecture",
       color: "#060010",
+      icon: <Scale />,
     },
     {
-      title: "Secure",
-      description: "Enterprise-grade protection",
-      label: "Safety",
+      title: "Performant",
+      description: "Optimized & Responsive",
+      label: "Speed",
       color: "#060010",
+      icon: <Zap />,
     },
     {
       component: <Capabilities />,
@@ -29,16 +33,18 @@ export default function WhatIDo() {
       label: "Services",
     },
     {
-      title: "Fast",
-      description: "High-performance solutions",
-      label: "Speed",
+      title: "Secure",
+      description: "Enterprise-grade protection",
+      label: "Safety",
       color: "#060010",
+      icon: <ShieldCheck />,
     },
     {
-      title: "Reliable",
-      description: "Consistent and dependable",
-      label: "Trust",
+      title: "Impactful",
+      description: "Data-driven outcomes",
+      label: "Results",
       color: "#060010",
+      icon: <Trophy />,
     },
   ];
 

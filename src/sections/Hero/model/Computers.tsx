@@ -40,6 +40,7 @@ const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
         end: "+=2000", // Reduced scroll distance
         scrub: 0.5, // Reduced scrub delay for tighter response
         pin: true, // Pin the home section
+        refreshPriority: 1,
         // markers: true,
       },
     });

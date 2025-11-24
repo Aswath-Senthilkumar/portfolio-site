@@ -9,6 +9,7 @@ export interface BentoCardProps {
   textAutoHide?: boolean;
   disableAnimations?: boolean;
   component?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 export interface BentoProps {
@@ -760,12 +761,32 @@ const MagicBento: React.FC<BentoProps> = ({
                     card.component
                   ) : (
                     <>
-                      <div className="card__header flex justify-between gap-3 relative text-white">
+                      {card.icon && (
+                        <div className="card__icon absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-500">
+                          <div
+                            className="w-48 h-48 text-[rgba(132,0,255,0.1)] transform scale-150 blur-sm flex items-center justify-center"
+                            style={{
+                              color: `rgba(${glowColor}, 0.15)`,
+                              filter:
+                                "drop-shadow(0 0 20px rgba(132,0,255,0.3))",
+                            }}
+                          >
+                            {React.cloneElement(
+                              card.icon as React.ReactElement<any>,
+                              {
+                                className: "w-[50%] h-[50%]",
+                                strokeWidth: 1,
+                              }
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      <div className="card__header flex justify-between gap-3 relative text-white z-10">
                         <span className="card__label text-base">
                           {card.label}
                         </span>
                       </div>
-                      <div className="card__content flex flex-col relative text-white">
+                      <div className="card__content flex flex-col relative text-white z-10">
                         <h3
                           className={`card__title font-normal text-base m-0 mb-1 ${
                             textAutoHide ? "text-clamp-1" : ""
@@ -781,6 +802,11 @@ const MagicBento: React.FC<BentoProps> = ({
                           {card.description}
                         </p>
                       </div>
+                      <style>{`
+                        .card:hover .card__icon {
+                          opacity: 1;
+                        }
+                      `}</style>
                     </>
                   )}
                 </ParticleCard>
