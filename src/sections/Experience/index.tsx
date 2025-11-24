@@ -1,4 +1,5 @@
-import { ScrollStackCards } from "./work_experience/ScrollStackCards";
+import { ScrollStackCards } from "./work_experience/scroll-stack-cards";
+import { Catalog } from "./projects/catalog";
 
 export default function Experience() {
   return (
@@ -6,7 +7,7 @@ export default function Experience() {
       id="experience"
       className="relative min-h-screen w-full bg-black text-white flex flex-col items-center justify-start pt-20"
     >
-      <div className="w-full max-w-7xl px-8">
+      <div className="w-full max-w-7xl px-8 mb-4">
         <h2 className="text-2xl md:text-4xl font-bold text-center mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
           Work Experience
         </h2>
@@ -15,8 +16,13 @@ export default function Experience() {
           applications and leading engineering teams.
         </p>
       </div>
-
       <ScrollStackCards />
+      <div className="w-full max-w-7xl pt-24 mb-2">
+        <h2 className="text-2xl md:text-4xl font-bold text-center mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+          Projects
+        </h2>
+        <Catalog />
+      </div>
     </section>
   );
 }

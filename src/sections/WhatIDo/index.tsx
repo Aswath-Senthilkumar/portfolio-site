@@ -1,6 +1,4 @@
-import MagicBento, {
-  type BentoCardProps,
-} from "@/components/animations/MagicBento";
+import MagicBento, { type BentoCardProps } from "@/components/ui/MagicBento";
 import { Capabilities } from "./capabilities";
 import { ExperiencedIn } from "./experienced-in";
 

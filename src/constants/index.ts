@@ -171,3 +171,141 @@ export const experienceData: ExperienceItem[] = [
     color: "#00ff88"
   }
 ];
+
+export const projects = [
+    {
+      title: "API Canvas - Public API Explorer",
+      description:
+        "Developed a modern, responsive web application that catalogs and showcases public APIs. Features include intuitive search functionality, advanced filtering by categories, authentication, HTTPS and CORS, detailed API information with usage examples, and user authentication for saving favorite APIs. The app uses a GraphQL API layer over a curated collection of public APIs, providing a seamless browsing experience with pagination and dark/light mode.",
+      image: "/images/api-canvas.png",
+      tags: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "GraphQL",
+        "Apollo Client",
+        "TailwindCSS",
+        "Firebase",
+      ],
+      links: {
+        github: "#",
+        demo: "https://api-canvas.vercel.app",
+      },
+    },
+    {
+      title: "Image-Based Search and Relevance Optimization",
+      description:
+        "Designed a machine learning–driven image search system using feature descriptors like Color Moments and ResNet‑1000, extended with Latent Semantic Analysis on the Caltech‑101 dataset. Achieved 92% query accuracy on over 8,000 images and built a custom PageRank-based algorithm with user feedback to optimize search relevance.",
+      image: "/images/relevant_image.webp",
+      tags: [
+        "Python",
+        "TorchVision",
+        "MongoDB",
+        "Latent Semantic Analysis",
+        "ResNet",
+        "PageRank",
+        "Machine Learning",
+      ],
+      links: {
+        github: "https://github.com/Aswath-Senthilkumar/CSE515-Project",
+        demo: "#",
+      },
+    },
+    {
+      title: "Smart Automated Library Management System",
+      description:
+        "Designed and developed an intelligent library management system integrating RFID and IoT to automate real‑time book inventory tracking, secure user authentication, and proactive SMS/email alerts for due dates, fines, and availability. The solution also offers multi‑attribute search, personalized reading recommendations based on borrowing history, and seamless online fine payment.",
+      image: "/images/library.webp",
+      tags: ["IoT", "RFID", "React", "Node.js", "MongoDB", "Python"],
+      links: {
+        github:
+          "https://github.com/Aswath-Senthilkumar/LibraryManagementSystem-main",
+        demo: "#",
+      },
+    },
+    // {
+    //   title: "Smart Plant Monitoring System",
+    //   description:
+    //     "Designed and developed a Smart Plant Monitoring System and a Mobile Application leveraging IoT technologies and Arduino Cloud to facilitate efficient plant care and monitoring.",
+    //   image: "/images/smart_plant.webp?height=400&width=400",
+    //   tags: ["IoT", "Arduino", "C Language", "Mobile App", "DHT22 Sensor"],
+    //   links: {
+    //     github: "#",
+    //     demo: "#",
+    //   },
+    // },
+    // {
+    //   title: "Heart Cancer Detection",
+    //   description:
+    //     "Gathered a dataset of medical images from Kaggle for heart cancer detection. Pre-processed and analyzed the dataset using the Weka tool, employing various machine learning algorithms for classification and predictive modeling.",
+    //   image: "/images/heart.webp?height=400&width=400",
+    //   tags: [
+    //     "Machine Learning",
+    //     "Weka",
+    //     "Data Analysis",
+    //     "Medical Imaging",
+    //     "Classification",
+    //   ],
+    //   links: {
+    //     github: "#",
+    //     demo: "#",
+    //   },
+    // },
+    {
+      title: "Software Bug Severity Detection System",
+      description:
+        "Developed an advanced bug severity prediction system leveraging RoBERTa transformer embeddings and optimized ML algorithms (Random Forest, SVM, Decision Trees) on Defects4J and Bugs.jar datasets. Improved classification accuracy and triaging efficiency via fine‑tuned models and stratified data preprocessing.",
+      image: "/images/bug.webp",
+      tags: [
+        "Python",
+        "RoBERTa",
+        "Machine Learning",
+        "NLP",
+        "Random Forest",
+        "SVM",
+      ],
+      links: {
+        github:
+          "https://github.com/Aswath-Senthilkumar/software-bug-severity-detection",
+        demo: "#",
+      },
+    },
+    {
+      title: "Medication Reminder System",
+      description:
+        "Built an automated healthcare communication platform using Twilio for patient medication reminders. Implemented real-time speech recognition with Google Cloud STT for transcribing patient responses, deployed voice/SMS notifications with intelligent answering machine detection, and stored interaction data in MongoDB. Features include full call recording, live transcription, and a comprehensive call log API for healthcare providers.",
+      image: "/images/twilio_reminder.png",
+      tags: [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Twilio API",
+        "Google Cloud Speech-to-Text",
+        "RESTful API",
+        "Healthcare Tech",
+      ],
+      links: {
+        github: "https://github.com/Aswath-Senthilkumar/twilio_reminder",
+        demo: "#",
+      },
+    },
+    {
+      title: "Scrollytelling with D3.js - Fast Food Industry Evolution",
+      description:
+        "Developed an interactive data visualization that tells the story of the fast food industry's evolution in America through scroll-based storytelling. The project features ten D3.js-powered charts: timelines, bar chart races, maps, and radar charts - integrated with Scrollama.js for smooth scroll-triggered transitions. Built with vanilla JavaScript, D3.js, and Vite, it emphasizes modular architecture, responsive design, and engaging user interactions like tooltips, zoom, and play/pause controls. Data is sourced from industry statistics, processed in real time, and the project is optimized for modern browsers and mobile devices.",
+      image: "/images/scrollytelling.png",
+      tags: [
+        "D3.js",
+        "JavaScript",
+        "Vite",
+        "Scrollama.js",
+        "Data Visualization",
+        "Responsive Design",
+        "SVG",
+      ],
+      links: {
+        github: "https://github.com/Aswath-Senthilkumar/scrollytelling-with-d3",
+        demo: "https://scrollytelling-with-d3.vercel.app/",
+      },
+    },
+  ];

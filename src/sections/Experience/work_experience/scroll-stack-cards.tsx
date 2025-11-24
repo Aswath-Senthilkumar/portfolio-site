@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { experienceData } from "../../../constants";
-import { WorkExperienceCard } from "./WorkExperienceCard";
+import { WorkExperienceCard } from "./work-experience-card";
 
 gsap.registerPlugin(ScrollTrigger);
 
