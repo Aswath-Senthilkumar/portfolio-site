@@ -20,10 +20,10 @@ const Lights = () => {
       <hemisphereLight intensity={0.5} groundColor="black" />
       <spotLight
         ref={spotLightRef}
-        position={[0, 20, 10]}
+        position={[-20, 20, -10]}
         angle={1.0}
         penumbra={1}
-        intensity={3000}
+        intensity={4000}
         castShadow
         shadow-mapSize={1024}
         target={target}

@@ -30,34 +30,128 @@ const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
   const computer = useGLTF("./desktop_pc/scene.gltf");
   const ref = useRef<THREE.Group>(null);
 
+  // Set up video texture looping
+  useEffect(() => {
+    // Create video element
+    const video = document.createElement("video");
+    video.src = "./desktop_pc/textures/Material.074_30_baseColor.mp4";
+    video.crossOrigin = "anonymous";
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+
+    // Create video texture
+    const videoTexture = new THREE.VideoTexture(video);
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
+    videoTexture.format = THREE.RGBAFormat;
+    videoTexture.colorSpace = THREE.SRGBColorSpace;
+
+    console.log("Video texture created:", videoTexture);
+
+    // Play the video
+    video
+      .play()
+      .then(() => {
+        console.log("Video playing successfully");
+      })
+      .catch((error) => {
+        console.error("Error playing video:", error);
+      });
+
+    // Traverse the model and find materials to apply video texture
+    let appliedCount = 0;
+    computer.scene.traverse((child) => {
+      if ((child as THREE.Mesh).isMesh) {
+        const mesh = child as THREE.Mesh;
+        const material = mesh.material as THREE.MeshStandardMaterial;
+
+        if (material && material.isMaterial) {
+          // Log material info for debugging
+          if (material.name && material.name.includes("30")) {
+            console.log(
+              "Found potential screen material:",
+              material.name,
+              material
+            );
+          }
+
+          // Check if this material's map is null or undefined (video didn't load)
+          // or if the material name suggests it's the screen material
+          if (
+            material.name &&
+            (material.name.includes("Material.074_30") ||
+              material.name.includes("screen") ||
+              material.name.includes("Screen"))
+          ) {
+            console.log("Applying video texture to material:", material.name);
+            material.map = videoTexture;
+            material.emissive = new THREE.Color(0x666666); // Make it slightly emissive
+            material.emissiveMap = videoTexture;
+            material.emissiveIntensity = 1.0;
+            // material.metalness = 1;
+            // material.roughness = 0.5;
+            material.needsUpdate = true;
+            appliedCount++;
+          }
+        }
+      }
+    });
+
+    console.log(`Applied video texture to ${appliedCount} materials`);
+
+    return () => {
+      video.pause();
+      video.src = "";
+      videoTexture.dispose();
+    };
+  }, [computer]);
+
   useLayoutEffect(() => {
     if (!ref.current) return;
 
-    const tl = gsap.timeline({
+    // Ensure we start at the top of the page
+    window.scrollTo(0, 0);
+
+    // Phase 1 & 2: Model zoom animation (0-50%: top top to center top)
+    const zoomTimeline = gsap.timeline({
       scrollTrigger: {
-        trigger: "#home",
-        start: "top top",
-        end: "+=2000", // Reduced scroll distance
-        scrub: 0.5, // Reduced scrub delay for tighter response
-        pin: true, // Pin the home section
-        refreshPriority: 1,
-        // markers: true,
+        trigger: "#wrapper",
+        start: "top top", // 0%: Hero at top of viewport
+        end: "center top", // 50%: Hero completely exited, About fades in
+        scrub: 0.5,
+        invalidateOnRefresh: true,
+        // markers: { startColor: "green", endColor: "red", fontSize: "12px" },
       },
     });
 
+    // Phase 3 & 4: Model pinning (stays pinned until wrapper bottom exits)
+    // Pin the model so it stays visible, then unpins to scroll out with About
+    const pinTrigger = ScrollTrigger.create({
+      trigger: "#wrapper",
+      start: "top top", // Pin starts when wrapper enters
+      end: "bottom bottom", // Unpin when wrapper bottom reaches viewport bottom
+      pin: "#model-container",
+      pinSpacing: false, // Don't add extra space
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      // markers: { startColor: "blue", endColor: "purple", fontSize: "12px" },
+    });
+
     if (!isMobile) {
-      tl.to(
-        "#model-container",
-        {
-          zIndex: 20,
-          duration: 0, // Immediate switch
-        },
-        0.05 // Delay switch to allow interaction at top
-      )
+      zoomTimeline
+        .to(
+          "#model-container",
+          {
+            zIndex: 20,
+            duration: 0,
+          },
+          0.05
+        )
         .to(
           ref.current.rotation,
           {
-            y: 0.65, // Rotate to face screen flat
+            y: 0.65,
             x: 0,
             z: 0,
             ease: "power1.inOut",
@@ -67,27 +161,18 @@ const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
         .to(
           ref.current.position,
           {
-            x: 12.8, // Center horizontally
-            y: -0.4, // Center vertically
-            z: 19, // Zoom in
+            x: 12.8,
+            y: -0.4,
+            z: 19,
             ease: "power1.inOut",
           },
           0
         );
-      // .to(
-      //   ref.current.scale,
-      //   {
-      //     x: 3, // Correctly target x, y, z
-      //     y: 3,
-      //     z: 3,
-      //     ease: "power1.inOut",
-      //   },
-      //   0
-      // );
     }
 
     return () => {
-      tl.kill();
+      zoomTimeline.kill();
+      pinTrigger.kill();
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, [isMobile]);

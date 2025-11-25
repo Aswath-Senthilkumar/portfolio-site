@@ -54,11 +54,22 @@ export const Tab = ({ children, setPosition, href, isActive }: TabProps) => {
         } else {
           const targetElement = document.getElementById(targetId);
           if (targetElement) {
-            // Start smooth scroll
-            targetElement.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
+            // For about-me section, calculate manual scroll position
+            // because it's nested inside the wrapper
+            if (targetId === "about-me") {
+              const elementTop =
+                targetElement.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: elementTop,
+                behavior: "smooth",
+              });
+            } else {
+              // For other sections, use standard scrollIntoView
+              targetElement.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              });
+            }
           } else {
             console.warn(`⚠️ Target element not found: ${targetId}`);
           }
