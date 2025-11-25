@@ -1,5 +1,5 @@
 import { SkillPill } from "../../../components/ui/skill-pill";
-import { skillRows } from "./constants";
+import { capabilityRows } from "./constants";
 import { useSkillRowAnimation } from "../../../hooks/useSkillRowAnimation";
 
 export function Capabilities() {
@@ -21,7 +21,7 @@ export function Capabilities() {
           ref={containerRef}
           className="flex flex-col gap-6 md:gap-11 overflow-hidden justify-center w-full"
         >
-          {skillRows.map((row, rowIndex) => (
+          {capabilityRows.map((row, rowIndex) => (
             <div
               key={rowIndex}
               className="skill-row flex gap-3 whitespace-nowrap w-max"
