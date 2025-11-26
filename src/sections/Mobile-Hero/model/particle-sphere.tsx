@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import Spline from "@splinetool/react-spline";
 import type { Application } from "@splinetool/runtime";
 
 export function ParticleSphere() {
-  const [splineApp, setSplineApp] = useState<Application | null>(null);
+  // const [splineApp, setSplineApp] = useState<Application | null>(null);
 
   // Function to get a smaller (scaled-down) zoom level
   const getZoomLevel = () => {
@@ -11,28 +10,28 @@ export function ParticleSphere() {
   };
 
   function onLoad(spline: Application) {
-    setSplineApp(spline);
+    // setSplineApp(spline);
 
     // Set initial zoom to scaled down level based on current screen size
     const zoomLevel = getZoomLevel();
     spline.setZoom(zoomLevel);
   }
 
-  // Handle resize for zoom adjustments
-  useEffect(() => {
-    const handleResize = () => {
-      if (splineApp) {
-        const zoomLevel = getZoomLevel();
-        splineApp.setZoom(zoomLevel);
-      }
-    };
+  // // Handle resize for zoom adjustments
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (splineApp) {
+  //       const zoomLevel = getZoomLevel();
+  //       splineApp.setZoom(zoomLevel);
+  //     }
+  //   };
 
-    window.addEventListener("resize", handleResize);
+  //   window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [splineApp]);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, [splineApp]);
 
   return (
     <Spline
