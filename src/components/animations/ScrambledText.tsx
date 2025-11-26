@@ -30,8 +30,9 @@ const ScrambledText: React.FC<ScrambledTextProps> = ({
     if (!rootRef.current) return;
 
     const split = SplitText.create(rootRef.current.querySelector("p"), {
-      type: "chars",
-      charsClass: "inline-block will-change-transform",
+      type: "words, chars",
+      wordsClass: "inline-block",
+      charsClass: "will-change-transform",
     });
 
     split.chars.forEach((el) => {

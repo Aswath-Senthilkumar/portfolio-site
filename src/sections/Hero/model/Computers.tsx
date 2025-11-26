@@ -116,9 +116,9 @@ const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
     // Phase 1 & 2: Model zoom animation (0-50%: top top to center top)
     const zoomTimeline = gsap.timeline({
       scrollTrigger: {
-        trigger: "#wrapper",
+        trigger: "#home",
         start: "top top", // 0%: Hero at top of viewport
-        end: "center top", // 50%: Hero completely exited, About fades in
+        end: "bottom top", // 50%: Hero completely exited, About fades in
         scrub: 0.5,
         invalidateOnRefresh: true,
         // markers: { startColor: "green", endColor: "red", fontSize: "12px" },
