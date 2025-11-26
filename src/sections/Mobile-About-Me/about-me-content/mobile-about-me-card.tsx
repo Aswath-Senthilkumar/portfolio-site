@@ -53,7 +53,7 @@ const MobileAboutMeCard = forwardRef<HTMLDivElement, MobileAboutMeCardProps>(
         >
           <div className="w-full h-64 bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600 overflow-hidden">
             <img
-              src="/images/about2.jpeg"
+              src="/images/about2.png"
               alt="personal photo"
               className="w-full h-full object-cover"
             />

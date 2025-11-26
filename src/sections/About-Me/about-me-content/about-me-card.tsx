@@ -82,7 +82,7 @@ const AboutMeCard = forwardRef<HTMLDivElement, AboutMeCardProps>(
         >
           <div className="w-full h-78 bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600 overflow-hidden">
             <img
-              src="/images/about2.jpeg"
+              src="/images/about2.png"
               alt="Right card placeholder"
               className="w-full h-full object-cover"
             />
