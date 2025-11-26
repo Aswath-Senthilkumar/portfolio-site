@@ -1,7 +1,4 @@
-import { 
-  Menu,
-  X
-} from "lucide-react";
+import { Menu, X } from "lucide-react";
 import {
   MorphingPopover,
   MorphingPopoverContent,
@@ -31,20 +28,20 @@ export function Sidebar() {
       <div className="fixed top-7 right-6 z-50 md:hidden">
         <MorphingPopover open={isOpen} onOpenChange={setIsOpen}>
           {/* Trigger - Hamburger Menu */}
-          <MorphingPopoverTrigger 
-            className="flex items-center justify-center p-2 transition-all duration-300 hover:scale-105 active:scale-95 rounded-full border border-border hover:border-ring"
+          <MorphingPopoverTrigger
+            className="flex items-center justify-center p-2 transition-all duration-300 hover:scale-105 active:scale-95 rounded-full border border-border hover:border-ring bg-black/20 backdrop-blur-sm"
             aria-label="Open navigation menu"
           >
-            <Menu className="w-6 h-6 text-foreground" />
+            <Menu className="w-6 h-6 text-white" />
           </MorphingPopoverTrigger>
-          
+
           {/* Content - Sidebar */}
-          <MorphingPopoverContent 
+          <MorphingPopoverContent
             className="fixed rounded-2xl shadow-xl flex flex-col"
             style={{
-              top: '10px',
-              left: '10px',
-              right: '10px'
+              top: "10px",
+              left: "10px",
+              right: "10px",
             }}
           >
             {/* Header */}
@@ -53,20 +50,23 @@ export function Sidebar() {
                 <span className="w-1 h-1 bg-[#b3b3b3] rounded-full"></span>
                 MENU
               </h2>
-              
+
               {/* Close Button */}
               <button
                 onClick={() => setIsOpen(false)}
                 className="flex items-center gap-3 px-3 py-1.5 bg-black border border-border rounded-md hover:bg-gray-900 transition-colors"
                 aria-label="Close menu"
               >
-                <X className="w-4 h-4" style={{ color: '#b3b3b3' }} />
-                <span className="text-sm font-body" style={{ color: '#b3b3b3' }}>
+                <X className="w-4 h-4" style={{ color: "#b3b3b3" }} />
+                <span
+                  className="text-sm font-body"
+                  style={{ color: "#b3b3b3" }}
+                >
                   Close
                 </span>
               </button>
             </div>
-            
+
             {/* Mobile Navigation */}
             <MobileNav onNavigationClick={handleNavigationClick} />
           </MorphingPopoverContent>

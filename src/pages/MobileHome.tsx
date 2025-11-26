@@ -1,11 +1,13 @@
 import { Sidebar } from "@/components/navigation/sidebar/sidebar";
-import Hero from "@/sections/Hero";
+import MobileHero from "@/sections/Mobile-Hero";
+import MobileAboutMe from "@/sections/Mobile-About-Me";
 
 export function MobileHome() {
-    return (
-        <div className="flex min-h-svh flex-col">
-            <Sidebar />
-            <Hero />
-        </div>
-    )
+  return (
+    <div className="flex min-h-svh flex-col">
+      <Sidebar />
+      <MobileHero />
+      <MobileAboutMe />
+    </div>
+  );
 }

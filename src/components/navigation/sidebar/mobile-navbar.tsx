@@ -4,7 +4,7 @@ import {
   type MobileSectionId,
 } from "@/stores/navigationStore";
 import { useDrawerStore } from "@/stores/drawerStore";
-import RainbowButton from "@/components/ui/rainbow-button";
+import GlassButton from "@/components/ui/glass-button";
 
 interface MobileNavProps {
   onNavigationClick: () => void; // Callback to close sidebar
@@ -72,7 +72,7 @@ export function MobileNav({ onNavigationClick }: MobileNavProps) {
         // Special handling for Contact item
         if (item.name === "Contact") {
           return (
-            <RainbowButton
+            <GlassButton
               key={item.name}
               onClick={() => handleNavClick(item)}
               size="lg"
@@ -80,7 +80,7 @@ export function MobileNav({ onNavigationClick }: MobileNavProps) {
               variant="outline"
             >
               {item.name}
-            </RainbowButton>
+            </GlassButton>
           );
         }
 
