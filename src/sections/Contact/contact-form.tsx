@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import confetti from "canvas-confetti";
 import { useContactForm } from "@/hooks/useContactForm";
+import GlassButton from "@/components/ui/glass-button";
 
 export default function ContactForm() {
   const {
@@ -120,7 +121,7 @@ export default function ContactForm() {
           <div className="group">
             <label
               htmlFor="name"
-              className="block text-sm font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-purple-400"
+              className="block text-sm font-heading font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-purple-400"
             >
               Name
             </label>
@@ -137,7 +138,7 @@ export default function ContactForm() {
           <div className="group">
             <label
               htmlFor="email"
-              className="block text-sm font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-blue-400"
+              className="block text-sm font-heading font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-blue-400"
             >
               Email
             </label>
@@ -174,7 +175,7 @@ export default function ContactForm() {
         <div className="group">
           <label
             htmlFor="message"
-            className="block text-sm font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-cyan-400"
+            className="block text-sm font-heading font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-cyan-400"
           >
             Message
           </label>
@@ -190,12 +191,12 @@ export default function ContactForm() {
 
         {/* Submit Button */}
         <div className="flex flex-col items-center gap-4">
-          <button
+          <GlassButton
             type="submit"
             disabled={isSubmitting}
             className="relative px-8 py-4 bg-white/5 border border-white/10 rounded-lg font-semibold text-white overflow-hidden group hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.4)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px] backdrop-blur-sm"
           >
-            <span className="relative z-10 flex items-center justify-center gap-2">
+            <span className="relative z-10 font-heading flex items-center justify-center gap-2">
               {isSubmitting ? (
                 <>
                   <svg
@@ -224,7 +225,7 @@ export default function ContactForm() {
                 "Send Message"
               )}
             </span>
-          </button>
+          </GlassButton>
         </div>
       </form>
     </div>

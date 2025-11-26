@@ -12,7 +12,7 @@ import { motion, type Variants } from "framer-motion";
 import { X } from "lucide-react";
 import { useDrawerStore } from "@/stores/drawerStore";
 import { useContactForm } from "@/hooks/useContactForm";
-import RainbowButton from "../ui/rainbow-button";
+import GlassButton from "../ui/glass-button";
 
 const drawerVariants: Variants = {
   hidden: {
@@ -268,15 +268,15 @@ export function GlobalDrawer() {
                 {/* Send Button with DrawerFooter */}
                 <DrawerFooter className="flex flex-col gap-3 px-0">
                   <motion.div variants={itemVariants}>
-                    <RainbowButton
+                    <GlassButton
                       type="submit"
                       size="lg"
                       className="w-full font-heading pt-0.5"
-                      variant="outline"
+                      variant="default"
                       disabled={isSubmitting}
                     >
-                      {isSubmitting ? "Sending..." : "Send a message"}
-                    </RainbowButton>
+                      {isSubmitting ? "Sending..." : "Send message"}
+                    </GlassButton>
                   </motion.div>
                 </DrawerFooter>
               </form>
