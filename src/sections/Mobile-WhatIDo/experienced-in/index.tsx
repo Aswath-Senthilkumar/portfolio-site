@@ -1,8 +1,11 @@
 import { useRef, useLayoutEffect } from "react";
-import { ArrowRight } from "lucide-react";
+
 import { ServiceCard } from "../../../components/ui/service-card";
 import { services } from "./constants";
 import { gsap } from "gsap";
+import { Draggable } from "gsap/Draggable";
+
+gsap.registerPlugin(Draggable);
 
 export function ExperiencedIn() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,18 +19,35 @@ export function ExperiencedIn() {
 
     const ctx = gsap.context(() => {
       const totalWidth = row.scrollWidth / 3; // We have 3 copies
+      const duration = 30;
 
       // Move Left: continuous infinite scroll
-      gsap.fromTo(
+      const tween = gsap.fromTo(
         row,
         { x: 0 },
         {
           x: -totalWidth,
-          duration: 30, // Adjust speed as needed
+          duration: duration,
           ease: "none",
           repeat: -1,
         }
       );
+
+      const proxy = document.createElement("div");
+      Draggable.create(proxy, {
+        trigger: row,
+        type: "x",
+        onPress: () => {
+          tween.pause();
+        },
+        onDrag: function () {
+          const timeChange = -(this.deltaX * duration) / totalWidth;
+          tween.totalTime(tween.totalTime() + timeChange);
+        },
+        onRelease: () => {
+          tween.play();
+        },
+      });
     }, container);
 
     return () => ctx.revert();
@@ -42,7 +62,7 @@ export function ExperiencedIn() {
         aria-label="Request Service"
       >
         Experienced In
-        <ArrowRight className="w-7 h-7 mb-1" aria-hidden="true" />
+        {/* <ArrowRight className="w-7 h-7 mb-1" aria-hidden="true" /> */}
       </button>
 
       {/* Card container with marquee animation */}
