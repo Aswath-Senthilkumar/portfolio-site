@@ -114,7 +114,7 @@ export default function MobileAboutMe() {
   return (
     <section
       id="about-me-mobile"
-      className="relative w-full bg-transparent text-white py-12"
+      className="relative w-full bg-transparent text-white pt-10 pb-12"
     >
       <div className="w-full max-w-7xl mx-auto px-8 mb-8">
         <h2

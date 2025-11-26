@@ -15,6 +15,7 @@ const MOBILE_HREF_TO_SECTION_MAP: Record<string, MobileSectionId> = {
   "#home-mobile": "home-mobile",
   "#what-i-do-mobile": "what-i-do-mobile",
   "#experience-mobile": "experience-mobile",
+  "#projects-mobile": "projects-mobile",
   "#about-me-mobile": "about-me-mobile",
   "#skills-mobile": "skills-mobile",
 };

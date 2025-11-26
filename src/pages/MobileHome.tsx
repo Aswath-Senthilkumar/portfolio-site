@@ -3,6 +3,7 @@ import MobileHero from "@/sections/Mobile-Hero";
 import MobileAboutMe from "@/sections/Mobile-About-Me";
 import MobileWhatIDo from "@/sections/Mobile-WhatIDo";
 import MobileExperience from "@/sections/Mobile-Experience";
+import MobileProjects from "@/sections/Mobile-Projects";
 
 export function MobileHome() {
   return (
@@ -11,8 +12,8 @@ export function MobileHome() {
       <MobileHero />
       <MobileAboutMe />
       <MobileWhatIDo />
-      {/* <Experience /> */}
       <MobileExperience />
+      <MobileProjects />
     </div>
   );
 }

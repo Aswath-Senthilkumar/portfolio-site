@@ -4,13 +4,13 @@ import { create } from 'zustand';
 type DesktopSectionId = 'home' | 'what-i-do' | 'experience' | 'about-me' | 'skills';
 
 // Mobile Section IDs  
-type MobileSectionId = 'home-mobile' | 'what-i-do-mobile' | 'experience-mobile' | 'about-me-mobile' | 'skills-mobile';
+type MobileSectionId = 'home-mobile' | 'what-i-do-mobile' | 'experience-mobile' | 'about-me-mobile' | 'skills-mobile' | 'projects-mobile';
 
 // Combined Section IDs
 type SectionId = DesktopSectionId | MobileSectionId;
 
 // Navigation item names from the constants
-type NavigationItem = "Home" | "What I Do" | "Experience" | "About Me" | "Skills";
+type NavigationItem = "Home" | "What I Do" | "Experience" | "About Me" | "Skills" | "Projects";
 
 // Mapping from desktop section IDs to navigation item names
 const DESKTOP_SECTION_TO_NAV_MAP: Record<DesktopSectionId, NavigationItem> = {
@@ -28,6 +28,7 @@ const MOBILE_SECTION_TO_NAV_MAP: Record<MobileSectionId, NavigationItem> = {
     'experience-mobile': "Experience",
     'about-me-mobile': "About Me",
     'skills-mobile': "Skills",
+    'projects-mobile': "Projects",
 };
 
 // Helper function to detect if we're on mobile

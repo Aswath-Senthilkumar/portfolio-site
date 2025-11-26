@@ -51,7 +51,7 @@ export default function WhatIDo() {
   return (
     <section
       id="what-i-do-mobile"
-      className="relative min-h-screen w-full bg-black text-white flex flex-col items-center justify-center pt-12 pb-4 px-4 scroll-mt-0"
+      className="relative min-h-screen w-full bg-black text-white flex flex-col items-center justify-center pt-10 pb-4 px-4 scroll-mt-0"
     >
       <div className="w-full max-w-7xl mx-auto px-8 mb-8">
         <h2 className="text-2xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
