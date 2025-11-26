@@ -147,13 +147,13 @@ export function GlobalDrawer() {
                   ? isSuccess
                     ? "Message sent!"
                     : "Oops!"
-                  : "Let's work together"}
+                  : "Let's connect!"}
               </DrawerTitle>
 
               {!isSubmitSuccessful && (
                 <p className="text-sm leading-relaxed text-muted-foreground font-body">
-                  Turn your vision into reality with a partner who truly
-                  understands what your business needs.
+                  Have a challenge in mind? I’d love to help bring your product
+                  ideas to life with reliable, well-crafted code.
                 </p>
               )}
             </DrawerHeader>
@@ -232,7 +232,7 @@ export function GlobalDrawer() {
                   <input
                     type="text"
                     name="name"
-                    placeholder="John Doe"
+                    placeholder="Your Name"
                     required
                     className="w-full px-4 py-3 bg-background border border-border rounded-lg font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-ring transition-colors"
                   />
@@ -246,7 +246,7 @@ export function GlobalDrawer() {
                   <input
                     type="email"
                     name="email"
-                    placeholder="john@example.com"
+                    placeholder="your.email@example.com"
                     required
                     className="w-full px-4 py-3 bg-background border border-border rounded-lg font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-ring transition-colors"
                   />
@@ -259,7 +259,7 @@ export function GlobalDrawer() {
                   </label>
                   <textarea
                     name="message"
-                    placeholder="Tell me about your project..."
+                    placeholder="Your message here..."
                     required
                     className="w-full px-4 py-3 bg-background border border-border rounded-lg font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-ring transition-colors resize-none h-28 sm:h-36"
                   />

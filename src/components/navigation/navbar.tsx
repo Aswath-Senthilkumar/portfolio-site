@@ -22,7 +22,9 @@ export function NavBar({ show = true }: NavBarProps) {
   });
 
   // Get active navigation item using optimized selector
-  const activeNavigationItem = useNavigationStore(state => state.getActiveNavigationItem());
+  const activeNavigationItem = useNavigationStore((state) =>
+    state.getActiveNavigationItem()
+  );
 
   useGSAP(() => {
     if (show) {
@@ -43,7 +45,7 @@ export function NavBar({ show = true }: NavBarProps) {
   return (
     <>
       {/* Desktop Navigation - Hidden on mobile, visible on md+ */}
-      <nav 
+      <nav
         ref={navRef}
         className="fixed top-7 left-1/2 -translate-x-1/2 z-50 hidden md:block opacity-0 -translate-y-24"
       >
@@ -54,12 +56,12 @@ export function NavBar({ show = true }: NavBarProps) {
               opacity: 0,
             }));
           }}
-          className="glass-texture rounded-full flex items-center justify-center gap-2 px-2 py-2 relative"
+          className="backdrop-blur-[12px] bg-white/[0.02] border border-white/[0.08] shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] rounded-full flex items-center justify-center gap-2 px-2 py-2 relative [box-shadow:inset_0_0_15px_rgba(255,255,255,0.05)] saturate-[180%]"
         >
           {navigationItems.map((item) => (
-            <Tab 
-              key={item.name} 
-              setPosition={setPosition} 
+            <Tab
+              key={item.name}
+              setPosition={setPosition}
               href={item.link}
               isActive={activeNavigationItem === item.name}
             >
@@ -67,7 +69,7 @@ export function NavBar({ show = true }: NavBarProps) {
               {item.name}
             </Tab>
           ))}
-          
+
           <Cursor position={position} />
         </ul>
       </nav>
