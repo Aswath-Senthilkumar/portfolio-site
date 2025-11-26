@@ -21,6 +21,7 @@ interface FallingIconsProps {
   mouseConstraintStiffness?: number;
   onActivate?: () => void; // Called when animation starts
   onReset?: () => void; // Called when reset animation completes
+  iconSize?: number;
 }
 
 const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
@@ -34,6 +35,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       mouseConstraintStiffness = 0.2,
       onActivate,
       onReset,
+      iconSize = 80,
     },
     ref
   ) => {
@@ -147,7 +149,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
           originalPositionsRef.current.push({ x, y });
         }
 
-        const size = 80; // Icon body size
+        const size = iconSize; // Icon body size
         const body = Bodies.rectangle(x, y, size, size, {
           render: { fillStyle: "transparent" },
           restitution: 0.7,
@@ -316,8 +318,9 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
     return (
       <div
         ref={containerRef}
-        className="relative z-[1] w-full h-full overflow-hidden cursor-pointer"
+        className="relative z-[1] w-full h-full overflow-hidden cursor-pointer touch-pan-y"
         onClick={handleTrigger}
+        style={{ touchAction: "pan-y" }}
       >
         <div
           ref={iconsContainerRef}
@@ -325,17 +328,39 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         >
           {/* Main skills grid */}
           <div className="flex flex-wrap justify-center items-start gap-8 mb-8">
-            {skills.map((skill, index) => (
-              <div
-                key={index}
-                className="skill-icon flex flex-col items-center gap-2 p-4 bg-slate-700/60 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg"
-              >
-                <div className="text-cyan-400 scale-150">{skill.icon}</div>
-                <span className="text-xs text-white/80 font-medium whitespace-nowrap">
-                  {skill.name}
-                </span>
-              </div>
-            ))}
+            {skills.map((skill, index) => {
+              const isCompact = iconSize < 60;
+              return (
+                <div
+                  key={index}
+                  className={`skill-icon flex flex-col items-center justify-center ${
+                    isCompact
+                      ? "p-1 rounded-lg bg-slate-700/80"
+                      : "gap-2 p-4 bg-slate-700/60 rounded-xl"
+                  } backdrop-blur-sm border border-white/10 shadow-lg`}
+                  style={
+                    isCompact
+                      ? { width: iconSize, height: iconSize }
+                      : { minWidth: iconSize, minHeight: iconSize }
+                  }
+                >
+                  <div
+                    className={`${
+                      isCompact
+                        ? "text-cyan-300 scale-100"
+                        : "text-cyan-400 scale-150"
+                    }`}
+                  >
+                    {skill.icon}
+                  </div>
+                  {!isCompact && (
+                    <span className="text-xs text-white/80 font-medium whitespace-nowrap">
+                      {skill.name}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
