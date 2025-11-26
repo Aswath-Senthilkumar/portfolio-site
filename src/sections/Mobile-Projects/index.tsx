@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 export default function MobileProjects() {
   const [cards, setCards] = useState(projects);
 
-  const handleSwipe = (direction: "left" | "right") => {
+  const handleSwipe = (_: "left" | "right") => {
     // Move the first card to the end of the array
     setCards((prev) => {
       const newCards = [...prev];

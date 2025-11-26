@@ -70,7 +70,7 @@ export default function ProjectCard({
     });
   }, [index, controls, stackRotate]);
 
-  const handleDragEnd = async (event: any, info: PanInfo) => {
+  const handleDragEnd = async (_: any, info: PanInfo) => {
     const offset = info.offset.x;
     const velocity = info.velocity.x;
 

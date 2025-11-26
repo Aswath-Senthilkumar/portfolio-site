@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { gsap } from "gsap";
 
 export interface BentoCardProps {
@@ -221,7 +221,6 @@ const ParticleCard: React.FC<{
 };
 
 const MobileMagicBento: React.FC<BentoProps> = ({
-  textAutoHide = true,
   enableBorderGlow = true,
   disableAnimations = false,
   particleCount = DEFAULT_PARTICLE_COUNT,
