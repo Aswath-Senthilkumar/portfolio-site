@@ -1,6 +1,7 @@
 import { ArrowButton } from "@/components/ui/arrow-button";
 import { DownloadButton } from "@/components/ui/download-button";
 import { useDrawerStore } from "@/stores/drawerStore";
+import SocialLinks from "@/components/socials-links";
 
 export function HomeInfoGrid() {
   const { open: openDrawer } = useDrawerStore();
@@ -16,6 +17,7 @@ export function HomeInfoGrid() {
         <div className="flex flex-row gap-3 w-fit">
           <ArrowButton onClick={handleConnectClick}>let's connect</ArrowButton>
           <DownloadButton href="/resume.pdf">download resume</DownloadButton>
+          <SocialLinks />
         </div>
       </div>
     </div>

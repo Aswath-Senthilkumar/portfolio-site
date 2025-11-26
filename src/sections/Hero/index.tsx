@@ -1,6 +1,4 @@
 import { HomeTitle } from "./hero-content/greet";
-import LightRays from "./background/LightRays";
-import ComputersCanvas from "./model/Computers";
 import { Taglines } from "./hero-content/taglines";
 import { HomeInfoGrid } from "./hero-content/info";
 
