@@ -21,11 +21,11 @@ export default function Contact() {
         <ContactForm />
 
         {/* Additional Contact Info (Optional) */}
-        <div className="mt-6 flex flex-col md:flex-row justify-center items-center gap-8 text-gray-400">
+        <div className="mt-6 flex flex-row justify-center items-center gap-8 text-gray-400">
           <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-all duration-300">
+            <div className="p-2 md:p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-all duration-300">
               <svg
-                className="w-6 h-6"
+                className="w-4 h-4 md:w-6 md:h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -38,15 +38,15 @@ export default function Contact() {
                 />
               </svg>
             </div>
-            <span className="group-hover:text-white transition-colors duration-300">
+            <span className="text-xs md:text-base group-hover:text-white transition-colors duration-300">
               asenth25@asu.edu
             </span>
           </div>
 
           <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-all duration-300">
+            <div className="p-2 md:p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-all duration-300">
               <svg
-                className="w-6 h-6"
+                className="w-4 h-4 md:w-6 md:h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -65,7 +65,7 @@ export default function Contact() {
                 />
               </svg>
             </div>
-            <span className="group-hover:text-white transition-colors duration-300">
+            <span className="text-xs md:text-base group-hover:text-white transition-colors duration-300">
               San Bruno, CA
             </span>
           </div>

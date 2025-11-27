@@ -65,7 +65,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation Links */}
-          <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+          <div className="flex flex-wrap justify-center gap-6 text-xs md:text-sm text-gray-400">
             <a
               href="#about-me"
               className="hover:text-white transition-colors duration-300"

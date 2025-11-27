@@ -177,6 +177,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         (elem as HTMLElement).style.transform = "none";
       });
 
+      // Create mouse constraint
       const mouse = Mouse.create(containerRef.current);
       const mouseConstraint = MouseConstraint.create(engine, {
         mouse,
@@ -186,6 +187,22 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         },
       });
       render.mouse = mouse;
+
+      // Track when mouse/touch constraint is actively dragging
+      // This allows scrolling when not dragging an icon
+      Matter.Events.on(mouseConstraint, "startdrag", () => {
+        if (containerRef.current) {
+          containerRef.current.style.touchAction = "none";
+          containerRef.current.style.overflow = "hidden";
+        }
+      });
+
+      Matter.Events.on(mouseConstraint, "enddrag", () => {
+        if (containerRef.current) {
+          containerRef.current.style.touchAction = "auto";
+          containerRef.current.style.overflow = "hidden";
+        }
+      });
 
       World.add(engine.world, [
         floor,
@@ -218,12 +235,23 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       runnerRef.current = runner;
       renderRef.current = render;
 
+      // Store mouse ref for cleanup
+      // We need to cast to any because clearSourceEvents might not be in the TS definition depending on version
+      // but it is in the library
+      (renderRef.current as any).mouse = mouse;
+
       updateLoop();
 
       return () => {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
         }
+
+        // Clean up mouse events which might block scrolling/clicking
+        if (renderRef.current && (renderRef.current as any).mouse) {
+          Matter.Mouse.clearSourceEvents((renderRef.current as any).mouse);
+        }
+
         Render.stop(render);
         Runner.stop(runner);
         if (render.canvas && canvasContainerRef.current) {
@@ -231,6 +259,12 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         }
         World.clear(engine.world, false);
         Engine.clear(engine);
+
+        // Reset container styles to ensure scrolling works
+        if (containerRef.current) {
+          containerRef.current.style.touchAction = "auto";
+          containerRef.current.style.overflow = "hidden";
+        }
 
         // Clear refs
         engineRef.current = null;
@@ -256,6 +290,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
     const handleReset = () => {
       if (!iconsContainerRef.current || !effectStarted || isResetting) return;
 
+      console.log("Resetting icons...");
       setIsResetting(true);
 
       // Stop the physics simulation first
@@ -273,6 +308,28 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       const iconElements =
         iconsContainerRef.current.querySelectorAll(".skill-icon");
 
+      if (iconElements.length === 0) {
+        // Fallback if no icons found
+        setIsResetting(false);
+        setEffectStarted(false);
+        onReset?.();
+        return;
+      }
+
+      // Calculate total animation time
+      const staggerDelay = 80;
+      const transitionDuration = 600;
+      const totalDuration =
+        (iconElements.length - 1) * staggerDelay + transitionDuration + 100;
+
+      // Schedule state reset guaranteed
+      setTimeout(() => {
+        console.log("Reset complete, setting effectStarted to false");
+        setIsResetting(false);
+        setEffectStarted(false);
+        onReset?.();
+      }, totalDuration);
+
       // Animate each icon back to its original position with stagger
       iconElements.forEach((elem, index) => {
         const htmlElem = elem as HTMLElement;
@@ -282,8 +339,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
 
         setTimeout(() => {
           // Set transition for smooth animation
-          htmlElem.style.transition =
-            "all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)";
+          htmlElem.style.transition = `all ${transitionDuration}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
           htmlElem.style.position = "absolute";
           htmlElem.style.left = `${originalPos.x}px`;
           htmlElem.style.top = `${originalPos.y}px`;
@@ -292,17 +348,8 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
           // Reset transition after animation completes
           setTimeout(() => {
             htmlElem.style.transition = "";
-
-            // If this is the last icon, complete the reset
-            if (index === iconElements.length - 1) {
-              setTimeout(() => {
-                setIsResetting(false);
-                setEffectStarted(false);
-                onReset?.();
-              }, 100);
-            }
-          }, 600);
-        }, index * 80); // Stagger delay: 80ms between each icon
+          }, transitionDuration);
+        }, index * staggerDelay);
       });
     };
 
@@ -318,10 +365,21 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
     return (
       <div
         ref={containerRef}
-        className="relative z-[1] w-full h-full overflow-hidden cursor-pointer touch-pan-y"
-        onClick={handleTrigger}
-        style={{ touchAction: "pan-y" }}
+        className="relative z-[1] w-full h-full overflow-hidden"
+        style={{ touchAction: "auto" }}
       >
+        {/* Trigger Overlay - Ensures click is captured on mobile */}
+        {!effectStarted && trigger === "click" && (
+          <div
+            className="absolute inset-0 z-[100] cursor-pointer bg-transparent"
+            onClick={() => {
+              console.log("Overlay clicked, triggering effect");
+              handleTrigger();
+            }}
+            style={{ touchAction: "auto" }}
+          />
+        )}
+
         <div
           ref={iconsContainerRef}
           className="relative w-full h-full flex flex-col items-center justify-start pt-12"

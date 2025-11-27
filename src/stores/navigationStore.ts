@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // Desktop Section IDs
-type DesktopSectionId = 'home' | 'what-i-do' | 'experience' | 'about-me' | 'skills';
+type DesktopSectionId = 'home' | 'what-i-do' | 'experience' | 'about-me' | 'skills' | 'projects';
 
 // Mobile Section IDs  
 type MobileSectionId = 'home-mobile' | 'what-i-do-mobile' | 'experience-mobile' | 'about-me-mobile' | 'skills-mobile' | 'projects-mobile';
@@ -19,6 +19,7 @@ const DESKTOP_SECTION_TO_NAV_MAP: Record<DesktopSectionId, NavigationItem> = {
     'experience': "Experience",
     'about-me': "About Me",
     'skills': "Skills",
+    'projects': "Projects",
 };
 
 // Mapping from mobile section IDs to navigation item names

@@ -5,6 +5,8 @@ import MobileWhatIDo from "@/sections/Mobile-WhatIDo";
 import MobileExperience from "@/sections/Mobile-Experience";
 import MobileProjects from "@/sections/Mobile-Projects";
 import MobileSkills from "@/sections/Mobile-Skills";
+import Contact from "@/sections/Contact";
+import Footer from "@/components/Footer";
 
 export function MobileHome() {
   return (
@@ -16,6 +18,8 @@ export function MobileHome() {
       <MobileExperience />
       <MobileProjects />
       <MobileSkills />
+      <Contact />
+      <Footer />
     </div>
   );
 }
