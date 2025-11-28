@@ -11,15 +11,15 @@ export default function Hero() {
       {/* Content Layer */}
       <div
         id="content-container"
-        className="absolute inset-0 z-12 flex flex-col items-start justify-start pt-32 pl-8 md:pl-20 pointer-events-none"
+        className="absolute inset-0 z-12 flex flex-col items-start justify-start pt-32 2xl:pt-40 pl-8 md:pl-20 pointer-events-none"
       >
         <div className="pointer-events-auto">
           <HomeTitle />
         </div>
-        <div className="pointer-events-auto mt-10">
+        <div className="pointer-events-auto mt-10 2xl:mt-20">
           <Taglines />
         </div>
-        <div className="mt-8 flex items-center">
+        <div className="mt-8 2xl:mt-18 flex items-center">
           <HomeInfoGrid />
         </div>
       </div>
