@@ -90,7 +90,7 @@ export const HorizontalCarousel = () => {
 
         {/* Carousel Container */}
         <div className="absolute inset-0 overflow-hidden rounded-3xl">
-          <div className="projects-carousel absolute top-0 left-0 h-full flex items-center gap-12 pl-[9vw] pr-[calc(15vw+9vw)]">
+          <div className="projects-carousel absolute top-0 left-0 h-full flex items-center gap-12 pl-[9vw] pr-[calc(12vw+9vw)]">
             {projects.map((project, index) => (
               <div key={index} className="project-card">
                 <ProjectCard

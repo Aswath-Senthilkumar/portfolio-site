@@ -311,7 +311,7 @@ export const projects = [
         "Firebase",
       ],
       links: {
-        github: "#",
+        github: "https://github.com/Aswath-Senthilkumar/api-canvas",
         demo: "https://api-canvas.vercel.app",
       },
     },
@@ -330,9 +330,28 @@ export const projects = [
         "Machine Learning",
       ],
       links: {
-        github: "https://github.com/Aswath-Senthilkumar/CSE515-Project",
+        github: "https://github.com/Aswath-Senthilkumar/Image-Relevance",
         demo: "#",
       },
+    },
+    {
+      title: "MacBook Pro Landing Page",
+      description: "Built an Apple-inspired interactive landing page featuring high-quality 3D MacBook Pro models with smooth scroll animations, dynamic video textures, and real-time customization options including color switching and model size toggling between 14\" and 16\" variants.",
+      image: "/images/mac-page.png",
+      tags: [
+        "React",
+        "Three.js",
+        "GSAP",
+        "TailwindCSS",
+        "WebGL",
+        "3D Graphics",
+        "Vite",
+        "JavaScript"
+      ],
+      links: {
+        github: "https://github.com/Aswath-Senthilkumar/macbook-landing-page",
+        demo: "https://macbook-landing-page-theta.vercel.app/"
+      }
     },
     {
       title: "Smart Automated Library Management System",
@@ -430,5 +449,47 @@ export const projects = [
         github: "https://github.com/Aswath-Senthilkumar/scrollytelling-with-d3",
         demo: "https://scrollytelling-with-d3.vercel.app/",
       },
+    },
+    {
+  title: "Mini Sudoku (Open Source)",
+  description: "Developed a web-based 6×6 Mini Sudoku game inspired by LinkedIn’s version, featuring responsive UI, dark mode, and mobile-optimized gameplay. Implemented backtracking and Fisher–Yates shuffle algorithms for puzzle generation and solving, with Firebase-enabled cloud sync and a modular ES6 architecture tested with Jest (90–100% coverage).",
+  image: "/images/sudoku.png",
+  tags: [
+    "JavaScript",
+    "TailwindCSS v4",
+    "Vite",
+    "Firebase",
+    "ES6 Modules",
+    "Jest",
+    "Algorithm Design",
+    "Game Development"
+  ],
+  links: {
+    github: "https://github.com/gvenugo3/mini-sudoku",
+    demo: "https://mini-sudoku-seven.vercel.app/"
+  }
+},
+
+    {
+      title: "D3.js Visualizer",
+      description: "An AI-powered D3.js visualization generator that automatically creates interactive data visualizations. Users upload CSV or JSON datasets, and the system uses Google Gemini AI models (with OpenAI fallback) to intelligently select optimal chart types and generate production-ready D3.js code with responsive design, interactive tooltips, smooth animations, and data-driven insights.",
+      image: "/images/d3.png",
+      tags: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "D3.js",
+        "Google Gemini AI",
+        "OpenAI",
+        "Tailwind CSS",
+        "Radix UI",
+        "Data Visualization",
+        "AI/ML",
+        "PapaParse"
+      ],
+      links: {
+        github: "https://github.com/Aswath-Senthilkumar/d3-chart.io",
+        demo: "https://d3-chart-io.vercel.app/"
+      }
     },
   ];
