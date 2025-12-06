@@ -25,14 +25,14 @@ export function Sidebar() {
       </div> */}
 
       {/* Mobile Hamburger Menu - Right side */}
-      <div className="fixed top-7 right-6 z-50 xl:hidden">
+      <div className="fixed top-7 right-6 md:top-20 md:right-20 z-50 xl:hidden">
         <MorphingPopover open={isOpen} onOpenChange={setIsOpen}>
           {/* Trigger - Hamburger Menu */}
           <MorphingPopoverTrigger
-            className="flex items-center justify-center p-2 transition-all duration-300 hover:scale-105 active:scale-95 rounded-full border border-border hover:border-ring bg-black/20 backdrop-blur-sm"
+            className="flex items-center justify-center md:h-12 md:w-12 p-2 transition-all duration-300 hover:scale-105 active:scale-95 rounded-full border border-border hover:border-ring bg-black/20 backdrop-blur-sm"
             aria-label="Open navigation menu"
           >
-            <Menu className="w-6 h-6 text-white" />
+            <Menu className="w-6 h-6 md:w-8 md:h-8 text-white" />
           </MorphingPopoverTrigger>
 
           {/* Content - Sidebar */}
