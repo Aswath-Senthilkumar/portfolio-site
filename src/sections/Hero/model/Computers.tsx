@@ -1,10 +1,4 @@
-import React, {
-  Suspense,
-  useEffect,
-  useState,
-  useLayoutEffect,
-  useRef,
-} from "react";
+import React, { Suspense, useEffect, useLayoutEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   OrbitControls,
@@ -22,11 +16,7 @@ import * as THREE from "three";
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface ComputersProps {
-  isMobile: boolean;
-}
-
-const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
+const Computers: React.FC = () => {
   const computer = useGLTF("./desktop_pc/scene.gltf");
   const ref = useRef<THREE.Group>(null);
 
@@ -138,44 +128,44 @@ const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
       // markers: { startColor: "blue", endColor: "purple", fontSize: "12px" },
     });
 
-    if (!isMobile) {
-      zoomTimeline
-        .to(
-          "#model-container",
-          {
-            zIndex: 20,
-            duration: 0,
-          },
-          0.05
-        )
-        .to(
-          ref.current.rotation,
-          {
-            y: 0.65,
-            x: 0,
-            z: 0,
-            ease: "power1.inOut",
-          },
-          0
-        )
-        .to(
-          ref.current.position,
-          {
-            x: 12.8,
-            y: -0.4,
-            z: 19,
-            ease: "power1.inOut",
-          },
-          0
-        );
-    }
+    // Mobile check removed, always applying animation
+
+    zoomTimeline
+      .to(
+        "#model-container",
+        {
+          zIndex: 20,
+          duration: 0,
+        },
+        0.05
+      )
+      .to(
+        ref.current.rotation,
+        {
+          y: 0.65,
+          x: 0,
+          z: 0,
+          ease: "power1.inOut",
+        },
+        0
+      )
+      .to(
+        ref.current.position,
+        {
+          x: 12.8,
+          y: -0.4,
+          z: 19,
+          ease: "power1.inOut",
+        },
+        0
+      );
 
     return () => {
       zoomTimeline.kill();
       pinTrigger.kill();
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
-  }, [isMobile]);
+  }, []);
 
   return (
     <mesh>
@@ -183,9 +173,9 @@ const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
       <group ref={ref}>
         <primitive
           object={computer.scene}
-          scale={isMobile ? 0.5 : 0.8}
+          scale={0.8}
           // position={isMobile ? [0, -3, -2.2] : [2.45, -2.45, -4.5]}
-          position={isMobile ? [0, -3, -2.2] : [6, -2, -25]}
+          position={[6, -2, -25]}
           // rotation={[0, -1.55, 0]}
           rotation={[0, -2.2, 0]}
         />
@@ -195,29 +185,7 @@ const Computers: React.FC<ComputersProps> = ({ isMobile }) => {
 };
 
 const ComputersCanvas = () => {
-  const [isMobile, setIsMobile] = useState(false);
   const { active } = useProgress();
-
-  useEffect(() => {
-    // Add a listener for changes to the screen size
-    const mediaQuery = window.matchMedia("(max-width: 500px)");
-
-    // Set the initial value of the `isMobile` state variable
-    setIsMobile(mediaQuery.matches);
-
-    // Define a callback function to handle changes to the media query
-    const handleMediaQueryChange = (event: MediaQueryListEvent) => {
-      setIsMobile(event.matches);
-    };
-
-    // Add the callback function as a listener for changes to the media query
-    mediaQuery.addEventListener("change", handleMediaQueryChange);
-
-    // Remove the listener when the component is unmounted
-    return () => {
-      mediaQuery.removeEventListener("change", handleMediaQueryChange);
-    };
-  }, []);
 
   return (
     <>
@@ -240,7 +208,7 @@ const ComputersCanvas = () => {
               // maxPolarAngle={Math.PI / 2}
               // minPolarAngle={Math.PI / 2}
             />
-            <Computers isMobile={isMobile} />
+            <Computers />
           </Suspense>
 
           <Preload all />

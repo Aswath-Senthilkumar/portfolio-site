@@ -4,6 +4,7 @@ import {
   useEffect,
   forwardRef,
   useImperativeHandle,
+  useCallback,
 } from "react";
 import Matter from "matter-js";
 import type { Skill } from "@/constants";
@@ -45,21 +46,22 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
     const originalPositionsRef = useRef<{ x: number; y: number }[]>([]);
 
     // Refs to store physics objects for cleanup
-    const engineRef = useRef<any>(null);
-    const runnerRef = useRef<any>(null);
-    const renderRef = useRef<any>(null);
+    const engineRef = useRef<Matter.Engine | null>(null);
+    const runnerRef = useRef<Matter.Runner | null>(null);
+    const renderRef = useRef<Matter.Render | null>(null);
     const animationFrameRef = useRef<number | null>(null);
 
-    const [effectStarted, setEffectStarted] = useState(false);
+    const [effectStarted, setEffectStarted] = useState(trigger === "auto");
     const [isResetting, setIsResetting] = useState(false);
 
     useEffect(() => {
-      if (trigger === "auto") {
-        setEffectStarted(true);
-        return;
-      }
-      // For 'click' trigger, wait for handleTrigger to be called
-      if (trigger === "scroll" && containerRef.current) {
+      let cleanup: (() => void) | undefined;
+
+      if (trigger === "auto" && !effectStarted) {
+        // Use setTimeout to avoid synchronous state update warning
+        const timer = setTimeout(() => setEffectStarted(true), 0);
+        cleanup = () => clearTimeout(timer);
+      } else if (trigger === "scroll" && containerRef.current) {
         const observer = new IntersectionObserver(
           ([entry]) => {
             if (entry.isIntersecting) {
@@ -70,19 +72,24 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
           { threshold: 0.1 }
         );
         observer.observe(containerRef.current);
-        return () => observer.disconnect();
+        cleanup = () => observer.disconnect();
       }
-    }, [trigger]);
+
+      return cleanup;
+    }, [trigger, effectStarted]);
 
     useEffect(() => {
       if (!effectStarted) return;
+      onActivate?.();
 
       const { Engine, Render, World, Bodies, Runner, Mouse, MouseConstraint } =
         Matter;
 
-      if (!containerRef.current || !canvasContainerRef.current) return;
+      const canvasContainer = canvasContainerRef.current;
+      const container = containerRef.current;
+      if (!container || !canvasContainer) return;
 
-      const containerRect = containerRef.current.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
       const width = containerRect.width;
       const height = containerRect.height;
 
@@ -92,7 +99,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       engine.world.gravity.y = gravity;
 
       const render = Render.create({
-        element: canvasContainerRef.current,
+        element: canvasContainer,
         engine,
         options: {
           width,
@@ -178,7 +185,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       });
 
       // Create mouse constraint
-      const mouse = Mouse.create(containerRef.current);
+      const mouse = Mouse.create(container);
       const mouseConstraint = MouseConstraint.create(engine, {
         mouse,
         constraint: {
@@ -191,16 +198,16 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       // Track when mouse/touch constraint is actively dragging
       // This allows scrolling when not dragging an icon
       Matter.Events.on(mouseConstraint, "startdrag", () => {
-        if (containerRef.current) {
-          containerRef.current.style.touchAction = "none";
-          containerRef.current.style.overflow = "hidden";
+        if (container) {
+          container.style.touchAction = "none";
+          container.style.overflow = "hidden";
         }
       });
 
       Matter.Events.on(mouseConstraint, "enddrag", () => {
-        if (containerRef.current) {
-          containerRef.current.style.touchAction = "auto";
-          containerRef.current.style.overflow = "hidden";
+        if (container) {
+          container.style.touchAction = "auto";
+          container.style.overflow = "hidden";
         }
       });
 
@@ -236,9 +243,9 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       renderRef.current = render;
 
       // Store mouse ref for cleanup
-      // We need to cast to any because clearSourceEvents might not be in the TS definition depending on version
-      // but it is in the library
-      (renderRef.current as any).mouse = mouse;
+      if (renderRef.current) {
+        renderRef.current.mouse = mouse;
+      }
 
       updateLoop();
 
@@ -248,22 +255,22 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         }
 
         // Clean up mouse events which might block scrolling/clicking
-        if (renderRef.current && (renderRef.current as any).mouse) {
-          Matter.Mouse.clearSourceEvents((renderRef.current as any).mouse);
+        if (renderRef.current && renderRef.current.mouse) {
+          Matter.Mouse.clearSourceEvents(renderRef.current.mouse);
         }
 
         Render.stop(render);
         Runner.stop(runner);
-        if (render.canvas && canvasContainerRef.current) {
-          canvasContainerRef.current.removeChild(render.canvas);
+        if (render.canvas && canvasContainer) {
+          canvasContainer.removeChild(render.canvas);
         }
         World.clear(engine.world, false);
         Engine.clear(engine);
 
         // Reset container styles to ensure scrolling works
-        if (containerRef.current) {
-          containerRef.current.style.touchAction = "auto";
-          containerRef.current.style.overflow = "hidden";
+        if (container) {
+          container.style.touchAction = "auto";
+          container.style.overflow = "hidden";
         }
 
         // Clear refs
@@ -278,16 +285,17 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       wireframes,
       backgroundColor,
       mouseConstraintStiffness,
+      onActivate,
+      iconSize,
     ]);
 
     const handleTrigger = () => {
       if (!effectStarted && trigger === "click") {
         setEffectStarted(true);
-        onActivate?.();
       }
     };
 
-    const handleReset = () => {
+    const handleReset = useCallback(() => {
       if (!iconsContainerRef.current || !effectStarted || isResetting) return;
 
       console.log("Resetting icons...");
@@ -351,7 +359,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
           }, transitionDuration);
         }, index * staggerDelay);
       });
-    };
+    }, [effectStarted, isResetting, onReset]);
 
     // Expose reset function via ref using useImperativeHandle
     useImperativeHandle(
@@ -359,7 +367,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       () => ({
         resetIcons: handleReset,
       }),
-      [effectStarted, isResetting]
+      [handleReset]
     );
 
     return (

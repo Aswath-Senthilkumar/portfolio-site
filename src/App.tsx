@@ -5,6 +5,7 @@ import LoadingAnimation from "@/components/animations/LoadingAnimation";
 import { Routes, Route } from "react-router";
 import { Home } from "@/pages/Home";
 import { MobileHome } from "@/pages/MobileHome";
+import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 import { GlobalDrawer } from "@/components/drawer/global-drawer";
 
 function MobileView() {
@@ -17,9 +18,11 @@ function MobileView() {
 
 function DesktopView() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
+    <SmoothScrollProvider>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </SmoothScrollProvider>
   );
 }
 

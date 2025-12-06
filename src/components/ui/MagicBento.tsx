@@ -772,7 +772,10 @@ const MagicBento: React.FC<BentoProps> = ({
                             }}
                           >
                             {React.cloneElement(
-                              card.icon as React.ReactElement<any>,
+                              card.icon as React.ReactElement<{
+                                className?: string;
+                                strokeWidth?: number;
+                              }>,
                               {
                                 className: "w-[50%] h-[50%]",
                                 strokeWidth: 1,
