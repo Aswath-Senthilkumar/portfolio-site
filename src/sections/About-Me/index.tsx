@@ -112,7 +112,6 @@ export default function AboutMe() {
     <section
       id="about-me"
       className="relative min-h-screen w-full bg-transparent text-white flex flex-col items-center justify-start pt-20 z-20"
-      style={{ opacity: 0 }}
     >
       <div className="w-full max-w-7xl px-8">
         <h2

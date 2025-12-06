@@ -5,6 +5,7 @@ import {
   type DesktopSectionId,
 } from "@/stores/navigationStore";
 import { useDrawerStore } from "@/stores/drawerStore";
+import { useLenis } from "@/components/providers/context";
 import type { TabProps } from "./types";
 
 // Mapping from desktop href to section IDs
@@ -21,6 +22,7 @@ export const Tab = ({ children, setPosition, href, isActive }: TabProps) => {
   const ref = useRef<HTMLLIElement>(null);
   const { setIsNavigating, setActiveSection } = useNavigationStore();
   const { open: openDrawer } = useDrawerStore();
+  const lenis = useLenis();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault(); // Always prevent default for all navigation items
@@ -33,7 +35,7 @@ export const Tab = ({ children, setPosition, href, isActive }: TabProps) => {
     }
 
     // Handle section navigation for other links using desktop section IDs
-    if (href.startsWith("#")) {
+    if (href.startsWith("#") && lenis) {
       const targetId = href.substring(1); // Remove the #
       const targetSectionId = DESKTOP_HREF_TO_SECTION_MAP[href];
 
@@ -48,29 +50,22 @@ export const Tab = ({ children, setPosition, href, isActive }: TabProps) => {
 
         // Special handling for home to ensure we go to the very top
         if (targetId === "home") {
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
+          lenis.scrollTo(0, {
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
           });
         } else {
+          // Lenis can scroll to selector directly!
+          // For about-me, lenis handles sticky elements better automatically
+          // or we can just target the element ID
           const targetElement = document.getElementById(targetId);
+
           if (targetElement) {
-            // For about-me section, calculate manual scroll position
-            // because it's nested inside the wrapper
-            if (targetId === "about-me") {
-              const elementTop =
-                targetElement.getBoundingClientRect().top + window.scrollY;
-              window.scrollTo({
-                top: elementTop,
-                behavior: "smooth",
-              });
-            } else {
-              // For other sections, use standard scrollIntoView
-              targetElement.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-              });
-            }
+            lenis.scrollTo(targetElement, {
+              offset: 0,
+              duration: 1.5,
+              easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            });
           } else {
             console.warn(`⚠️ Target element not found: ${targetId}`);
           }
@@ -80,7 +75,7 @@ export const Tab = ({ children, setPosition, href, isActive }: TabProps) => {
         setTimeout(() => {
           console.log("🏁 Navigation completed");
           setIsNavigating(false);
-        }, 1000); // 1 second should be enough for smooth scroll
+        }, 1500);
       }
     }
   };
