@@ -93,7 +93,9 @@ const Computers: React.FC = () => {
     return () => {
       video.pause();
       video.src = "";
+      video.load();
       videoTexture.dispose();
+      video.remove();
     };
   }, [computer]);
 
@@ -198,9 +200,13 @@ const ComputersCanvas = () => {
       >
         <Canvas
           shadows
-          dpr={[1, 2]}
+          dpr={[1, 1.5]}
           camera={{ position: [0, 0, 0], fov: 25 }}
-          gl={{ preserveDrawingBuffer: true, alpha: true }}
+          gl={{
+            preserveDrawingBuffer: false,
+            alpha: true,
+            powerPreference: "high-performance",
+          }}
         >
           <Suspense fallback={null}>
             <OrbitControls
