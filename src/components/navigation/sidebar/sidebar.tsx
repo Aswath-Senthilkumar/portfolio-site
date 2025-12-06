@@ -25,7 +25,7 @@ export function Sidebar() {
       </div> */}
 
       {/* Mobile Hamburger Menu - Right side */}
-      <div className="fixed top-7 right-6 z-50 md:hidden">
+      <div className="fixed top-7 right-6 z-50 xl:hidden">
         <MorphingPopover open={isOpen} onOpenChange={setIsOpen}>
           {/* Trigger - Hamburger Menu */}
           <MorphingPopoverTrigger
