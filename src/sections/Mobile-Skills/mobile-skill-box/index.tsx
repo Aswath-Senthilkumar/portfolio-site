@@ -34,8 +34,8 @@ export default function MobileSkillBox() {
             onClick={handleReset}
             className="absolute top-3 right-3 z-50 flex items-center gap-1.5 px-3 py-1.5 bg-slate-800/90 hover:bg-slate-700/90 backdrop-blur-sm border border-white/20 rounded-full text-white/80 hover:text-white text-xs font-medium transition-all duration-300 shadow-lg hover:shadow-xl group"
           >
-            <RotateCcw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
-            <div className="flex flex-col gap-0.5">
+            <RotateCcw className="w-4 h-4 md:w-12 md:h-12 group-hover:rotate-180 transition-transform duration-500" />
+            <div className="flex flex-col gap-0.5 text-sm md:text-2xl">
               <span>Great job breaking my skills! 🙂</span>
               <span>Can you please put it back in place?</span>
             </div>
