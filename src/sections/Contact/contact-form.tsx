@@ -114,14 +114,17 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 border border-white/10 rounded-lg p-8 shadow-[0_8px_20px_0px_rgba(120,50,100,0.5),0_0px_5px_2px_rgba(34,10,238,0.4)] bg-black/20 backdrop-blur-md">
-      <form onSubmit={onSubmit} className="space-y-6">
+    <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 border border-white/10 h-[525px] md:h-[600px] xl:h-[430px] rounded-lg p-8 shadow-[0_8px_20px_0px_rgba(120,50,100,0.5),0_0px_5px_2px_rgba(34,10,238,0.4)] bg-black/20 backdrop-blur-md">
+      <form
+        onSubmit={onSubmit}
+        className="space-y-6 md:space-y-14 xl:space-y-6"
+      >
         {/* Name and Email in a row on larger screens */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="group">
+          <div className="group flex flex-col gap-3">
             <label
               htmlFor="name"
-              className="block text-sm font-heading font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-purple-400"
+              className="block text-sm md:text-2xl xl:text-sm font-heading font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-purple-400"
             >
               Name
             </label>
@@ -135,10 +138,10 @@ export default function ContactForm() {
             />
           </div>
 
-          <div className="group">
+          <div className="group flex flex-col gap-3">
             <label
               htmlFor="email"
-              className="block text-sm font-heading font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-blue-400"
+              className="block text-sm md:text-2xl xl:text-sm font-heading font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-blue-400"
             >
               Email
             </label>
@@ -157,7 +160,7 @@ export default function ContactForm() {
         {/* <div className="group">
           <label
             htmlFor="subject"
-            className="block text-sm font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-pink-400"
+            className="block text-sm md:text-2xl xl:text-sm font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-pink-400"
           >
             Subject
           </label>
@@ -172,10 +175,10 @@ export default function ContactForm() {
         </div> */}
 
         {/* Message */}
-        <div className="group">
+        <div className="group flex flex-col gap-3">
           <label
             htmlFor="message"
-            className="block text-sm font-heading font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-cyan-400"
+            className="block text-sm md:text-2xl xl:text-sm font-heading font-medium mb-2 text-gray-300 transition-colors duration-200 group-focus-within:text-cyan-400"
           >
             Message
           </label>
@@ -184,7 +187,7 @@ export default function ContactForm() {
             name="message"
             required
             rows={6}
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500/50 transition-all duration-300 backdrop-blur-sm hover:bg-white/10 text-white placeholder-gray-500 resize-none"
+            className="w-full h-[144px] md:h-[192px] xl:h-[144px] px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500/50 transition-all duration-300 backdrop-blur-sm hover:bg-white/10 text-white placeholder-gray-500 resize-none"
             placeholder="Your message here..."
           />
         </div>
@@ -194,9 +197,9 @@ export default function ContactForm() {
           <GlassButton
             type="submit"
             disabled={isSubmitting}
-            className="relative px-8 py-4 bg-white/5 border border-white/10 rounded-lg font-semibold text-white overflow-hidden group hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.4)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px] backdrop-blur-sm"
+            className="relative px-8 py-4 md:py-6 xl:py-4 md:px-12 xl:px-8 bg-white/5 border border-white/10 rounded-lg font-semibold text-white overflow-hidden group hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.4)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px] backdrop-blur-sm"
           >
-            <span className="relative z-10 font-heading flex items-center justify-center gap-2">
+            <span className="relative z-10 text-sm md:text-2xl xl:text-sm font-heading flex items-center justify-center gap-2">
               {isSubmitting ? (
                 <>
                   <svg

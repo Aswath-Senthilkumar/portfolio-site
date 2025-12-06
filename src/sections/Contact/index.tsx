@@ -4,15 +4,15 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative w-full bg-black text-white pt-20 pb-6"
+      className="relative w-full bg-black text-white pt-20 pb-6 md:pb-24 xl:pb-6"
     >
       <div className="w-full max-w-7xl mx-auto px-8">
         {/* Section Header */}
-        <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+        <div className="text-center mb-8 md:mb-16 xl:mb-8">
+          <h2 className="text-2xl md:text-6xl xl:text-4xl font-bold mb-2 md:mb-6 xl:mb-2 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
             Get In Touch
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-400 text-lg md:text-2xl xl:text-lg max-w-2xl mx-auto">
             Have a question or want to work together? Feel free to reach out!
           </p>
         </div>
@@ -21,11 +21,11 @@ export default function Contact() {
         <ContactForm />
 
         {/* Additional Contact Info (Optional) */}
-        <div className="mt-6 flex flex-row justify-center items-center gap-8 text-gray-400">
+        <div className="mt-6 md:mt-16 xl:mt-6 flex flex-row justify-center items-center gap-8 text-gray-400">
           <div className="flex items-center gap-3 group cursor-pointer">
             <div className="p-2 md:p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-all duration-300">
               <svg
-                className="w-4 h-4 md:w-6 md:h-6"
+                className="w-4 h-4 md:w-10 md:h-10 xl:w-6 xl:h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -38,7 +38,7 @@ export default function Contact() {
                 />
               </svg>
             </div>
-            <span className="text-xs md:text-base group-hover:text-white transition-colors duration-300">
+            <span className="text-xs md:text-2xl xl:text-base group-hover:text-white transition-colors duration-300">
               asenth25@asu.edu
             </span>
           </div>
@@ -46,7 +46,7 @@ export default function Contact() {
           <div className="flex items-center gap-3 group cursor-pointer">
             <div className="p-2 md:p-3 bg-white/5 rounded-lg group-hover:bg-white/10 transition-all duration-300">
               <svg
-                className="w-4 h-4 md:w-6 md:h-6"
+                className="w-4 h-4 md:w-10 md:h-10 xl:w-6 xl:h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -65,7 +65,7 @@ export default function Contact() {
                 />
               </svg>
             </div>
-            <span className="text-xs md:text-base group-hover:text-white transition-colors duration-300">
+            <span className="text-xs md:text-2xl xl:text-base group-hover:text-white transition-colors duration-300">
               San Bruno, CA
             </span>
           </div>
