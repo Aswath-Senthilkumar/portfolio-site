@@ -6,6 +6,7 @@ const SECTIONS = [
     'what-i-do',
     'experience',
     'about-me',
+    'projects',
     'skills',
     'footer'
 ] as const;
