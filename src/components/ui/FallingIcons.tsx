@@ -49,6 +49,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
     const engineRef = useRef<Matter.Engine | null>(null);
     const runnerRef = useRef<Matter.Runner | null>(null);
     const renderRef = useRef<Matter.Render | null>(null);
+    const mouseConstraintRef = useRef<Matter.MouseConstraint | null>(null);
     const animationFrameRef = useRef<number | null>(null);
 
     const [effectStarted, setEffectStarted] = useState(trigger === "auto");
@@ -241,6 +242,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       engineRef.current = engine;
       runnerRef.current = runner;
       renderRef.current = render;
+      mouseConstraintRef.current = mouseConstraint;
 
       // Store mouse ref for cleanup
       if (renderRef.current) {
@@ -252,6 +254,12 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       return () => {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
+        }
+
+        // Clean up mouse constraint event listeners
+        if (mouseConstraintRef.current) {
+          Matter.Events.off(mouseConstraintRef.current, "startdrag");
+          Matter.Events.off(mouseConstraintRef.current, "enddrag");
         }
 
         // Clean up mouse events which might block scrolling/clicking
@@ -277,6 +285,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         engineRef.current = null;
         runnerRef.current = null;
         renderRef.current = null;
+        mouseConstraintRef.current = null;
         animationFrameRef.current = null;
       };
     }, [
@@ -301,7 +310,31 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       console.log("Resetting icons...");
       setIsResetting(true);
 
-      // Stop the physics simulation first
+      // Clean up mouse constraint event listeners FIRST
+      if (mouseConstraintRef.current) {
+        Matter.Events.off(mouseConstraintRef.current, "startdrag");
+        Matter.Events.off(mouseConstraintRef.current, "enddrag");
+      }
+
+      // Clean up mouse events to prevent interference
+      if (renderRef.current && renderRef.current.mouse) {
+        Matter.Mouse.clearSourceEvents(renderRef.current.mouse);
+      }
+
+      // CRITICAL: Reset container styles for touch events on mobile
+      if (containerRef.current) {
+        const container = containerRef.current;
+        // Reset touch-action to ensure mobile touches work
+        container.style.touchAction = "auto";
+        (
+          container.style as unknown as Record<string, string>
+        ).webkitTouchCallout = "default";
+        (
+          container.style as unknown as Record<string, string>
+        ).webkitUserSelect = "auto";
+      }
+
+      // Stop the physics simulation
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
         animationFrameRef.current = null;
@@ -333,6 +366,13 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       // Schedule state reset guaranteed
       setTimeout(() => {
         console.log("Reset complete, setting effectStarted to false");
+
+        // Reset container styles to ensure next click works
+        if (containerRef.current) {
+          containerRef.current.style.touchAction = "auto";
+          containerRef.current.style.overflow = "hidden";
+        }
+
         setIsResetting(false);
         setEffectStarted(false);
         onReset?.();
@@ -380,17 +420,29 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         {!effectStarted && trigger === "click" && (
           <div
             className="absolute inset-0 z-[100] cursor-pointer bg-transparent"
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
               console.log("Overlay clicked, triggering effect");
               handleTrigger();
             }}
-            style={{ touchAction: "auto" }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log("Overlay touched, triggering effect");
+              handleTrigger();
+            }}
+            style={{
+              touchAction: "auto",
+              WebkitTapHighlightColor: "transparent",
+            }}
           />
         )}
 
         <div
           ref={iconsContainerRef}
           className="relative w-full h-full flex flex-col items-center justify-start pt-12"
+          style={{ pointerEvents: effectStarted ? "auto" : "none" }}
         >
           {/* Main skills grid */}
           <div className="flex flex-wrap justify-center items-start gap-8 mb-8">

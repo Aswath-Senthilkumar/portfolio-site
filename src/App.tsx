@@ -28,7 +28,7 @@ function DesktopView() {
 
 function App() {
   const [animationComplete, setAnimationComplete] = useState(false);
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
 
   useEffect(() => {
     // Preload logic if needed

@@ -58,7 +58,7 @@ export function ExperiencedIn() {
       {/* Header */}
       <button
         type="button"
-        className="font-heading text-xl mb-8 text-[#f2f2f2] hover:opacity-80 transition-opacity flex items-center gap-2 cursor-pointer"
+        className="font-heading text-xl md:text-3xl mb-8 text-[#f2f2f2] hover:opacity-80 transition-opacity flex items-center gap-2 cursor-pointer"
         aria-label="Request Service"
       >
         Experienced In

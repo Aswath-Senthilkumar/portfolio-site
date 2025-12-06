@@ -7,7 +7,7 @@ export function Capabilities() {
 
   return (
     <div className="w-full h-full text-[#f2f2f2] flex flex-col">
-      <h3 className="font-heading text-xl mb-4 md:mb-0 px-6 pt-6">
+      <h3 className="font-heading text-xl md:text-3xl mb-4 md:mb-6 px-6 pt-6">
         Capabilities
       </h3>
 
@@ -19,7 +19,7 @@ export function Capabilities() {
         {/* Scrolling content container */}
         <div
           ref={containerRef}
-          className="flex flex-col gap-6 md:gap-11 overflow-hidden justify-center w-full"
+          className="flex flex-col gap-6 md:gap-11 overflow-hidden justify-center w-full pb-6"
         >
           {capabilityRows.map((row, rowIndex) => (
             <div

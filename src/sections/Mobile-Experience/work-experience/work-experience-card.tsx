@@ -30,9 +30,9 @@ export const WorkExperienceCard = forwardRef<
 
       <div className="relative z-10 p-4 md:p-8 h-full flex flex-col">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 flex-shrink-0 gap-2">
-          <div className="flex items-center justify-between w-full md:w-auto gap-4">
-            <h3 className="text-lg md:text-3xl font-bold text-white">
+        <div className="flex flex-col md:items-center justify-between mb-2 md:mb-4 flex-shrink-0 gap-2 md:gap-4">
+          <div className="flex items-center justify-between min-w-full md:w-auto gap-4">
+            <h3 className="text-lg md:text-4xl font-bold text-white">
               {experience.company}
             </h3>
             <button
@@ -43,20 +43,20 @@ export const WorkExperienceCard = forwardRef<
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-gray-300"
               aria-label="View Tech Stack"
             >
-              <Wrench size={18} />
+              <Wrench className="size-4 md:size-8" />
             </button>
           </div>
-          <div className="flex flex-row items-center justify-between gap-2">
+          <div className="flex flex-row items-center min-w-full justify-between gap-2 md:gap-4">
             <div className="text-gray-400">
               {/* <Briefcase size={12} className="text-[var(--color-primary)]" /> */}
-              <span className="font-medium text-sm text-[var(--color-primary)]">
+              <span className="font-medium text-sm md:text-3xl text-[var(--color-primary)]">
                 {experience.role}
               </span>
             </div>
 
-            <div className="px-2 py-1 rounded-full bg-white/5 border border-white/10 w-fit">
+            <div className="px-2 py-1 md:py-2 md:px-4 rounded-full bg-white/5 border border-white/10 w-fit">
               {/* <Calendar size={14} className="text-gray-400" /> */}
-              <span className="text-xs text-gray-300 font-mono">
+              <span className="text-xs md:text-2xl text-gray-300 font-mono">
                 {experience.period}
               </span>
             </div>
@@ -71,18 +71,17 @@ export const WorkExperienceCard = forwardRef<
             </p> */}
 
             <div>
-              <h4 className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-1">
+              <h4 className="text-sm md:text-3xl uppercase tracking-wider text-gray-500 font-semibold mb-1 md:p-2">
                 Key Achievements
               </h4>
               <ul className="space-y-2">
                 {experience.achievements.map((achievement, i) => (
                   <li key={i} className="flex items-start gap-2 text-gray-300">
                     <ChevronRight
-                      size={18}
-                      className="mt-1 flex-shrink-0"
+                      className="mt-1 flex-shrink-0 size-4 md:size-7"
                       style={{ color: experience.color }}
                     />
-                    <span className="text-sm md:text-base">{achievement}</span>
+                    <span className="text-sm md:text-3xl">{achievement}</span>
                   </li>
                 ))}
               </ul>
@@ -94,11 +93,13 @@ export const WorkExperienceCard = forwardRef<
       {/* Tech Stack Popup Overlay */}
       {showTechStack && (
         <div
-          className="absolute inset-0 z-50 bg-[#060010]/95 backdrop-blur-sm flex flex-col p-6 animate-in fade-in duration-200"
+          className="absolute inset-0 z-50 bg-[#060010]/95 backdrop-blur-sm flex flex-col p-6 md:p-10 animate-in fade-in duration-200"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-bold text-white">Tech stack</h3>
+          <div className="flex items-center justify-between mb-6 md:mb-8">
+            <h3 className="text-lg md:text-4xl font-bold text-white md:p-2">
+              Tech stack
+            </h3>
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -106,18 +107,18 @@ export const WorkExperienceCard = forwardRef<
               }}
               className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
             >
-              <X size={20} />
+              <X className="size-4 md:size-9" />
             </button>
           </div>
 
           {/* <h4 className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-1">
             Tech stack
           </h4> */}
-          <div className="flex flex-wrap gap-2 content-start overflow-y-auto">
+          <div className="flex flex-wrap gap-2 content-start overflow-y-auto md:mt-4">
             {experience.technologies.map((tech, i) => (
               <span
                 key={i}
-                className="px-3 py-1.5 text-sm rounded-full bg-white/5 border border-white/10 text-gray-200"
+                className="px-3 py-1.5 md:py-2 md:px-4 text-sm md:text-2xl rounded-full bg-white/5 border border-white/10 text-gray-200"
                 style={{
                   borderColor: `${experience.color}40`,
                   boxShadow: `0 0 10px -5px ${experience.color}20`,
@@ -132,7 +133,7 @@ export const WorkExperienceCard = forwardRef<
 
       {/* Number Watermark */}
       <div
-        className="absolute -bottom-10 right-2 text-[120px] font-bold opacity-5 pointer-events-none select-none font-heading"
+        className="absolute -bottom-10 md:-bottom-20 right-2 md:right-4 text-[120px] md:text-[200px] font-bold opacity-5 pointer-events-none select-none font-heading"
         style={{ color: experience.color }}
       >
         0{experience.id}

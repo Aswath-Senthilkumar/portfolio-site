@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 export default function MobileProjects() {
   const [cards, setCards] = useState(projects);
 
-  const handleSwipe = (_: "left" | "right") => {
+  const handleSwipe = () => {
     // Move the first card to the end of the array
     setCards((prev) => {
       const newCards = [...prev];
@@ -24,16 +24,16 @@ export default function MobileProjects() {
       className="h-screen w-full bg-black flex flex-col items-center justify-center relative overflow-hidden"
     >
       <div className="absolute top-10 left-0 w-full text-center z-20">
-        <h2 className="text-2xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+        <h2 className="text-2xl md:text-6xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500 md:mt-12">
           My Projects
         </h2>
-        <p className="relative z-10 text-center text-xs text-gray-400 max-w-2xl">
+        <p className="relative z-10 text-center text-xs md:text-2xl text-gray-400 max-w-2xl md:max-w-5xl">
           Browse through my projects and explore their features and
           capabilities.
         </p>{" "}
       </div>
 
-      <div className="relative w-full max-w-xs h-[70vh] flex items-center justify-center">
+      <div className="relative w-[80vw] md:w-[60vw] h-[70vh] md:h-[55vh] flex items-center justify-center">
         <AnimatePresence>
           {cards.map((project, index) => {
             // Only render the top 3 cards for performance and visual stacking

@@ -114,12 +114,12 @@ export default function MobileAboutMe() {
   return (
     <section
       id="about-me-mobile"
-      className="relative w-full bg-transparent text-white pt-10 pb-12"
+      className="relative w-full bg-transparent text-white pt-10 md:pb-24"
     >
       <div className="w-full max-w-7xl mx-auto px-8 mb-8">
         <h2
           ref={headingRef}
-          className="text-2xl md:text-4xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500"
+          className="text-2xl md:text-6xl md:pb-12 font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500"
         >
           About Me
         </h2>

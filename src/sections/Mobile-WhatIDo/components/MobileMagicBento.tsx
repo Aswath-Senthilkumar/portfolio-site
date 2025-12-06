@@ -372,9 +372,12 @@ const MobileMagicBento: React.FC<BentoProps> = ({
                         }}
                       >
                         {React.cloneElement(
-                          card.icon as React.ReactElement<any>,
+                          card.icon as React.ReactElement<
+                            React.SVGProps<SVGSVGElement>
+                          >,
                           {
-                            className: "w-[50%] h-[50%]",
+                            className:
+                              "w-[50%] h-[50%] md:w-[100%] md:h-[100%]",
                             strokeWidth: 1,
                           }
                         )}
@@ -382,15 +385,15 @@ const MobileMagicBento: React.FC<BentoProps> = ({
                     </div>
                   )}
                   <div className="card__header flex justify-between gap-2 relative text-white z-10">
-                    <span className="card__label text-xs opacity-70">
+                    <span className="card__label text-xs md:text-2xl opacity-70">
                       {card.label}
                     </span>
                   </div>
                   <div className="card__content flex flex-col relative text-white z-10 mt-auto">
-                    <h3 className="card__title font-normal text-sm m-0 mb-1">
+                    <h3 className="card__title font-normal text-sm md:text-2xl m-0 mb-1">
                       {card.title}
                     </h3>
-                    <p className="card__description text-[10px] leading-4 opacity-80">
+                    <p className="card__description text-[10px] md:text-[20px] leading-4 opacity-80">
                       {card.description}
                     </p>
                   </div>

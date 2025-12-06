@@ -4,9 +4,11 @@ import type { Application } from "@splinetool/runtime";
 export function ParticleSphere() {
   // const [splineApp, setSplineApp] = useState<Application | null>(null);
 
-  // Function to get a smaller (scaled-down) zoom level
+  // Function to get zoom level based on screen size
   const getZoomLevel = () => {
-    return 0.8;
+    // Check if tablet (768px+) or mobile
+    const isTablet = window.innerWidth >= 768;
+    return isTablet ? 1.7 : 0.8; // Larger zoom for tablets
   };
 
   function onLoad(spline: Application) {
@@ -38,6 +40,7 @@ export function ParticleSphere() {
       scene="/scene-f0f0f0.splinecode"
       onLoad={onLoad}
       style={{ width: "100%", height: "100%" }}
+      onWheel={(e) => e.preventDefault()} // Disable zoom on scroll
     />
   );
 }

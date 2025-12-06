@@ -190,8 +190,8 @@ export const ScrollStackCards: React.FC = () => {
   }, [activeIndex]);
 
   return (
-    <div className="w-full flex-1 flex flex-col items-center justify-center relative min-h-[80vh]">
-      <div className="relative w-full max-w-md h-[550px] perspective-1000">
+    <div className="w-full flex-1 flex flex-col items-center justify-center relative min-h-[80vh] md:min-h-[60vh]">
+      <div className="relative w-full max-w-md md:max-w-3xl h-[550px] md:h-[950px] perspective-1000">
         {mobileExperienceData.map((experience, index) => (
           <div
             key={experience.id}
@@ -207,7 +207,7 @@ export const ScrollStackCards: React.FC = () => {
 
       {/* Indicator */}
       <div className="mt-8 flex flex-col items-center gap-2 opacity-50 animate-pulse pointer-events-none">
-        <span className="text-xs uppercase tracking-widest text-gray-400">
+        <span className="text-xs md:text-xl uppercase tracking-widest text-gray-400">
           Swipe Up / Down
         </span>
       </div>

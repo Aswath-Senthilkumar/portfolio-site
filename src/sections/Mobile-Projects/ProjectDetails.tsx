@@ -39,20 +39,20 @@ export default function ProjectDetails({
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">
+                <h2 className="text-2xl md:text-4xl font-bold text-white mb-2">
                   {project.title}
                 </h2>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 text-xs font-medium rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700"
+                      className="px-3 py-1 md:px-4 md:py-2 text-xs md:text-xl font-medium rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
-                <p className="text-zinc-400 leading-relaxed">
+                <p className="text-zinc-400 md:text-2xl leading-relaxed">
                   {project.description}
                 </p>
               </div>
@@ -63,9 +63,9 @@ export default function ProjectDetails({
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-lg font-medium transition-colors"
+                    className="flex-1 flex items-center md:text-2xl justify-center gap-2 bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-lg font-medium transition-colors"
                   >
-                    <Github size={20} />
+                    <Github className="size-5 md:size-8" />
                     GitHub
                   </a>
                 )}
@@ -74,9 +74,9 @@ export default function ProjectDetails({
                     href={project.links.demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors"
+                    className="flex-1 flex items-center md:text-2xl justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors"
                   >
-                    <ExternalLink size={20} />
+                    <ExternalLink className="size-5 md:size-8" />
                     Live Demo
                   </a>
                 )}

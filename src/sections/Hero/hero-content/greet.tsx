@@ -3,7 +3,7 @@ import SplitText from "@/components/animations/SplitText";
 export function HomeTitle() {
   return (
     <div className="w-full">
-      <h1 className="text-left text-[clamp(2rem,3vw,12rem)] tracking-tight text-foreground cursor-default">
+      <h1 className="text-left text-[clamp(2rem,3vw,12rem)] md:text-[clamp(4rem,5vw,16rem)] xl:text-[clamp(2rem,3vw,12rem)] tracking-tight text-foreground cursor-default">
         <SplitText
           text="Hey, I'm Aswath"
           className="font-semibold text-center"
