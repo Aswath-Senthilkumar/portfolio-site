@@ -251,7 +251,42 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
 
       updateLoop();
 
+      // 🎯 ADD VIEWPORT-BASED PAUSE/RESUME FOR PERFORMANCE
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+
+          if (!entry.isIntersecting) {
+            // Pause physics simulation when not visible
+            console.log("⏸️ FallingIcons not visible - pausing physics");
+            if (animationFrameRef.current) {
+              cancelAnimationFrame(animationFrameRef.current);
+              animationFrameRef.current = null;
+            }
+            Runner.stop(runner);
+          } else {
+            // Resume physics simulation when visible
+            console.log("▶️ FallingIcons visible - resuming physics");
+            Runner.run(runner, engine);
+            if (!animationFrameRef.current) {
+              updateLoop();
+            }
+          }
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "50px",
+        }
+      );
+
+      if (container) {
+        observer.observe(container);
+      }
+
       return () => {
+        // Disconnect observer
+        observer.disconnect();
+
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
         }

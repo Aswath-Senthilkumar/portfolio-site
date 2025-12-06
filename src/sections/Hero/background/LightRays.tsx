@@ -350,7 +350,40 @@ void main() {
       updatePlacement();
       animationIdRef.current = requestAnimationFrame(loop);
 
+      // 🎯 ADD VIEWPORT-BASED PAUSE/RESUME FOR PERFORMANCE
+      const isRunningRef = { current: true };
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+
+          if (!entry.isIntersecting && isRunningRef.current) {
+            // Pause animation when not visible
+            console.log("⏸️ LightRays not visible - pausing animation");
+            if (animationIdRef.current) {
+              cancelAnimationFrame(animationIdRef.current);
+              animationIdRef.current = null;
+            }
+            isRunningRef.current = false;
+          } else if (entry.isIntersecting && !isRunningRef.current) {
+            // Resume animation when visible
+            console.log("▶️ LightRays visible - resuming animation");
+            isRunningRef.current = true;
+            animationIdRef.current = requestAnimationFrame(loop);
+          }
+        },
+        {
+          threshold: 0,
+          rootMargin: "50px",
+        }
+      );
+
+      if (containerRef.current) {
+        observer.observe(containerRef.current);
+      }
+
       cleanupFunctionRef.current = () => {
+        observer.disconnect();
+
         if (animationIdRef.current) {
           cancelAnimationFrame(animationIdRef.current);
           animationIdRef.current = null;

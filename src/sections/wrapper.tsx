@@ -12,7 +12,7 @@ export default function Wrapper() {
     >
       {/* Background Layer - Absolutely positioned to prevent layout shifts */}
       <div
-        className="fixed top-0 left-0 right-0 h-screen z-0 bg-black pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-screen z-0 bg-black pointer-events-none"
         style={{ backgroundColor: "black" }}
       >
         <LightRays

@@ -19,7 +19,7 @@ export default function MobileHero() {
         <div className="pointer-events-auto mx-auto">
           <HomeTitle />
         </div>
-        <div className="pointer-events-auto mt-18 md:mt-32 md:mb-20 mx-auto ">
+        <div className="pointer-events-auto mt-18 lg:mt-20 md:mb-20 mx-auto ">
           <Taglines />
         </div>
         <div className="pointer-events-auto mt-10 mx-auto">

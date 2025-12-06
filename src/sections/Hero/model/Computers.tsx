@@ -1,4 +1,11 @@
-import React, { Suspense, useEffect, useLayoutEffect, useRef } from "react";
+import React, {
+  Suspense,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   OrbitControls,
@@ -188,15 +195,75 @@ const Computers: React.FC = () => {
 
 const ComputersCanvas = () => {
   const { active } = useProgress();
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const isDisposedRef = useRef(false);
+  const [isHidden, setIsHidden] = useState(false);
+
+  // GPU resource disposal function
+  const disposeGPUResources = useCallback(() => {
+    console.log("🗑️ Pausing and cleaning up GPU resources...");
+
+    try {
+      // Clear Three.js cache (textures, geometries, materials)
+      THREE.Cache.clear();
+
+      // Note: We don't call loseContext() here because it permanently destroys
+      // the WebGL context and prevents re-showing the model when scrolling back.
+      // Instead, we rely on hiding the canvas and stopping the render loop.
+
+      console.log("✅ GPU cache cleared, canvas hidden");
+    } catch (error) {
+      console.warn("⚠️ Error during GPU cleanup:", error);
+    }
+  }, []);
+
+  // Monitor wrapper section visibility for cleanup and restoration
+  useEffect(() => {
+    const wrapperElement = document.getElementById("wrapper");
+    if (!wrapperElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+
+        if (!entry.isIntersecting && !isDisposedRef.current) {
+          // When wrapper exits viewport, hide and clean up
+          console.log("🧹 Wrapper exited viewport - hiding model");
+          disposeGPUResources();
+          setIsHidden(true);
+          isDisposedRef.current = true;
+        } else if (entry.isIntersecting && isDisposedRef.current) {
+          // When scrolling back, show the model again
+          console.log("♻️ Wrapper re-entered viewport - showing model");
+          setIsHidden(false);
+          isDisposedRef.current = false;
+        }
+      },
+      {
+        threshold: 0,
+        rootMargin: "100px", // Give 100px buffer before cleanup
+      }
+    );
+
+    observer.observe(wrapperElement);
+
+    return () => observer.disconnect();
+  }, [disposeGPUResources]);
 
   return (
     <>
       <CanvasLoader />
       <motion.div
+        ref={canvasRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: active ? 0 : 1 }}
         transition={{ duration: 0.5, ease: "easeInOut", delay: 0.2 }}
         className="w-full h-full"
+        style={{
+          // Hide canvas but maintain layout space for GSAP
+          visibility: isHidden ? "hidden" : "visible",
+          opacity: isHidden ? 0 : undefined,
+        }}
       >
         <Canvas
           shadows
