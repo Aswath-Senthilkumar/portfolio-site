@@ -7,6 +7,7 @@ import { Home } from "@/pages/Home";
 import { MobileHome } from "@/pages/MobileHome";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 import { GlobalDrawer } from "@/components/drawer/global-drawer";
+import { Analytics } from "@vercel/analytics/react";
 
 function MobileView() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <>{isMobile ? <MobileView /> : <DesktopView />}</>
       )}
       <GlobalDrawer />
+      <Analytics />
     </div>
   );
 }

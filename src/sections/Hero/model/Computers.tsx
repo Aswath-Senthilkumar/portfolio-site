@@ -23,12 +23,18 @@ import * as THREE from "three";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Computers: React.FC = () => {
-  const computer = useGLTF("./desktop_pc/scene.gltf");
+interface ComputersProps {
+  modelPath?: string;
+}
+
+const Computers: React.FC<ComputersProps> = ({
+  modelPath = "./desktop_pc/scene.gltf",
+}) => {
+  const computer = useGLTF(modelPath, true); // true enables draco compression
   const ref = useRef<THREE.Group>(null);
 
   // Set up video texture looping
-  useEffect(() => {
+  /* useEffect(() => {
     // Create video element
     const video = document.createElement("video");
     video.src = "./desktop_pc/textures/Material.074_30_baseColor.mp4";
@@ -104,7 +110,7 @@ const Computers: React.FC = () => {
       videoTexture.dispose();
       video.remove();
     };
-  }, [computer]);
+  }, [computer]); */
 
   useLayoutEffect(() => {
     if (!ref.current) return;
@@ -193,7 +199,11 @@ const Computers: React.FC = () => {
   );
 };
 
-const ComputersCanvas = () => {
+interface ComputersCanvasProps {
+  modelPath?: string;
+}
+
+const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
   const { active } = useProgress();
   const canvasRef = useRef<HTMLDivElement>(null);
   const isDisposedRef = useRef(false);
@@ -281,7 +291,7 @@ const ComputersCanvas = () => {
               // maxPolarAngle={Math.PI / 2}
               // minPolarAngle={Math.PI / 2}
             />
-            <Computers />
+            <Computers modelPath={modelPath} />
           </Suspense>
 
           <Preload all />

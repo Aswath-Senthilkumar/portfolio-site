@@ -1,7 +1,7 @@
 import AboutMe from "./About-Me";
 import Hero from "./Hero";
 import LightRays from "./Hero/background/LightRays";
-import ComputersCanvas from "./Hero/model/Computers";
+import LazyComputers from "./Hero/model/LazyComputers";
 
 export default function Wrapper() {
   return (
@@ -34,7 +34,7 @@ export default function Wrapper() {
         id="model-container"
         className="absolute top-0 left-0 right-0 h-screen z-0 pointer-events-none"
       >
-        <ComputersCanvas />
+        <LazyComputers modelPath="./desktop_pc/scene-draco.glb" />
       </div>
 
       {/* Sections - Start at very top of page */}
