@@ -34,7 +34,7 @@ export default function Wrapper() {
         id="model-container"
         className="absolute top-0 left-0 right-0 h-screen z-0 pointer-events-none"
       >
-        <LazyComputers modelPath="./desktop_pc/scene-draco.glb" />
+        <LazyComputers modelPath="https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/scene.glb" />
       </div>
 
       {/* Sections - Start at very top of page */}

@@ -28,16 +28,17 @@ interface ComputersProps {
 }
 
 const Computers: React.FC<ComputersProps> = ({
-  modelPath = "./desktop_pc/scene.gltf",
+  modelPath = "https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/scene.glb",
 }) => {
-  const computer = useGLTF(modelPath, true); // true enables draco compression
+  const computer = useGLTF(modelPath, "/draco/gltf/"); // Point to local draco files
   const ref = useRef<THREE.Group>(null);
 
   // Set up video texture looping
-  /* useEffect(() => {
+  useEffect(() => {
     // Create video element
     const video = document.createElement("video");
-    video.src = "./desktop_pc/textures/Material.074_30_baseColor.mp4";
+    video.src =
+      "https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/Material.074_30_baseColor.mp4";
     video.crossOrigin = "anonymous";
     video.loop = true;
     video.muted = true;
@@ -52,33 +53,14 @@ const Computers: React.FC<ComputersProps> = ({
 
     console.log("Video texture created:", videoTexture);
 
-    // Play the video
-    video
-      .play()
-      .then(() => {
-        console.log("Video playing successfully");
-      })
-      .catch((error) => {
-        console.error("Error playing video:", error);
-      });
-
     // Traverse the model and find materials to apply video texture
-    let appliedCount = 0;
+    const screenMaterials: THREE.MeshStandardMaterial[] = [];
     computer.scene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
         const material = mesh.material as THREE.MeshStandardMaterial;
 
         if (material && material.isMaterial) {
-          // Log material info for debugging
-          if (material.name && material.name.includes("30")) {
-            console.log(
-              "Found potential screen material:",
-              material.name,
-              material
-            );
-          }
-
           // Check if this material's map is null or undefined (video didn't load)
           // or if the material name suggests it's the screen material
           if (
@@ -87,21 +69,34 @@ const Computers: React.FC<ComputersProps> = ({
               material.name.includes("screen") ||
               material.name.includes("Screen"))
           ) {
-            console.log("Applying video texture to material:", material.name);
-            material.map = videoTexture;
-            material.emissive = new THREE.Color(0x666666); // Make it slightly emissive
-            material.emissiveMap = videoTexture;
-            material.emissiveIntensity = 1.0;
-            // material.metalness = 1;
-            // material.roughness = 0.5;
-            material.needsUpdate = true;
-            appliedCount++;
+            console.log("Found screen material:", material.name);
+            screenMaterials.push(material);
           }
         }
       }
     });
 
-    console.log(`Applied video texture to ${appliedCount} materials`);
+    console.log(`Found ${screenMaterials.length} materials to apply video to`);
+
+    // Play the video and then apply texture
+    video
+      .play()
+      .then(() => {
+        console.log("Video playing successfully");
+
+        // Apply texture only after video starts playing
+        screenMaterials.forEach((material) => {
+          console.log("Applying video texture to:", material.name);
+          material.map = videoTexture;
+          material.emissive = new THREE.Color(0x666666); // Make it slightly emissive
+          material.emissiveMap = videoTexture;
+          material.emissiveIntensity = 1.0;
+          material.needsUpdate = true;
+        });
+      })
+      .catch((error) => {
+        console.error("Error playing video:", error);
+      });
 
     return () => {
       video.pause();
@@ -110,7 +105,7 @@ const Computers: React.FC<ComputersProps> = ({
       videoTexture.dispose();
       video.remove();
     };
-  }, [computer]); */
+  }, [computer]);
 
   useLayoutEffect(() => {
     if (!ref.current) return;

@@ -1,4 +1,4 @@
-import { ParticleSphere } from "./model/particle-sphere";
+import { LazyParticleSphere } from "./model/LazyParticleSphere";
 import { HomeTitle } from "../Hero/hero-content/greet";
 import { Taglines } from "../Hero/hero-content/taglines";
 import { HomeInfoGridMobile } from "../Mobile-Hero/hero-content/info";
@@ -10,7 +10,7 @@ export default function MobileHero() {
       className="w-full h-full flex items-center justify-center pt-24 mb-60"
     >
       <div className="w-full max-w-full pt-8 md:pt-24 h-[120vw] md:h-[100vw] max-h-full flex items-center justify-center mx-auto">
-        <ParticleSphere />
+        <LazyParticleSphere scenePath="https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/scene-f0f0f0.splinecode" />
       </div>
       <div
         id="content-container"

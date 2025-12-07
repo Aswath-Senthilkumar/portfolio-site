@@ -14,9 +14,7 @@ const LazyComputers: React.FC<LazyComputersProps> = (props) => {
   return (
     <Suspense
       fallback={
-        <div className="w-full h-full flex items-center justify-center">
-          Loading 3D Scene...
-        </div>
+        <div className="w-full h-full flex items-center justify-center"></div>
       }
     >
       <ComputersCanvas {...props} />

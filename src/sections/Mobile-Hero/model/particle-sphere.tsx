@@ -1,7 +1,13 @@
 import Spline from "@splinetool/react-spline";
 import type { Application } from "@splinetool/runtime";
 
-export function ParticleSphere() {
+interface ParticleSphereProps {
+  scenePath?: string;
+}
+
+export function ParticleSphere({
+  scenePath = "https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/scene-f0f0f0.splinecode",
+}: ParticleSphereProps) {
   // const [splineApp, setSplineApp] = useState<Application | null>(null);
 
   // Function to get zoom level based on screen size
@@ -37,7 +43,7 @@ export function ParticleSphere() {
 
   return (
     <Spline
-      scene="/scene-f0f0f0.splinecode"
+      scene={scenePath}
       onLoad={onLoad}
       style={{ width: "100%", height: "100%" }}
       onWheel={(e) => e.preventDefault()} // Disable zoom on scroll
