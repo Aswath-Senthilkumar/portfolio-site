@@ -28,7 +28,7 @@ interface ComputersProps {
 }
 
 const Computers: React.FC<ComputersProps> = ({
-  modelPath = "/desktop_pc/scene.compressed.glb",
+  modelPath = "https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/scene.compressed.glb",
 }) => {
   const computer = useGLTF(modelPath, "/draco/gltf/"); // Point to local draco files
   const ref = useRef<THREE.Group>(null);
@@ -144,7 +144,7 @@ const Computers: React.FC<ComputersProps> = ({
       .to(
         "#model-container",
         {
-          zIndex: 20,
+          zIndex: 1,
           duration: 0,
         },
         0.05
@@ -173,7 +173,10 @@ const Computers: React.FC<ComputersProps> = ({
     return () => {
       zoomTimeline.kill();
       pinTrigger.kill();
+      // Lazy loading
       ScrollTrigger.getAll().forEach((t) => t.kill());
+      // Do NOT kill all ScrollTriggers, as this breaks other sections
+      // ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
 
@@ -258,6 +261,14 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
   return (
     <>
       <CanvasLoader />
+      {/* 
+          We use a div to maintain the DOM structure if needed, 
+          but more importantly we conditionally render the Canvas 
+          to completely stop the render loop and free up the main thread 
+          when the model is not visible.
+      */}
+      {/* Lazy loading */}
+      {/* {!isHidden && ( */}
       <motion.div
         ref={canvasRef}
         initial={{ opacity: 0 }}
@@ -292,6 +303,7 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
           <Preload all />
         </Canvas>
       </motion.div>
+      {/* )} */}
     </>
   );
 };
