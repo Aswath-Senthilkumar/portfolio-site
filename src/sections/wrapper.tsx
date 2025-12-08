@@ -2,6 +2,7 @@ import AboutMe from "./About-Me";
 import Hero from "./Hero";
 import LightRays from "./Hero/background/LightRays";
 import LazyComputers from "./Hero/model/LazyComputers";
+import { motion } from "motion/react";
 
 export default function Wrapper() {
   return (
@@ -11,23 +12,26 @@ export default function Wrapper() {
       style={{ minHeight: "200vh" }}
     >
       {/* Background Layer - Absolutely positioned to prevent layout shifts */}
-      <div
+      <motion.div
         className="absolute top-0 left-0 right-0 h-screen z-0 bg-black pointer-events-none"
         style={{ backgroundColor: "black" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.25, ease: "easeOut" }}
       >
         <LightRays
           raysOrigin="top-center"
           raysColor="#00ffff"
           raysSpeed={1.5}
           lightSpread={0.8}
-          rayLength={1.2}
+          rayLength={0.8}
           followMouse={true}
           mouseInfluence={0.1}
           noiseAmount={0.1}
           distortion={0.05}
           className="custom-rays"
         />
-      </div>
+      </motion.div>
 
       {/* 3D Model - Absolute positioned so GSAP pin can control it */}
       <div
