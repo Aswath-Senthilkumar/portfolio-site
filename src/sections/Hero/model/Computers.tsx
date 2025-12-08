@@ -34,78 +34,78 @@ const Computers: React.FC<ComputersProps> = ({
   const ref = useRef<THREE.Group>(null);
 
   // Set up video texture looping
-  useEffect(() => {
-    // Create video element
-    const video = document.createElement("video");
-    video.src =
-      "https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/Material.074_30_baseColor.mp4";
-    video.crossOrigin = "anonymous";
-    video.loop = true;
-    video.muted = true;
-    video.playsInline = true;
+  // useEffect(() => {
+  //   // Create video element
+  //   const video = document.createElement("video");
+  //   video.src =
+  //     "https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/Material.074_30_baseColor.mp4";
+  //   video.crossOrigin = "anonymous";
+  //   video.loop = true;
+  //   video.muted = true;
+  //   video.playsInline = true;
 
-    // Create video texture
-    const videoTexture = new THREE.VideoTexture(video);
-    videoTexture.minFilter = THREE.LinearFilter;
-    videoTexture.magFilter = THREE.LinearFilter;
-    videoTexture.format = THREE.RGBAFormat;
-    videoTexture.colorSpace = THREE.SRGBColorSpace;
+  //   // Create video texture
+  //   const videoTexture = new THREE.VideoTexture(video);
+  //   videoTexture.minFilter = THREE.LinearFilter;
+  //   videoTexture.magFilter = THREE.LinearFilter;
+  //   videoTexture.format = THREE.RGBAFormat;
+  //   videoTexture.colorSpace = THREE.SRGBColorSpace;
 
-    console.log("Video texture created:", videoTexture);
+  //   console.log("Video texture created:", videoTexture);
 
-    // Traverse the model and find materials to apply video texture
-    const screenMaterials: THREE.MeshStandardMaterial[] = [];
-    computer.scene.traverse((child) => {
-      if ((child as THREE.Mesh).isMesh) {
-        const mesh = child as THREE.Mesh;
-        const material = mesh.material as THREE.MeshStandardMaterial;
+  //   // Traverse the model and find materials to apply video texture
+  //   const screenMaterials: THREE.MeshStandardMaterial[] = [];
+  //   computer.scene.traverse((child) => {
+  //     if ((child as THREE.Mesh).isMesh) {
+  //       const mesh = child as THREE.Mesh;
+  //       const material = mesh.material as THREE.MeshStandardMaterial;
 
-        if (material && material.isMaterial) {
-          // Check if this material's map is null or undefined (video didn't load)
-          // or if the material name suggests it's the screen material
-          if (
-            material.name &&
-            (material.name.includes("Material.074_30") ||
-              material.name.includes("screen") ||
-              material.name.includes("Screen"))
-          ) {
-            console.log("Found screen material:", material.name);
-            screenMaterials.push(material);
-          }
-        }
-      }
-    });
+  //       if (material && material.isMaterial) {
+  //         // Check if this material's map is null or undefined (video didn't load)
+  //         // or if the material name suggests it's the screen material
+  //         if (
+  //           material.name &&
+  //           (material.name.includes("Material.074_30") ||
+  //             material.name.includes("screen") ||
+  //             material.name.includes("Screen"))
+  //         ) {
+  //           console.log("Found screen material:", material.name);
+  //           screenMaterials.push(material);
+  //         }
+  //       }
+  //     }
+  //   });
 
-    console.log(`Found ${screenMaterials.length} materials to apply video to`);
+  //   console.log(`Found ${screenMaterials.length} materials to apply video to`);
 
-    // Play the video and then apply texture
-    video
-      .play()
-      .then(() => {
-        console.log("Video playing successfully");
+  //   // Play the video and then apply texture
+  //   video
+  //     .play()
+  //     .then(() => {
+  //       console.log("Video playing successfully");
 
-        // Apply texture only after video starts playing
-        screenMaterials.forEach((material) => {
-          console.log("Applying video texture to:", material.name);
-          material.map = videoTexture;
-          material.emissive = new THREE.Color(0x666666); // Make it slightly emissive
-          material.emissiveMap = videoTexture;
-          material.emissiveIntensity = 1.0;
-          material.needsUpdate = true;
-        });
-      })
-      .catch((error) => {
-        console.error("Error playing video:", error);
-      });
+  //       // Apply texture only after video starts playing
+  //       screenMaterials.forEach((material) => {
+  //         console.log("Applying video texture to:", material.name);
+  //         material.map = videoTexture;
+  //         material.emissive = new THREE.Color(0x666666); // Make it slightly emissive
+  //         material.emissiveMap = videoTexture;
+  //         material.emissiveIntensity = 1.0;
+  //         material.needsUpdate = true;
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error playing video:", error);
+  //     });
 
-    return () => {
-      video.pause();
-      video.src = "";
-      video.load();
-      videoTexture.dispose();
-      video.remove();
-    };
-  }, [computer]);
+  //   return () => {
+  //     video.pause();
+  //     video.src = "";
+  //     video.load();
+  //     videoTexture.dispose();
+  //     video.remove();
+  //   };
+  // }, [computer]);
 
   useLayoutEffect(() => {
     if (!ref.current) return;
