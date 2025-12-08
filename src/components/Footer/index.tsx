@@ -106,7 +106,7 @@ export default function Footer() {
             <p className="text-sm text-gray-500">
               © {currentYear} Aswath Senthilkumar. All rights reserved.
             </p>
-            <p className="text-xs text-gray-600 mt-2">
+            <p className="text-xs text-gray-500 mt-2">
               Built with React & Three.js
             </p>
           </div>

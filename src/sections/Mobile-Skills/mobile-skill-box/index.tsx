@@ -1,10 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import { useMediaQuery } from "react-responsive";
-import FallingIcons, {
-  type FallingIconsRef,
-} from "@/components/ui/FallingIcons";
+import type { FallingIconsRef } from "@/components/ui/FallingIcons";
 import { skillRows } from "@/sections/WhatIDo/capabilities/constants";
 import { RotateCcw } from "lucide-react";
+
+// Lazy load FallingIcons
+const FallingIcons = lazy(() => import("@/components/ui/FallingIcons"));
 
 export default function MobileSkillBox() {
   // Flatten all skill rows into a single array
@@ -33,6 +34,7 @@ export default function MobileSkillBox() {
           <button
             onClick={handleReset}
             className="absolute top-3 right-3 z-50 flex items-center gap-1.5 px-3 py-1.5 bg-slate-800/90 hover:bg-slate-700/90 backdrop-blur-sm border border-white/20 rounded-full text-white/80 hover:text-white text-xs font-medium transition-all duration-300 shadow-lg hover:shadow-xl group"
+            aria-label="Reset falling icons"
           >
             <RotateCcw className="w-4 h-4 md:w-12 md:h-12 group-hover:rotate-180 transition-transform duration-500" />
             <div className="flex flex-col gap-0.5 text-sm md:text-2xl">
@@ -44,22 +46,24 @@ export default function MobileSkillBox() {
 
         {/* Falling Icons Container */}
         <div className="relative w-full h-full">
-          <FallingIcons
-            ref={fallingIconsRef}
-            skills={allSkills}
-            trigger="click"
-            backgroundColor="transparent"
-            wireframes={false}
-            gravity={1}
-            mouseConstraintStiffness={0.2}
-            onActivate={() => setIsActivated(true)}
-            onReset={() => setIsActivated(false)}
-            iconSize={isMobile ? 45 : 110}
-          />
+          <Suspense fallback={<div className="w-full h-full" />}>
+            <FallingIcons
+              ref={fallingIconsRef}
+              skills={allSkills}
+              trigger="click"
+              backgroundColor="transparent"
+              wireframes={false}
+              gravity={1}
+              mouseConstraintStiffness={0.2}
+              onActivate={() => setIsActivated(true)}
+              onReset={() => setIsActivated(false)}
+              iconSize={isMobile ? 45 : 110}
+            />
+          </Suspense>
         </div>
 
         {/* Interaction hint - mobile optimized */}
-        <div className="absolute bottom-4 md:bottom-10 left-1/2 transform -translate-x-1/2 text-white/30 text-sm md:text-xl animate-pulse pointer-events-none">
+        <div className="absolute bottom-4 md:bottom-10 left-1/2 transform -translate-x-1/2 text-white/50 text-sm md:text-xl animate-pulse pointer-events-none">
           Tap and drag to interact
         </div>
       </div>

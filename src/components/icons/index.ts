@@ -36,3 +36,5 @@ export * from "./threejs-icon";
 export * from "./type-script-icon";
 export * from "./vercel-icon";
 export * from "./vite-icon";
+export * from "./github-icon";
+export * from "./linkedin-icon";

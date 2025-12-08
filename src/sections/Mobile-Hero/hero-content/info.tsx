@@ -1,6 +1,6 @@
 import { useDrawerStore } from "@/stores/drawerStore";
 import { ShineBorder } from "@/components/ui/shine-border";
-import { SiGithub, SiLinkedin } from "react-icons/si";
+import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { ArrowRight, Download } from "lucide-react";
 
 export function HomeInfoGridMobile() {
@@ -15,12 +15,12 @@ export function HomeInfoGridMobile() {
     {
       name: "GitHub",
       url: "https://github.com/Aswath-Senthilkumar",
-      icon: <SiGithub className="w-6 h-6 md:w-12 md:h-12" />,
+      icon: <GithubIcon className="w-6 h-6 md:w-12 md:h-12" />,
     },
     {
       name: "LinkedIn",
       url: "https://linkedin.com/in/aswath-senthilkumar1",
-      icon: <SiLinkedin className="w-6 h-6 md:w-12 md:h-12" />,
+      icon: <LinkedinIcon className="w-6 h-6 md:w-12 md:h-12" />,
     },
   ];
 

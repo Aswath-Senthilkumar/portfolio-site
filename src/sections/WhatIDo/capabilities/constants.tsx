@@ -40,30 +40,8 @@ import {
 } from "@/components/icons";
 import type { Skill } from "@/constants";
 
-import {
-  SiPython,
-  SiTypescript,
-  SiReact,
-  SiNextdotjs,
-  SiTailwindcss,
-  SiJavascript,
-  SiThreedotjs,
-  SiPytorch,
-  SiTensorflow,
-  SiScikitlearn,
-  SiLangchain,
-  SiPandas,
-  SiNumpy,
-  SiNodedotjs,
-  SiSpringboot,
-  SiDjango,
-  SiAmazonwebservices,
-  SiDocker,
-  SiPostgresql,
-  SiMongodb,
-} from "react-icons/si";
-
-import { Coffee } from "lucide-react";
+// Removed react-icons/si import
+// Removed lucide-react import
 
 export const skillRows: Skill[][] = [
   [
@@ -114,30 +92,30 @@ export const skillRows: Skill[][] = [
 
 export const capabilityRows: Skill[][] = [
   [
-    { icon: <SiPython className="w-6 h-6" />, name: "Python" },
-    { icon: <Coffee className="w-6 h-6" />, name: "Java" },
-    { icon: <SiTypescript className="w-6 h-6" />, name: "TypeScript" },
-    { icon: <SiReact className="w-6 h-6" />, name: "React" },
-    { icon: <SiNextdotjs className="w-6 h-6" />, name: "Next.js" },
-    { icon: <SiTailwindcss className="w-6 h-6" />, name: "TailwindCSS" },
-    { icon: <SiJavascript className="w-6 h-6" />, name: "JavaScript" },
-    { icon: <SiThreedotjs className="w-6 h-6" />, name: "Three.js" },
+    { icon: <PythonIcon className="w-6 h-6" />, name: "Python" },
+    { icon: <JavaIcon className="w-6 h-6" />, name: "Java" },
+    { icon: <TypescriptIcon className="w-6 h-6" />, name: "TypeScript" },
+    { icon: <ReactIcon className="w-6 h-6" />, name: "React" },
+    { icon: <NextjsIcon className="w-6 h-6" />, name: "Next.js" },
+    { icon: <TailwindCssIcon className="w-6 h-6" />, name: "TailwindCSS" },
+    { icon: <JavascriptIcon className="w-6 h-6" />, name: "JavaScript" },
+    { icon: <ThreejsIcon className="w-6 h-6" />, name: "Three.js" },
   ],
   [
-    { icon: <SiPytorch className="w-6 h-6" />, name: "PyTorch" },
-    { icon: <SiTensorflow className="w-6 h-6" />, name: "TensorFlow" },
-    { icon: <SiScikitlearn className="w-6 h-6" />, name: "Scikit-learn" },
-    { icon: <SiLangchain className="w-6 h-6" />, name: "LangChain" },
-    { icon: <SiPandas className="w-6 h-6" />, name: "Pandas" },
-    { icon: <SiNumpy className="w-6 h-6" />, name: "NumPy" },
+    { icon: <PytorchIcon className="w-6 h-6" />, name: "PyTorch" },
+    { icon: <TensorflowIcon className="w-6 h-6" />, name: "TensorFlow" },
+    { icon: <SchikitLearnIcon className="w-6 h-6" />, name: "Scikit-learn" },
+    { icon: <LangchainIcon className="w-6 h-6" />, name: "LangChain" },
+    { icon: <PandasIcon className="w-6 h-6" />, name: "Pandas" },
+    { icon: <NumpyIcon className="w-6 h-6" />, name: "NumPy" },
   ],
   [
-    { icon: <SiNodedotjs className="w-6 h-6" />, name: "Node.js" },
-    { icon: <SiSpringboot className="w-6 h-6" />, name: "Spring Boot" },
-    { icon: <SiDjango className="w-6 h-6" />, name: "Django" },
-    { icon: <SiAmazonwebservices className="w-6 h-6" />, name: "AWS" },
-    { icon: <SiDocker className="w-6 h-6" />, name: "Docker" },
-    { icon: <SiPostgresql className="w-6 h-6" />, name: "PostgreSQL" },
-    { icon: <SiMongodb className="w-6 h-6" />, name: "MongoDB" },
+    { icon: <NodejsIcon className="w-6 h-6" />, name: "Node.js" },
+    { icon: <SpringBootIcon className="w-6 h-6" />, name: "Spring Boot" },
+    { icon: <DjangoIcon className="w-6 h-6" />, name: "Django" },
+    { icon: <AwsIcon className="w-6 h-6" />, name: "AWS" },
+    { icon: <DockerIcon className="w-6 h-6" />, name: "Docker" },
+    { icon: <PostgresqlIcon className="w-6 h-6" />, name: "PostgreSQL" },
+    { icon: <MongodbIcon className="w-6 h-6" />, name: "MongoDB" },
   ],
 ];

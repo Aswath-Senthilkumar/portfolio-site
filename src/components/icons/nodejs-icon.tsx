@@ -23,7 +23,7 @@ export function NodejsIcon({ className }: { className?: string }) {
           gradientTransform="translate(-129.242 -73.715) scale(6.18523)"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#3F873F"></stop>
+          <stop stopColor="#3F873F"></stop>
           <stop offset=".33" stop-color="#3F8B3D"></stop>
           <stop offset=".637" stop-color="#3E9638"></stop>
           <stop offset=".934" stop-color="#3DA92E"></stop>

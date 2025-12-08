@@ -91,6 +91,7 @@ export function MobileNav({ onNavigationClick }: MobileNavProps) {
             key={item.name}
             onClick={() => handleNavClick(item)}
             className="flex items-center gap-3 py-3 text-xl font-heading text-foreground rounded-lg transition-all hover:bg-accent/50 hover:text-accent-foreground focus:bg-accent/50 focus:text-accent-foreground focus:outline-none border-b rounded-s-none rounded-e-none text-left cursor-pointer"
+            aria-label={`Navigate to ${item.name} section`}
           >
             <span>{item.name}</span>
           </button>

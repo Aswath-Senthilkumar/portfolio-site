@@ -1,21 +1,21 @@
-import { SiGithub, SiLinkedin } from "react-icons/si";
+import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { motion } from "framer-motion";
 
 const socialLinks = [
   {
     name: "GitHub",
     url: "https://github.com/Aswath-Senthilkumar",
-    icon: <SiGithub />,
+    icon: <GithubIcon className="w-full h-full p-2" />,
   },
   {
     name: "LinkedIn",
     url: "https://linkedin.com/in/aswath-senthilkumar1",
     icon: (
-      <SiLinkedin
+      <LinkedinIcon
+        className="w-full h-full p-[2px]"
         style={{
           borderRadius: "30%",
           color: "#fff",
-          padding: "2px",
         }}
       />
     ),
@@ -39,7 +39,7 @@ export default function SocialsLinks() {
         onClick={() => window.open(socialLinks[1].url, "_blank")}
       >
         <motion.div className="absolute right-1 top-1/2 -translate-y-1/2 w-[34px] h-[34px] rounded-full cursor-glass-effect pointer-events-none" />
-        <span className="relative rounded-full flex items-center justify-center w-full h-full text-[1.7rem]">
+        <span className="relative rounded-full flex items-center justify-center w-[70%] h-[70%]">
           {socialLinks[1].icon}
         </span>
       </motion.button>

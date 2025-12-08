@@ -198,6 +198,7 @@ export default function ContactForm() {
             type="submit"
             disabled={isSubmitting}
             className="relative px-8 py-4 md:py-6 xl:py-4 md:px-12 xl:px-8 bg-white/5 border border-white/10 rounded-lg font-semibold text-white overflow-hidden group hover:bg-white/10 hover:border-white/20 hover:shadow-[0_0_20px_-5px_rgba(168,85,247,0.4)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px] backdrop-blur-sm"
+            aria-label={isSubmitting ? "Sending message" : "Send message"}
           >
             <span className="relative z-10 text-sm md:text-2xl xl:text-sm font-heading flex items-center justify-center gap-2">
               {isSubmitting ? (
