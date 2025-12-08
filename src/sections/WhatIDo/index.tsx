@@ -59,7 +59,7 @@ export default function WhatIDo() {
             enableStars={true}
             enableSpotlight={true}
             enableBorderGlow={true}
-            enableTilt={true}
+            enableTilt={false}
             enableMagnetism={true}
             clickEffect={true}
             spotlightRadius={500}

@@ -132,19 +132,17 @@ const ParticleCard: React.FC<{
   style,
   particleCount = DEFAULT_PARTICLE_COUNT,
   glowColor = DEFAULT_GLOW_COLOR,
-  enableTilt = true,
+  enableTilt = false, // Force disabled by default
   clickEffect = false,
   enableMagnetism = false,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement[]>([]);
   const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
-  const isHoveredRef = useRef(false);
   const memoizedParticles = useRef<HTMLDivElement[]>([]);
   const particlesInitialized = useRef(false);
-  const magnetismAnimationRef = useRef<gsap.core.Tween | null>(null);
-  const rafRef = useRef<number | null>(null);
 
+  // Initialize particles once
   const initializeParticles = useCallback(() => {
     if (particlesInitialized.current || !cardRef.current) return;
 
@@ -162,24 +160,16 @@ const ParticleCard: React.FC<{
   const clearAllParticles = useCallback(() => {
     timeoutsRef.current.forEach(clearTimeout);
     timeoutsRef.current = [];
-    magnetismAnimationRef.current?.kill();
 
     particlesRef.current.forEach((particle) => {
-      gsap.to(particle, {
-        scale: 0,
-        opacity: 0,
-        duration: 0.3,
-        ease: "back.in(1.7)",
-        onComplete: () => {
-          particle.parentNode?.removeChild(particle);
-        },
-      });
+      gsap.killTweensOf(particle); // Kill running tweens
+      particle.remove();
     });
     particlesRef.current = [];
   }, []);
 
   const animateParticles = useCallback(() => {
-    if (!cardRef.current || !isHoveredRef.current) return;
+    if (!cardRef.current) return;
 
     if (!particlesInitialized.current) {
       initializeParticles();
@@ -187,7 +177,7 @@ const ParticleCard: React.FC<{
 
     memoizedParticles.current.forEach((particle, index) => {
       const timeoutId = setTimeout(() => {
-        if (!isHoveredRef.current || !cardRef.current) return;
+        if (!cardRef.current) return;
 
         const clone = particle.cloneNode(true) as HTMLDivElement;
         cardRef.current.appendChild(clone);
@@ -216,7 +206,7 @@ const ParticleCard: React.FC<{
           repeat: -1,
           yoyo: true,
         });
-      }, index * 100);
+      }, index * 300); // Stagger like mobile
 
       timeoutsRef.current.push(timeoutId);
     });
@@ -227,86 +217,11 @@ const ParticleCard: React.FC<{
 
     const element = cardRef.current;
 
-    const handleMouseEnter = () => {
-      isHoveredRef.current = true;
-      animateParticles();
+    // Default glow effect - stronger for visibility (Mobile logic)
+    element.style.setProperty("--glow-intensity", "0.8");
 
-      if (enableTilt) {
-        gsap.to(element, {
-          rotateX: 5,
-          rotateY: 5,
-          duration: 0.3,
-          ease: "power2.out",
-          transformPerspective: 1000,
-        });
-      }
-    };
-
-    const handleMouseLeave = () => {
-      isHoveredRef.current = false;
-      clearAllParticles();
-
-      if (enableTilt) {
-        gsap.to(element, {
-          rotateX: 0,
-          rotateY: 0,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
-
-      if (enableMagnetism) {
-        gsap.to(element, {
-          x: 0,
-          y: 0,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!enableTilt && !enableMagnetism) return;
-
-      if (rafRef.current) return;
-
-      rafRef.current = requestAnimationFrame(() => {
-        const rect = element.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        if (enableTilt) {
-          const rotateX = ((y - centerY) / centerY) * -10;
-          const rotateY = ((x - centerX) / centerX) * 10;
-
-          gsap.to(element, {
-            rotateX,
-            rotateY,
-            duration: 0.1,
-            ease: "power2.out",
-            transformPerspective: 1000,
-            overwrite: "auto",
-          });
-        }
-
-        if (enableMagnetism) {
-          const magnetX = (x - centerX) * 0.05;
-          const magnetY = (y - centerY) * 0.05;
-
-          magnetismAnimationRef.current = gsap.to(element, {
-            x: magnetX,
-            y: magnetY,
-            duration: 0.3,
-            ease: "power2.out",
-            overwrite: "auto",
-          });
-        }
-
-        rafRef.current = null;
-      });
-    };
+    // Always animate particles (Mobile logic)
+    animateParticles();
 
     const handleClick = (e: MouseEvent) => {
       if (!clickEffect) return;
@@ -353,30 +268,24 @@ const ParticleCard: React.FC<{
       );
     };
 
-    element.addEventListener("mouseenter", handleMouseEnter);
-    element.addEventListener("mouseleave", handleMouseLeave);
-    element.addEventListener("mousemove", handleMouseMove);
     element.addEventListener("click", handleClick);
 
+    // Tilt Logic Removed/Guarded for Desktop
+    // Mobile uses deviceorientation, we don't want that here.
+    // We definitely don't want hover tilt.
+
     return () => {
-      isHoveredRef.current = false;
-      element.removeEventListener("mouseenter", handleMouseEnter);
-      element.removeEventListener("mouseleave", handleMouseLeave);
-      element.removeEventListener("mousemove", handleMouseMove);
       element.removeEventListener("click", handleClick);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
       clearAllParticles();
     };
   }, [
     animateParticles,
     clearAllParticles,
     disableAnimations,
-    enableTilt,
-    enableMagnetism,
     clickEffect,
     glowColor,
+    enableTilt, // kept in dependency but ignored in logic
+    enableMagnetism,
   ]);
 
   return (
@@ -573,7 +482,7 @@ const useMobileDetection = () => {
 const MagicBento: React.FC<BentoProps> = ({
   textAutoHide = true,
   enableStars = true,
-  enableSpotlight = true,
+  enableSpotlight = false,
   enableBorderGlow = true,
   disableAnimations = false,
   spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS,
@@ -581,7 +490,7 @@ const MagicBento: React.FC<BentoProps> = ({
   enableTilt = false,
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
-  enableMagnetism = true,
+  enableMagnetism = false,
   cards = cardData,
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
@@ -657,11 +566,12 @@ const MagicBento: React.FC<BentoProps> = ({
             pointer-events: none;
             transition: opacity 0.3s ease;
             z-index: 1;
-          }
-          
-          .card--border-glow:hover::after {
             opacity: 1;
           }
+          
+          /* .card--border-glow:hover::after {
+            opacity: 1;
+          } */
           
           .card--border-glow:hover {
             box-shadow: 0 4px 20px rgba(46, 24, 78, 0.4), 0 0 30px rgba(${glowColor}, 0.2);
@@ -730,7 +640,7 @@ const MagicBento: React.FC<BentoProps> = ({
       <BentoCardGrid gridRef={gridRef}>
         <div className="card-responsive grid gap-2">
           {cards.map((card, index) => {
-            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-100 ease-in-out hover:-translate-y-0.5 hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
+            const baseClassName = `card flex flex-col justify-between relative aspect-[4/3] min-h-[200px] w-full max-w-full p-5 rounded-[20px] border border-solid font-light overflow-hidden transition-all duration-100 ease-in-out hover:shadow-[0_8px_25px_rgba(0,0,0,0.15)] ${
               enableBorderGlow ? "card--border-glow" : ""
             }`;
 
@@ -762,7 +672,7 @@ const MagicBento: React.FC<BentoProps> = ({
                   ) : (
                     <>
                       {card.icon && (
-                        <div className="card__icon absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-500">
+                        <div className="card__icon absolute inset-0 flex items-center justify-center pointer-events-none opacity-100 transition-opacity duration-500">
                           <div
                             className="w-48 h-48 text-[rgba(132,0,255,0.1)] transform scale-150 blur-sm flex items-center justify-center"
                             style={{
