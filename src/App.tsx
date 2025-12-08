@@ -9,6 +9,11 @@ import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provi
 import { GlobalDrawer } from "@/components/drawer/global-drawer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { SEO } from "@/components/seo/SEO";
+import {
+  getPersonStructuredData,
+  getWebSiteStructuredData,
+} from "@/utils/structured-data";
 
 const Home = lazy(() =>
   import("@/pages/Home").then((module) => ({ default: module.Home }))
@@ -47,16 +52,33 @@ function App() {
 
   return (
     <div className="dark min-h-screen bg-black text-white overflow-hidden">
+      <SEO
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@graph": [getPersonStructuredData(), getWebSiteStructuredData()],
+        }}
+      />
       {!animationComplete ? (
         <LoadingAnimation onComplete={() => setAnimationComplete(true)} />
       ) : (
-        <Suspense fallback={<LoadingAnimation onComplete={() => {}} />}>
+        <Suspense fallback={null}>
           {isMobile ? <MobileView /> : <DesktopView />}
         </Suspense>
       )}
       <GlobalDrawer />
       <Analytics />
       <SpeedInsights />
+      <div
+        aria-hidden="true"
+        style={{
+          opacity: 0,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          pointerEvents: "none",
+          fontFamily: '"Azonix", "Inter"',
+        }}
+      />
     </div>
   );
 }
