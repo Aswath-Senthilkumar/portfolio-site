@@ -57,13 +57,13 @@ export default function WhatIDo() {
             cards={cards}
             textAutoHide={true}
             enableStars={true}
-            enableSpotlight={true}
+            enableSpotlight={false}
             enableBorderGlow={true}
             enableTilt={false}
-            enableMagnetism={true}
-            clickEffect={true}
+            enableMagnetism={false}
+            clickEffect={false}
             spotlightRadius={500}
-            particleCount={20}
+            particleCount={5}
             glowColor="132, 0, 255"
           />
         </div>

@@ -33,13 +33,12 @@ export default function AboutMe() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: "#about-me",
-          start: "top-=1vh top", // Locked to top for stability
-          end: "bottom top", // Increased pin duration to ensure animation completes
-          pin: true,
-          toggleActions: "play none none reverse",
-          anticipatePin: 1,
+          start: "top bottom", // Start animating as soon as it enters
+          end: "bottom bottom", // Finish exactly when the bottom hits the viewport bottom
+          pin: false,
+          scrub: true, // Strict sync to ensure it finishes exactly at the end position
           onEnter: () => {
-            // Animate section fade-in
+            // Ensure opacity is 1 when entering
             gsap.to("#about-me", {
               opacity: 1,
               duration: 0.3,
@@ -47,7 +46,7 @@ export default function AboutMe() {
             });
           },
           onLeaveBack: () => {
-            // Reset animations when scrolling back up
+            // Fade out when scrolling back up
             gsap.to("#about-me", {
               opacity: 0,
               duration: 0.3,
