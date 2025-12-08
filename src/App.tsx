@@ -8,6 +8,7 @@ import { MobileHome } from "@/pages/MobileHome";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 import { GlobalDrawer } from "@/components/drawer/global-drawer";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 function MobileView() {
   return (
@@ -44,6 +45,7 @@ function App() {
       )}
       <GlobalDrawer />
       <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
