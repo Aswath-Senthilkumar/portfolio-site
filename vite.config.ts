@@ -19,8 +19,6 @@ export default defineConfig({
         {
           userAgent: '*',
           allow: '/',
-          crawlDelay: 10,
-          cleanParam: 'utm_source&utm_medium&utm_campaign'
         }
       ],
       outDir: 'dist'
