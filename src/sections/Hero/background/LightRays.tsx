@@ -110,28 +110,10 @@ const LightRays: React.FC<LightRaysProps> = ({
   const animationIdRef = useRef<number | null>(null);
   const meshRef = useRef<Mesh | null>(null);
   const cleanupFunctionRef = useRef<(() => void) | null>(null);
-  // const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // useEffect(() => {
-  //   if (!containerRef.current) return;
-
-  //   observerRef.current = new IntersectionObserver(
-  //     entries => {
-  //       const entry = entries[0];
-  //       setIsVisible(entry.isIntersecting);
-  //     },
-  //     { threshold: 0.1 }
-  //   );
-
-  //   observerRef.current.observe(containerRef.current);
-
-  //   return () => {
-  //     if (observerRef.current) {
-  //       observerRef.current.disconnect();
-  //       observerRef.current = null;
-  //     }
-  //   };
-  // }, []);
+  // Optimization --
+  // Optimization: Store caching rect to avoid getBoundingClientRect in mousemove
+  const rectRef = useRef<DOMRect | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -301,6 +283,11 @@ void main() {
         renderer.dpr = Math.min(window.devicePixelRatio, 2);
 
         const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
+
+        // Optimization --
+        // Cache the rect for mouse move calculations during resize/init
+        rectRef.current = containerRef.current.getBoundingClientRect();
+
         renderer.setSize(wCSS, hCSS);
 
         const dpr = renderer.dpr;
@@ -476,8 +463,14 @@ void main() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current || !rendererRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
+      // Optimization --
+      // if (!containerRef.current || !rendererRef.current) return;
+      // const rect = containerRef.current.getBoundingClientRect();
+      // Use cached rect to avoid layout thrashing
+      if (!rectRef.current) return;
+
+      const rect = rectRef.current;
+
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
       mouseRef.current = { x, y };
