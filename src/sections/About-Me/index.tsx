@@ -11,6 +11,8 @@ export default function AboutMe() {
   const middleCardRef = useRef<HTMLDivElement>(null);
   const rightCardRef = useRef<HTMLDivElement>(null);
 
+  const hasAnimated = useRef(false);
+
   useLayoutEffect(() => {
     if (
       !headingRef.current ||
@@ -21,85 +23,58 @@ export default function AboutMe() {
       return;
 
     const ctx = gsap.context(() => {
-      // Set initial states immediately
+      // Set initial states
       gsap.set("#about-me", { opacity: 0 });
-
-      // Initial positions: Left (off-screen left), Right (off-screen right), Middle (below)
       gsap.set(leftCardRef.current, { x: -100, opacity: 0 });
       gsap.set(rightCardRef.current, { x: 100, opacity: 0 });
       gsap.set(middleCardRef.current, { y: 100, opacity: 0 });
 
-      // Pin the About section and animate cards with scroll
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: "#about-me",
-          start: "top bottom", // Start animating as soon as it enters
-          end: "bottom bottom", // Finish exactly when the bottom hits the viewport bottom
-          pin: false,
-          scrub: true, // Strict sync to ensure it finishes exactly at the end position
-          onEnter: () => {
-            // Ensure opacity is 1 when entering
-            gsap.to("#about-me", {
-              opacity: 1,
-              duration: 0.3,
-              ease: "power2.out",
-            });
-          },
-          onLeaveBack: () => {
-            // Fade out when scrolling back up
-            gsap.to("#about-me", {
-              opacity: 0,
-              duration: 0.3,
-            });
-          },
-        },
-      });
+      // Create the timeline (Paused initially)
+      const tl = gsap.timeline({ paused: true });
 
-      // 1. Heading enters
-      tl.fromTo(
-        headingRef.current,
-        { y: -50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          ease: "power2.out",
-        }
-      )
-        // 2. All cards enter simultaneously
-        .to(
-          leftCardRef.current,
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.1,
-            ease: "power3.out",
-            stagger: 0.2, // Smooth slide in
-          },
-          "-=0.2" // Start just before heading finishes
+      // Build the animation timeline
+      tl.to("#about-me", {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out",
+      })
+        .fromTo(
+          headingRef.current,
+          { y: -50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.2, ease: "power2.out" }
         )
         .to(
-          rightCardRef.current,
+          [leftCardRef.current, rightCardRef.current, middleCardRef.current],
           {
             x: 0,
-            opacity: 1,
-            duration: 0.1,
-            ease: "power3.out",
-            stagger: 0.2, // Smooth slide in
-          },
-          "<" // Sync with Left card
-        )
-        .to(
-          middleCardRef.current,
-          {
             y: 0,
             opacity: 1,
-            duration: 0.1,
-            ease: "power3.out",
-            stagger: 0.2, // Smooth slide up
+            duration: 0.2,
+            ease: "power2.out",
+            // stagger: 0.5,
           },
-          "<" // Sync with Left/Right cards
+          "-=0.2"
         );
+
+      ScrollTrigger.create({
+        trigger: "#about-me",
+        start: "top 60%", // Start earlier/easier
+        end: "bottom bottom",
+        onEnter: () => {
+          if (!hasAnimated.current) {
+            // First time: Play full animation
+            tl.play();
+            hasAnimated.current = true;
+          } else {
+            // Subsequent times: Just fade in instantly/smoothly
+            gsap.to("#about-me", { opacity: 1, duration: 0.5 });
+          }
+        },
+        onLeaveBack: () => {
+          // Fade out when leaving back upwards
+          gsap.to("#about-me", { opacity: 0, duration: 0.3 });
+        },
+      });
     });
 
     return () => {

@@ -283,7 +283,7 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
       >
         <Canvas
           shadows
-          dpr={[1, 1.5]}
+          dpr={1} // Optimization: Cap at 1x scale for performance
           camera={{ position: [0, 0, 0], fov: 25 }}
           gl={{
             preserveDrawingBuffer: false,

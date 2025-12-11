@@ -79,9 +79,14 @@ export default function Wrapper() {
       }
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: false });
+    // Delay binding the listener to allow the page/3D model to fully hydrate and settle
+    // This prevents "jank" during the first second of load
+    const timeoutId = setTimeout(() => {
+      window.addEventListener("wheel", handleWheel, { passive: false });
+    }, 1000);
 
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener("wheel", handleWheel);
     };
   }, [lenis]);
