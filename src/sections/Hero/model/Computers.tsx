@@ -294,6 +294,7 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
           <Suspense fallback={null}>
             <OrbitControls
               enableZoom={false}
+              enabled={false}
               // maxPolarAngle={Math.PI / 2}
               // minPolarAngle={Math.PI / 2}
             />

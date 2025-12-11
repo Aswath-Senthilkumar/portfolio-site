@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative h-screen w-full overflow-hidden bg-transparent"
+      className="relative h-screen w-full overflow-hidden bg-transparent pointer-events-none"
     >
       {/* Content Layer */}
       <div

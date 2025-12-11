@@ -3,8 +3,89 @@ import Hero from "./Hero";
 import LightRays from "./Hero/background/LightRays";
 import LazyComputers from "./Hero/model/LazyComputers";
 import { motion } from "motion/react";
+import { useEffect, useRef } from "react";
+import { useLenis } from "../components/providers/context";
 
 export default function Wrapper() {
+  const isScrolling = useRef(false);
+  const lenis = useLenis();
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      // If we are already animating a scroll, ignore wheel events
+      if (isScrolling.current) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+
+      const currentScroll = lenis ? lenis.scroll : window.scrollY;
+      const targetScroll = window.innerHeight; // About Me starts at 100vh
+
+      // console.log("Checking:", { currentScroll, targetScroll, deltaY: e.deltaY });
+      // Threshold to detect intent (avoid tiny accidental trackpad jitters)
+      if (Math.abs(e.deltaY) < 2) return;
+
+      // Scrolling Down from Home (0 to near bottom of home)
+      // Check if we are in the visual range of the first section
+      if (e.deltaY > 0 && currentScroll < targetScroll - 50) {
+        e.preventDefault();
+        e.stopPropagation();
+        isScrolling.current = true;
+
+        if (lenis) {
+          // lenis.stop() removed - it pauses the loop!
+          lenis.scrollTo(targetScroll, {
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            lock: true, // This handles the locking
+            onComplete: () => {
+              isScrolling.current = false;
+            },
+          });
+        } else {
+          window.scrollTo({ top: targetScroll, behavior: "smooth" });
+          setTimeout(() => {
+            isScrolling.current = false;
+          }, 800);
+        }
+      }
+      // Scrolling Up from About Me (Top of About Me or transition zone)
+      else if (
+        e.deltaY < 0 &&
+        currentScroll > 0 &&
+        currentScroll <= targetScroll + 50
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        isScrolling.current = true;
+
+        if (lenis) {
+          // lenis.stop() removed
+          lenis.scrollTo(0, {
+            duration: 0.8,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            lock: true,
+            onComplete: () => {
+              isScrolling.current = false;
+            },
+          });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          setTimeout(() => {
+            isScrolling.current = false;
+          }, 800);
+        }
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, [lenis]);
+
   return (
     <section
       id="wrapper"
