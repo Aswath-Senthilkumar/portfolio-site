@@ -36,7 +36,7 @@ export default function Wrapper() {
         if (lenis) {
           // lenis.stop() removed - it pauses the loop!
           lenis.scrollTo(targetScroll, {
-            duration: 1.5,
+            duration: 0.8,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             lock: true, // This handles the locking
             onComplete: () => {

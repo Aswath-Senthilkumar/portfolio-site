@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
-  OrbitControls,
+  // OrbitControls,
   Preload,
   useGLTF,
   useProgress,
@@ -209,20 +209,9 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
 
   // GPU resource disposal function
   const disposeGPUResources = useCallback(() => {
-    console.log("🗑️ Pausing and cleaning up GPU resources...");
-
-    try {
-      // Clear Three.js cache (textures, geometries, materials)
-      THREE.Cache.clear();
-
-      // Note: We don't call loseContext() here because it permanently destroys
-      // the WebGL context and prevents re-showing the model when scrolling back.
-      // Instead, we rely on hiding the canvas and stopping the render loop.
-
-      console.log("✅ GPU cache cleared, canvas hidden");
-    } catch (error) {
-      console.warn("⚠️ Error during GPU cleanup:", error);
-    }
+    console.log("🗑️ Pausing 3D render loop...");
+    // Purely rely on frameloop="never" to stop GPU usage.
+    // Clearing Cache here might cause stutter if synchronous.
   }, []);
 
   // Monitor wrapper section visibility for cleanup and restoration
@@ -282,6 +271,7 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
         }}
       >
         <Canvas
+          frameloop={isHidden ? "never" : "always"} // Optimization: Stop render loop when hidden
           shadows
           dpr={1} // Optimization: Cap at 1x scale for performance
           camera={{ position: [0, 0, 0], fov: 25 }}
@@ -292,12 +282,6 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
           }}
         >
           <Suspense fallback={null}>
-            <OrbitControls
-              enableZoom={false}
-              enabled={false}
-              // maxPolarAngle={Math.PI / 2}
-              // minPolarAngle={Math.PI / 2}
-            />
             <Computers modelPath={modelPath} />
           </Suspense>
 
