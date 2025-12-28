@@ -3,93 +3,12 @@ import Hero from "./Hero";
 import LightRays from "./Hero/background/LightRays";
 import LazyComputers from "./Hero/model/LazyComputers";
 import { motion } from "motion/react";
-import { useEffect, useRef } from "react";
-import { useLenis } from "../components/providers/context";
+// import { useEffect, useRef } from "react"; // Removed unused imports
+// import { useLenis } from "../components/providers/context"; // Removed unused imports
 
 export default function Wrapper() {
-  const isScrolling = useRef(false);
-  const lenis = useLenis();
-
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      // If we are already animating a scroll, ignore wheel events
-      if (isScrolling.current) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-
-      const currentScroll = lenis ? lenis.scroll : window.scrollY;
-      const targetScroll = window.innerHeight; // About Me starts at 100vh
-
-      // console.log("Checking:", { currentScroll, targetScroll, deltaY: e.deltaY });
-      // Threshold to detect intent (avoid tiny accidental trackpad jitters)
-      if (Math.abs(e.deltaY) < 2) return;
-
-      // Scrolling Down from Home (0 to near bottom of home)
-      // Check if we are in the visual range of the first section
-      if (e.deltaY > 0 && currentScroll < targetScroll - 50) {
-        e.preventDefault();
-        e.stopPropagation();
-        isScrolling.current = true;
-
-        if (lenis) {
-          // lenis.stop() removed - it pauses the loop!
-          lenis.scrollTo(targetScroll, {
-            duration: 0.8,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            lock: true, // This handles the locking
-            onComplete: () => {
-              isScrolling.current = false;
-            },
-          });
-        } else {
-          window.scrollTo({ top: targetScroll, behavior: "smooth" });
-          setTimeout(() => {
-            isScrolling.current = false;
-          }, 800);
-        }
-      }
-      // Scrolling Up from About Me (Top of About Me or transition zone)
-      else if (
-        e.deltaY < 0 &&
-        currentScroll > 0 &&
-        currentScroll <= targetScroll + 50
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        isScrolling.current = true;
-
-        if (lenis) {
-          // lenis.stop() removed
-          lenis.scrollTo(0, {
-            duration: 0.8,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            lock: true,
-            onComplete: () => {
-              isScrolling.current = false;
-            },
-          });
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          setTimeout(() => {
-            isScrolling.current = false;
-          }, 800);
-        }
-      }
-    };
-
-    // Delay binding the listener to allow the page/3D model to fully hydrate and settle
-    // This prevents "jank" during the first second of load
-    const timeoutId = setTimeout(() => {
-      window.addEventListener("wheel", handleWheel, { passive: false });
-    }, 1000);
-
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener("wheel", handleWheel);
-    };
-  }, [lenis]);
+  // Scroll hijacking logic removed to fix severe performance lag.
+  // GSAP animations are driven by ScrollTrigger and will function naturally with Lenis smooth scroll.
 
   return (
     <section
@@ -124,7 +43,7 @@ export default function Wrapper() {
         id="model-container"
         className="absolute top-0 left-0 right-0 h-screen z-0 pointer-events-none"
       >
-        <LazyComputers modelPath="https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/scene.compressed.glb" />
+        <LazyComputers modelPath="/desktop_pc/scene.compressed.glb" />
       </div>
 
       {/* Sections - Start at very top of page */}

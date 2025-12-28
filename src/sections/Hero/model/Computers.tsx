@@ -28,7 +28,7 @@ interface ComputersProps {
 }
 
 const Computers: React.FC<ComputersProps> = ({
-  modelPath = "https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/scene.compressed.glb",
+  modelPath = "/desktop_pc/scene.compressed.glb",
 }) => {
   const computer = useGLTF(modelPath, "/draco/gltf/"); // Point to local draco files
   const ref = useRef<THREE.Group>(null);

@@ -14,6 +14,7 @@ import {
   getPersonStructuredData,
   getWebSiteStructuredData,
 } from "@/utils/structured-data";
+import { useGLTF } from "@react-three/drei";
 
 const Home = lazy(() =>
   import("@/pages/Home").then((module) => ({ default: module.Home }))
@@ -47,7 +48,23 @@ function App() {
   const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
 
   useEffect(() => {
-    // Preload logic if needed
+    // Preload logic: Start fetching heavy assets immediately
+    const preloadAssets = async () => {
+      try {
+        // Preload the main 3D model
+        useGLTF.preload("/desktop_pc/scene.compressed.glb");
+
+        // Preload code chunks
+        const homePromise = import("@/pages/Home");
+        const mobileHomePromise = import("@/pages/MobileHome");
+
+        await Promise.all([homePromise, mobileHomePromise]);
+      } catch (error) {
+        console.error("Preload error:", error);
+      }
+    };
+
+    preloadAssets();
   }, []);
 
   return (

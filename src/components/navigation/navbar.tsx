@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Globe } from "lucide-react";
 import { navigationItems } from "@/constants/index";
 import { Tab } from "./tab";
@@ -6,8 +6,6 @@ import { Cursor } from "./cursor";
 import { Sidebar } from "./sidebar/sidebar";
 import { useNavigationStore } from "@/stores/navigationStore";
 import type { Position } from "./types";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
 
 interface NavBarProps {
   show?: boolean;
@@ -21,33 +19,34 @@ export function NavBar({ show = true }: NavBarProps) {
     opacity: 0,
   });
 
+  // Use simple CSS transition for entrance to avoid main-thread blocking during hydration
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (show) {
+      // Small delay to ensure DOM is ready and transition triggers
+      timer = setTimeout(() => setMounted(true), 100);
+    } else {
+      // Async update to avoid effect sync warning
+      timer = setTimeout(() => setMounted(false), 0);
+    }
+    return () => clearTimeout(timer);
+  }, [show]);
+
   // Get active navigation item using optimized selector
   const activeNavigationItem = useNavigationStore((state) =>
     state.getActiveNavigationItem()
   );
-
-  useGSAP(() => {
-    if (show) {
-      gsap.to(navRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power3.out",
-      });
-    } else {
-      gsap.set(navRef.current, {
-        y: -100,
-        opacity: 0,
-      });
-    }
-  }, [show]);
 
   return (
     <>
       {/* Desktop Navigation - Hidden on mobile, visible on md+ */}
       <nav
         ref={navRef}
-        className="fixed top-7 left-1/2 -translate-x-1/2 z-50 hidden md:block opacity-0 -translate-y-24"
+        className={`fixed top-7 left-1/2 -translate-x-1/2 z-50 hidden md:block transition-all duration-1000 ease-out will-change-transform ${
+          mounted ? "translate-y-0 opacity-100" : "-translate-y-24 opacity-0"
+        }`}
       >
         <ul
           onMouseLeave={() => {
