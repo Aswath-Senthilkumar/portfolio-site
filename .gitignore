@@ -12,8 +12,7 @@ dist
 dist-ssr
 *.local
 src/sections/cover
-src/components/icons
-
+src/sections/cover
 # Environment variables
 .env
 .env.local
