@@ -2,10 +2,6 @@ import { useState, lazy, Suspense } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useEffect } from "react";
 import LoadingAnimation from "@/components/animations/LoadingAnimation";
-import { Routes, Route } from "react-router";
-// import { Home } from "@/pages/Home";
-// import { MobileHome } from "@/pages/MobileHome";
-import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 import { GlobalDrawer } from "@/components/drawer/global-drawer";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
@@ -15,33 +11,10 @@ import {
   getWebSiteStructuredData,
 } from "@/utils/structured-data";
 import { useGLTF } from "@react-three/drei";
+import HeroSkeleton from "@/components/ui/HeroSkeleton";
 
-const Home = lazy(() =>
-  import("@/pages/Home").then((module) => ({ default: module.Home }))
-);
-const MobileHome = lazy(() =>
-  import("@/pages/MobileHome").then((module) => ({
-    default: module.MobileHome,
-  }))
-);
-
-function MobileView() {
-  return (
-    <Routes>
-      <Route path="/" element={<MobileHome />} />
-    </Routes>
-  );
-}
-
-function DesktopView() {
-  return (
-    <SmoothScrollProvider>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </SmoothScrollProvider>
-  );
-}
+const DesktopView = lazy(() => import("@/pages/DesktopView"));
+const MobileView = lazy(() => import("@/pages/MobileView"));
 
 function App() {
   const [animationComplete, setAnimationComplete] = useState(false);
@@ -55,10 +28,10 @@ function App() {
         useGLTF.preload("/desktop_pc/scene.compressed.glb");
 
         // Preload code chunks
-        const homePromise = import("@/pages/Home");
-        const mobileHomePromise = import("@/pages/MobileHome");
+        const desktopPromise = import("@/pages/DesktopView");
+        const mobilePromise = import("@/pages/MobileView");
 
-        await Promise.all([homePromise, mobileHomePromise]);
+        await Promise.all([desktopPromise, mobilePromise]);
       } catch (error) {
         console.error("Preload error:", error);
       }
@@ -78,8 +51,12 @@ function App() {
       {!animationComplete ? (
         <LoadingAnimation onComplete={() => setAnimationComplete(true)} />
       ) : (
-        <Suspense fallback={null}>
-          {isMobile ? <MobileView /> : <DesktopView />}
+        <Suspense fallback={<HeroSkeleton />}>
+          {isMobile ? (
+            <MobileView key="mobile-view" />
+          ) : (
+            <DesktopView key="desktop-view" />
+          )}
         </Suspense>
       )}
       <GlobalDrawer />

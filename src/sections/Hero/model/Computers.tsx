@@ -6,12 +6,14 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
+// import { Perf } from "r3f-perf";
 import {
   // OrbitControls,
   Preload,
   useGLTF,
   useProgress,
+  useTexture,
 } from "@react-three/drei";
 import { motion } from "framer-motion";
 import gsap from "gsap";
@@ -31,81 +33,9 @@ const Computers: React.FC<ComputersProps> = ({
   modelPath = "/desktop_pc/scene.compressed.glb",
 }) => {
   const computer = useGLTF(modelPath, "/draco/gltf/"); // Point to local draco files
+  const shadowTexture = useTexture("/shadow.png");
   const ref = useRef<THREE.Group>(null);
-
-  // Set up video texture looping
-  // useEffect(() => {
-  //   // Create video element
-  //   const video = document.createElement("video");
-  //   video.src =
-  //     "https://jjv5kewiwbig2jji.public.blob.vercel-storage.com/Material.074_30_baseColor.mp4";
-  //   video.crossOrigin = "anonymous";
-  //   video.loop = true;
-  //   video.muted = true;
-  //   video.playsInline = true;
-
-  //   // Create video texture
-  //   const videoTexture = new THREE.VideoTexture(video);
-  //   videoTexture.minFilter = THREE.LinearFilter;
-  //   videoTexture.magFilter = THREE.LinearFilter;
-  //   videoTexture.format = THREE.RGBAFormat;
-  //   videoTexture.colorSpace = THREE.SRGBColorSpace;
-
-  //   console.log("Video texture created:", videoTexture);
-
-  //   // Traverse the model and find materials to apply video texture
-  //   const screenMaterials: THREE.MeshStandardMaterial[] = [];
-  //   computer.scene.traverse((child) => {
-  //     if ((child as THREE.Mesh).isMesh) {
-  //       const mesh = child as THREE.Mesh;
-  //       const material = mesh.material as THREE.MeshStandardMaterial;
-
-  //       if (material && material.isMaterial) {
-  //         // Check if this material's map is null or undefined (video didn't load)
-  //         // or if the material name suggests it's the screen material
-  //         if (
-  //           material.name &&
-  //           (material.name.includes("Material.074_30") ||
-  //             material.name.includes("screen") ||
-  //             material.name.includes("Screen"))
-  //         ) {
-  //           console.log("Found screen material:", material.name);
-  //           screenMaterials.push(material);
-  //         }
-  //       }
-  //     }
-  //   });
-
-  //   console.log(`Found ${screenMaterials.length} materials to apply video to`);
-
-  //   // Play the video and then apply texture
-  //   video
-  //     .play()
-  //     .then(() => {
-  //       console.log("Video playing successfully");
-
-  //       // Apply texture only after video starts playing
-  //       screenMaterials.forEach((material) => {
-  //         console.log("Applying video texture to:", material.name);
-  //         material.map = videoTexture;
-  //         material.emissive = new THREE.Color(0x666666); // Make it slightly emissive
-  //         material.emissiveMap = videoTexture;
-  //         material.emissiveIntensity = 1.0;
-  //         material.needsUpdate = true;
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error playing video:", error);
-  //     });
-
-  //   return () => {
-  //     video.pause();
-  //     video.src = "";
-  //     video.load();
-  //     videoTexture.dispose();
-  //     video.remove();
-  //   };
-  // }, [computer]);
+  const { invalidate } = useThree();
 
   useLayoutEffect(() => {
     if (!ref.current) return;
@@ -121,6 +51,7 @@ const Computers: React.FC<ComputersProps> = ({
         end: "bottom top", // 50%: Hero completely exited, About fades in
         scrub: 0.5,
         invalidateOnRefresh: true,
+        onUpdate: () => invalidate(), // Re-render when zooming/rotating model
         // markers: { startColor: "green", endColor: "red", fontSize: "12px" },
       },
     });
@@ -147,7 +78,7 @@ const Computers: React.FC<ComputersProps> = ({
           zIndex: 1,
           duration: 0,
         },
-        0.05
+        0.05,
       )
       .to(
         ref.current.rotation,
@@ -157,7 +88,7 @@ const Computers: React.FC<ComputersProps> = ({
           z: 0,
           ease: "power1.inOut",
         },
-        0
+        0,
       )
       .to(
         ref.current.position,
@@ -167,7 +98,7 @@ const Computers: React.FC<ComputersProps> = ({
           z: 19,
           ease: "power1.inOut",
         },
-        0
+        0,
       );
 
     return () => {
@@ -178,7 +109,7 @@ const Computers: React.FC<ComputersProps> = ({
       // Do NOT kill all ScrollTriggers, as this breaks other sections
       // ScrollTrigger.getAll().forEach((t) => t.kill());
     };
-  }, []);
+  }, [invalidate]);
 
   return (
     <mesh>
@@ -192,6 +123,16 @@ const Computers: React.FC<ComputersProps> = ({
           // rotation={[0, -1.55, 0]}
           rotation={[0, -2.2, 0]}
         />
+        {/* Static Baked Shadow */}
+        <mesh position={[6, -2.5, -25]} rotation={[-Math.PI / 2, 0, 0]}>
+          <planeGeometry args={[30, 30]} />
+          <meshBasicMaterial
+            map={shadowTexture}
+            transparent
+            opacity={0.8}
+            depthWrite={false}
+          />
+        </mesh>
       </group>
     </mesh>
   );
@@ -239,7 +180,7 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
       {
         threshold: 0,
         rootMargin: "100px", // Give 100px buffer before cleanup
-      }
+      },
     );
 
     observer.observe(wrapperElement);
@@ -271,21 +212,22 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
         }}
       >
         <Canvas
-          frameloop={isHidden ? "never" : "always"} // Optimization: Stop render loop when hidden
-          shadows
+          flat={true} // Optimization: Use flat tone mapping instead of expensive ACESFilmic Tone Mapping
+          frameloop={isHidden ? "never" : "demand"} // Optimization: Stop render loop when hidden
           dpr={1} // Optimization: Cap at 1x scale for performance
           camera={{ position: [0, 0, 0], fov: 25 }}
           gl={{
             preserveDrawingBuffer: false,
             alpha: true,
+            antialias: false, // Optimization: Turn off MSAA antialiasing to heavily reduce load
             powerPreference: "high-performance",
           }}
         >
+          {/* <Perf position="top-left" /> */}
           <Suspense fallback={null}>
             <Computers modelPath={modelPath} />
+            <Preload all />
           </Suspense>
-
-          <Preload all />
         </Canvas>
       </motion.div>
       {/* )} */}

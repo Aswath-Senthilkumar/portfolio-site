@@ -7,7 +7,11 @@ interface HomeTitleProps {
 export function HomeTitle({ startDelay = 0 }: HomeTitleProps) {
   return (
     <div className="w-full">
-      <h1 className="text-left text-[clamp(2rem,2vw,12rem)] md:text-[clamp(4rem,4vw,16rem)] xl:text-[clamp(2rem,3vw,12rem)] 2xl:text-[clamp(3rem,2vw,12rem)] tracking-tight text-foreground cursor-default">
+      <h1
+        className="text-left text-[clamp(2rem,2vw,12rem)] md:text-[clamp(4rem,4vw,16rem)] xl:text-[clamp(2rem,3vw,12rem)] 2xl:text-[clamp(3rem,2vw,12rem)] tracking-tight text-foreground cursor-default"
+        // @ts-expect-error - React 18 type definitions miss fetchPriority on h1 but browsers support it
+        fetchPriority="high"
+      >
         <SplitText
           text="Hey, I'm Aswath"
           className="font-semibold text-center"

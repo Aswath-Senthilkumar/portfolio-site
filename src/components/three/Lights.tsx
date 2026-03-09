@@ -24,8 +24,6 @@ const Lights = () => {
         angle={1.0}
         penumbra={1}
         intensity={4000}
-        castShadow
-        shadow-mapSize={1024}
         target={target}
       />
       <pointLight intensity={1} />

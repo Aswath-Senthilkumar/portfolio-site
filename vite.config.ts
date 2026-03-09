@@ -27,5 +27,18 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  server: {
+    host: true, // Listen on all local IPs
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-3d': ['three', '@react-three/fiber', '@react-three/drei'],
+          'vendor-gsap': ['gsap'],
+        }
+      }
+    }
   }
 })

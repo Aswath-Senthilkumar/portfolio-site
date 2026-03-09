@@ -40,7 +40,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   const ref = useRef<HTMLParagraphElement>(null);
   const animationCompletedRef = useRef(false);
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(
-    () => typeof document !== "undefined" && document.fonts.status === "loaded"
+    () => typeof document !== "undefined" && document.fonts.status === "loaded",
   );
 
   useEffect(() => {
@@ -79,8 +79,8 @@ const SplitText: React.FC<SplitTextProps> = ({
         marginValue === 0
           ? ""
           : marginValue < 0
-          ? `-=${Math.abs(marginValue)}${marginUnit}`
-          : `+=${marginValue}${marginUnit}`;
+            ? `-=${Math.abs(marginValue)}${marginUnit}`
+            : `+=${marginValue}${marginUnit}`;
       const start = `top ${startPct}%${sign}`;
       let targets: Element[] = [];
       const assignTargets = (self: GSAPSplitText) => {
@@ -127,7 +127,7 @@ const SplitText: React.FC<SplitTextProps> = ({
               },
               willChange: "transform, opacity",
               force3D: true,
-            }
+            },
           );
         },
       });
@@ -159,7 +159,7 @@ const SplitText: React.FC<SplitTextProps> = ({
         onLetterAnimationComplete,
       ],
       scope: ref,
-    }
+    },
   );
 
   const renderTag = () => {

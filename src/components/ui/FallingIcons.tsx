@@ -38,7 +38,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       onReset,
       iconSize = 80,
     },
-    ref
+    ref,
   ) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const iconsContainerRef = useRef<HTMLDivElement | null>(null);
@@ -70,7 +70,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
               observer.disconnect();
             }
           },
-          { threshold: 0.1 }
+          { threshold: 0.1 },
         );
         observer.observe(containerRef.current);
         cleanup = () => observer.disconnect();
@@ -96,7 +96,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
 
       if (width <= 0 || height <= 0) return;
 
-      const engine = Engine.create();
+      const engine = Engine.create({ enableSleeping: true });
       engine.world.gravity.y = gravity;
 
       const render = Render.create({
@@ -119,28 +119,28 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         height + 25,
         width,
         50,
-        boundaryOptions
+        boundaryOptions,
       );
       const leftWall = Bodies.rectangle(
         -25,
         height / 2,
         50,
         height,
-        boundaryOptions
+        boundaryOptions,
       );
       const rightWall = Bodies.rectangle(
         width + 25,
         height / 2,
         50,
         height,
-        boundaryOptions
+        boundaryOptions,
       );
       const ceiling = Bodies.rectangle(
         width / 2,
         -25,
         width,
         50,
-        boundaryOptions
+        boundaryOptions,
       );
 
       if (!iconsContainerRef.current) return;
@@ -230,9 +230,8 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
           const { x, y } = body.position;
           (elem as HTMLElement).style.left = `${x}px`;
           (elem as HTMLElement).style.top = `${y}px`;
-          (
-            elem as HTMLElement
-          ).style.transform = `translate(-50%, -50%) rotate(${body.angle}rad)`;
+          (elem as HTMLElement).style.transform =
+            `translate(-50%, -50%) rotate(${body.angle}rad)`;
         });
         Matter.Engine.update(engine);
         animationFrameRef.current = requestAnimationFrame(updateLoop);
@@ -276,7 +275,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         {
           threshold: 0.1,
           rootMargin: "50px",
-        }
+        },
       );
 
       if (container) {
@@ -442,7 +441,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       () => ({
         resetIcons: handleReset,
       }),
-      [handleReset]
+      [handleReset],
     );
 
     return (
@@ -520,7 +519,7 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
         <div className="absolute top-0 left-0 z-0" ref={canvasContainerRef} />
       </div>
     );
-  }
+  },
 );
 
 FallingIcons.displayName = "FallingIcons";

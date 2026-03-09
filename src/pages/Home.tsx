@@ -1,12 +1,14 @@
+import { lazy, Suspense } from "react";
 import { NavBar } from "@/components/navigation/navbar";
 import { useSectionTracker } from "@/hooks/useSectionTracker";
-import WhatIDo from "@/sections/WhatIDo";
-import Experience from "@/sections/Experience";
-import Projects from "@/sections/Projects";
-import Skills from "@/sections/Skills";
-import Contact from "@/sections/Contact";
 import Footer from "@/components/Footer";
 import Wrapper from "@/sections/wrapper";
+
+const WhatIDo = lazy(() => import("@/sections/WhatIDo"));
+const Experience = lazy(() => import("@/sections/Experience"));
+const Projects = lazy(() => import("@/sections/Projects"));
+const Skills = lazy(() => import("@/sections/Skills"));
+const Contact = lazy(() => import("@/sections/Contact"));
 
 export function Home() {
   useSectionTracker();
@@ -16,11 +18,13 @@ export function Home() {
         <NavBar show={true} />
         <main className="w-full max-w-[1550px] mx-auto">
           <Wrapper />
-          <WhatIDo />
-          <Experience />
-          <Projects />
-          <Skills />
-          <Contact />
+          <Suspense fallback={<div className="min-h-screen" />}>
+            <WhatIDo />
+            <Experience />
+            <Projects />
+            <Skills />
+            <Contact />
+          </Suspense>
         </main>
         <Footer />
       </div>

@@ -1,73 +1,76 @@
-# React + TypeScript + Vite
+# Portfolio Website 2025
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A high-performance, immersive portfolio website built with modern web technologies. This project demonstrates advanced frontend development practices, 3D integrations, and optimized rendering techniques.
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Core
 
-## React Compiler
+- **React 19**: Leveraging the latest concurrent features and compiler optimizations.
+- **TypeScript**: Strict type safety for robust code quality.
+- **Vite**: Next-generation frontend tooling for blazing fast builds.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### State Management & Architecture
 
-## Expanding the ESLint configuration
+- **Zustand**: Lightweight, scalable global state management (used for Navigation and Drawer states).
+- **Custom Hooks**: Encapsulated logic for reusability and cleaner components:
+  - \`useSectionTracker\`: Efficient scroll spying and navigation syncing.
+  - \`useContactForm\`: Form logic abstraction.
+  - \`useSkillRowAnimation\`: Orchestrated animation sequences.
+- **Modular Architecture**: Component-driven development with clear separation of concerns (`/sections`, `/components`, `/stores`).
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Styling & UI
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Tailwind CSS v4**: Utility-first styling with the latest engine.
+- **Emotion**: CSS-in-JS solutions for dynamic component styling.
+- **Responsive Design**: Adaptive layouts with device-specific optimization (`isMobile` detection via `react-responsive`).
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ✨ Animations & 3D Experience
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Graphics Engine
+
+- **Three.js & React Three Fiber (R3F)**: 3D scene rendering and canvas management.
+- **Drei**: Helper abstractions for rapid R3F development.
+- **Spline**: Interactive 3D assets integration.
+
+### Motion & Transitions
+
+- **GSAP (GreenSock)**: Industry-standard library for high-performance complex timelines.
+- **Framer Motion**: React-native animations for layout transitions and gestures.
+- **Lenis**: Smooth logic-based scrolling for a premium feel.
+- **Physics**: `matter-js` and `canvas-confetti` for interactive particle effects.
+
+## ⚡ Performance Optimization
+
+### Load Time & Bundle Size
+
+- **Code Splitting**: Route-based lazy loading using `React.lazy` and `Suspense` to split Desktop and Mobile bundles.
+- **Asset Optimization**: Intelligent loading of heavy assets and 3D models.
+- **Vite Configuration**: custom build optimizations.
+
+### Monitoring
+
+- **Vercel Speed Insights**: Real-time user experience monitoring (Core Web Vitals).
+- **Vercel Analytics**: Privacy-friendly traffic analysis.
+
+## 🔍 SEO & Meta Data
+
+- **Structured Data**: JSON-LD injection for rich search results (Person, WebSite schemas).
+- **Automated Sitemap**: `vite-plugin-sitemap` for ensuring search engines index all pages.
+- **Semantic HTML**: Accessible and crawler-friendly markup structure.
+
+## 🛠️ Development
+
+To run this project locally:
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📄 License
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+[MIT](LICENSE)

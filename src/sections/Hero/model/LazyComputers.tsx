@@ -12,11 +12,7 @@ interface LazyComputersProps {
 
 const LazyComputers: React.FC<LazyComputersProps> = (props) => {
   return (
-    <Suspense
-      fallback={
-        <div className="w-full h-full flex items-center justify-center"></div>
-      }
-    >
+    <Suspense fallback={<div className="w-full h-full bg-transparent" />}>
       <ComputersCanvas {...props} />
     </Suspense>
   );

@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+src/sections/cover
+src/components/icons
 
 # Environment variables
 .env
