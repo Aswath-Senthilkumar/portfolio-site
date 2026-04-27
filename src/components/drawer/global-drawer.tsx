@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import confetti from "canvas-confetti";
 import {
   Drawer,
   DrawerClose,
@@ -75,7 +74,14 @@ export function GlobalDrawer() {
 
   // Fireworks confetti effect
   useEffect(() => {
-    if (isSubmitSuccessful && isSuccess) {
+    if (!(isSubmitSuccessful && isSuccess)) return;
+
+    let interval: number | null = null;
+    let cancelled = false;
+
+    import("canvas-confetti").then(({ default: confetti }) => {
+      if (cancelled) return;
+
       const duration = 5 * 1000;
       const animationEnd = Date.now() + duration;
       const defaults = {
@@ -88,11 +94,12 @@ export function GlobalDrawer() {
       const randomInRange = (min: number, max: number) =>
         Math.random() * (max - min) + min;
 
-      const interval = window.setInterval(() => {
+      interval = window.setInterval(() => {
         const timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
-          return clearInterval(interval);
+          if (interval !== null) clearInterval(interval);
+          return;
         }
 
         const particleCount = 50 * (timeLeft / duration);
@@ -107,10 +114,12 @@ export function GlobalDrawer() {
           origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
         });
       }, 250);
+    });
 
-      // Cleanup function to clear interval if component unmounts
-      return () => clearInterval(interval);
-    }
+    return () => {
+      cancelled = true;
+      if (interval !== null) clearInterval(interval);
+    };
   }, [isSubmitSuccessful, isSuccess]);
 
   const handleReset = () => {

@@ -10,7 +10,6 @@ import { Canvas, useThree } from "@react-three/fiber";
 // import { Perf } from "r3f-perf";
 import {
   // OrbitControls,
-  Preload,
   useGLTF,
   useProgress,
   useTexture,
@@ -226,7 +225,6 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
           {/* <Perf position="top-left" /> */}
           <Suspense fallback={null}>
             <Computers modelPath={modelPath} />
-            <Preload all />
           </Suspense>
         </Canvas>
       </motion.div>
