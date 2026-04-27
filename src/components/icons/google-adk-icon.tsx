@@ -1,4 +1,4 @@
-import googleAdkIcon from "./google-adk-icon-svgrepo-com.png";
+import googleAdkIcon from "./google-adk-icon-svgrepo-com.webp";
 
 export function GoogleAdkIcon({ className }: { className?: string }) {
   return (
