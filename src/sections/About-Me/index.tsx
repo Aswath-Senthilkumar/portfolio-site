@@ -58,7 +58,7 @@ export default function AboutMe() {
 
       ScrollTrigger.create({
         trigger: "#about-me",
-        start: "top 60%", // Start earlier/easier
+        start: "top bottom", // Fire as the section enters the viewport (avoids empty-space gap)
         end: "bottom bottom",
         onEnter: () => {
           if (!hasAnimated.current) {

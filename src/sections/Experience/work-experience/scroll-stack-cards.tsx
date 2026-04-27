@@ -1,7 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { experienceData } from "../../../constants";
 import { WorkExperienceCard } from "./work-experience-card";
 
@@ -11,109 +10,139 @@ export const ScrollStackCards: React.FC = () => {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useGSAP(() => {
-    const cards = cardsRef.current.filter(Boolean);
-    const contents = contentRefs.current;
-    const totalCards = cards.length;
-    const section = document.getElementById("experience");
+  useEffect(() => {
+    let ctx: gsap.Context | undefined;
+    let cancelled = false;
 
-    if (totalCards === 0 || !section) return;
+    const setup = () => {
+      if (cancelled) return;
 
-    // Initial setup for all cards
-    gsap.set(cards, {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      transformOrigin: "center center",
-      transformPerspective: 1000,
-      transformStyle: "preserve-3d",
-      backfaceVisibility: "hidden",
-    });
+      ctx = gsap.context(() => {
+        const cards = cardsRef.current.filter(Boolean);
+        const contents = contentRefs.current;
+        const totalCards = cards.length;
+        const section = document.getElementById("experience");
 
-    // Set initial positions
-    cards.forEach((card, index) => {
-      if (index === 0) {
-        gsap.set(card, {
-          yPercent: 0,
-          rotationX: 0,
-          opacity: 1,
-          zIndex: totalCards,
-          scale: 1,
-          pointerEvents: "auto",
+        if (totalCards === 0 || !section) return;
+
+        // Initial setup for all cards
+        gsap.set(cards, {
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          transformOrigin: "center center",
+          transformPerspective: 1000,
+          transformStyle: "preserve-3d",
+          backfaceVisibility: "hidden",
         });
-      } else {
-        gsap.set(card, {
-          yPercent: 100,
-          rotationX: -90,
-          opacity: 0,
-          zIndex: totalCards - index,
-          scale: 0.8,
-          pointerEvents: "none",
-        });
-      }
-    });
 
-    // Create the timeline
-    const tl = gsap.timeline();
-
-    // Build sequence: Scroll Content -> Flip Card
-    cards.forEach((card, index) => {
-      const content = contents[index];
-      const nextCard = cards[index + 1];
-
-      // 1. Scroll internal content if needed
-      if (content && content.parentElement) {
-        const scrollDist =
-          content.scrollHeight - content.parentElement.clientHeight;
-        if (scrollDist > 0) {
-          tl.to(content, {
-            y: -scrollDist,
-            duration: scrollDist / 100, // Slower scroll for better readability
-            ease: "none",
-          });
-        }
-      }
-
-      // 2. Flip to next card (if not last)
-      if (index !== totalCards - 1 && nextCard) {
-        tl.to(card, {
-          yPercent: -100,
-          rotationX: 90,
-          opacity: 0,
-          scale: 0.8,
-          duration: 2, // Flip duration
-          ease: "power2.inOut",
-          pointerEvents: "none",
-        })
-          .to(
-            nextCard,
-            {
+        // Set initial positions
+        cards.forEach((card, index) => {
+          if (index === 0) {
+            gsap.set(card, {
               yPercent: 0,
               rotationX: 0,
               opacity: 1,
+              zIndex: totalCards,
               scale: 1,
-              duration: 2,
-              ease: "power2.inOut",
-            },
-            "<"
-          )
-          .set(nextCard, { pointerEvents: "auto" });
-      }
-    });
+              pointerEvents: "auto",
+            });
+          } else {
+            gsap.set(card, {
+              yPercent: 100,
+              rotationX: -90,
+              opacity: 0,
+              zIndex: totalCards - index,
+              scale: 0.8,
+              pointerEvents: "none",
+            });
+          }
+        });
 
-    // Create ScrollTrigger linked to the timeline
-    ScrollTrigger.create({
-      animation: tl,
-      trigger: "#experience",
-      start: "top top",
-      end: () => `+=${tl.duration() * 300}`, // Map timeline duration to scroll pixels
-      pin: true,
-      scrub: 1,
-      anticipatePin: 1,
-      invalidateOnRefresh: true, // Recalculate on resize
-    });
+        // Create the timeline
+        const tl = gsap.timeline();
+
+        // Build sequence: Scroll Content -> Flip Card
+        cards.forEach((card, index) => {
+          const content = contents[index];
+          const nextCard = cards[index + 1];
+
+          // 1. Scroll internal content if needed.
+          // 24px buffer ensures the last bullet sits comfortably above the
+          // bottom edge before the flip starts.
+          if (content && content.parentElement) {
+            const scrollDist =
+              content.scrollHeight - content.parentElement.clientHeight + 24;
+            if (scrollDist > 0) {
+              tl.to(content, {
+                y: -scrollDist,
+                duration: scrollDist / 100, // Slower scroll for better readability
+                ease: "none",
+              });
+            }
+          }
+
+          // 2. Flip to next card (if not last)
+          if (index !== totalCards - 1 && nextCard) {
+            tl.to(card, {
+              yPercent: -100,
+              rotationX: 90,
+              opacity: 0,
+              scale: 0.8,
+              duration: 2, // Flip duration
+              ease: "power2.inOut",
+              pointerEvents: "none",
+            })
+              .to(
+                nextCard,
+                {
+                  yPercent: 0,
+                  rotationX: 0,
+                  opacity: 1,
+                  scale: 1,
+                  duration: 2,
+                  ease: "power2.inOut",
+                },
+                "<"
+              )
+              .set(nextCard, { pointerEvents: "auto" });
+          }
+        });
+
+        // Create ScrollTrigger linked to the timeline
+        ScrollTrigger.create({
+          animation: tl,
+          trigger: "#experience",
+          start: "top top",
+          end: () => `+=${tl.duration() * 300}`, // Map timeline duration to scroll pixels
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true, // Recalculate on resize
+        });
+      });
+    };
+
+    // Wait for fonts before measuring scrollHeight — Inter and Azonix metrics
+    // differ from fallbacks, and content height settles only after they swap.
+    // Measuring earlier underestimates scrollDist, so the card flips before
+    // the user has scrolled through all the bullets.
+    if (
+      typeof document !== "undefined" &&
+      document.fonts &&
+      document.fonts.status !== "loaded"
+    ) {
+      document.fonts.ready.then(setup);
+    } else {
+      setup();
+    }
+
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
   }, []);
 
   return (
