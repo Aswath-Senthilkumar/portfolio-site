@@ -16,7 +16,8 @@ const DesktopView = lazy(() => import("@/pages/DesktopView"));
 const MobileView = lazy(() => import("@/pages/MobileView"));
 
 const MIN_LOADER_MS = 2400;
-const FADE_MS = 400;
+const FADE_MS = 150;
+const POST_FADE_BREATH_MS = 50;
 
 function App() {
   const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
@@ -67,7 +68,10 @@ function App() {
     };
   }, [progress]);
 
-  // Both gates passed → fade and remove the static loader, signal hero to animate.
+  // Both gates passed → fade the static loader, then (after a small breath)
+  // signal hero/navbar to animate. Firing the signal during the fade made
+  // the reveals overlap with the overlay's opacity transition, which on a
+  // fast machine reads as "everything happens at once" rather than sequenced.
   useEffect(() => {
     if (!chunkReady || !minReached) return;
     const overlayEl = document.getElementById("static-loader-overlay");
@@ -77,12 +81,17 @@ function App() {
       return;
     }
     overlayEl.classList.add("is-fading");
-    setLoaderDone();
-    const t = window.setTimeout(() => {
+    const removeTimer = window.setTimeout(() => {
       overlayEl.remove();
       setOverlayPresent(false);
     }, FADE_MS);
-    return () => window.clearTimeout(t);
+    const releaseTimer = window.setTimeout(() => {
+      setLoaderDone();
+    }, FADE_MS + POST_FADE_BREATH_MS);
+    return () => {
+      window.clearTimeout(removeTimer);
+      window.clearTimeout(releaseTimer);
+    };
   }, [chunkReady, minReached, setLoaderDone]);
 
   // Lock body scroll while loader is on top — DesktopView mounts immediately

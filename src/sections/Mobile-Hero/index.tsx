@@ -22,7 +22,7 @@ export default function MobileHero() {
       >
         <div className="pointer-events-auto mx-auto">
           {/* Title animates FIRST after loader fades */}
-          <HomeTitle startDelay={0.2} play={loaderDone} />
+          <HomeTitle startDelay={0.05} play={loaderDone} />
         </div>
 
         {/* Taglines: Enters from LEFT after title settles */}
@@ -30,7 +30,7 @@ export default function MobileHero() {
           className="pointer-events-auto mt-18 lg:mt-20 md:mb-20 mx-auto"
           initial={{ x: -100, opacity: 0 }}
           animate={loaderDone ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }}
-          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+          transition={{ duration: 1, delay: 0.15, ease: "easeOut" }}
         >
           <Taglines />
         </motion.div>
@@ -40,7 +40,7 @@ export default function MobileHero() {
           className="pointer-events-auto mt-10 mx-auto"
           initial={{ x: 100, opacity: 0 }}
           animate={loaderDone ? { x: 0, opacity: 1 } : { x: 100, opacity: 0 }}
-          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+          transition={{ duration: 1, delay: 0.15, ease: "easeOut" }}
         >
           <HomeInfoGridMobile />
         </motion.div>

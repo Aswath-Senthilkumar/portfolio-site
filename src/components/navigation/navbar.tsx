@@ -27,8 +27,9 @@ export function NavBar({ show = true }: NavBarProps) {
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (show && loaderDone) {
-      // Small delay to ensure DOM is ready and transition triggers
-      timer = setTimeout(() => setMounted(true), 100);
+      // Small delay to ensure DOM is ready and transition triggers.
+      // Matched to HomeTitle startDelay (0.05s) so both reveal on the same beat.
+      timer = setTimeout(() => setMounted(true), 50);
     } else {
       // Async update to avoid effect sync warning
       timer = setTimeout(() => setMounted(false), 0);

@@ -20,14 +20,14 @@ export default function Hero() {
       >
         <div className="pointer-events-auto">
           {/* Title animates FIRST after loader fades */}
-          <HomeTitle startDelay={0.2} play={loaderDone} />
+          <HomeTitle startDelay={0.05} play={loaderDone} />
         </div>
 
         {/* Content Section: Enters from LEFT after title settles */}
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={loaderDone ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }}
-          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
+          transition={{ duration: 1, delay: 0.15, ease: "easeOut" }}
         >
           <div className="pointer-events-auto mt-10 xl:mt-8">
             <Taglines />

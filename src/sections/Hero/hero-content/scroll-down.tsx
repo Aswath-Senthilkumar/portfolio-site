@@ -11,7 +11,7 @@ export function ScrollDown({ play = true }: ScrollDownProps) {
       className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-20"
       initial={{ opacity: 0, y: -20 }}
       animate={play ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-      transition={{ delay: 0.9, duration: 1, ease: "easeOut" }}
+      transition={{ delay: 0.25, duration: 1, ease: "easeOut" }}
     >
       <motion.div
         animate={{ y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
