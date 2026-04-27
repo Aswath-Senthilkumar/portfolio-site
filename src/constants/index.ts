@@ -300,7 +300,7 @@ export const projects = [
       title: "API Canvas - Public API Explorer",
       description:
         "Developed a responsive web app to explore and manage public APIs, featuring search, category filters, authentication, and API details with examples. Implemented a GraphQL layer over curated APIs for efficient querying, pagination, and personalized browsing.",
-      image: "/images/api-canvas.png",
+      image: "/images/api-canvas.webp",
       tags: [
         "Next.js",
         "React",
@@ -337,7 +337,7 @@ export const projects = [
     {
       title: "MacBook Pro Landing Page",
       description: "Built an Apple-inspired interactive landing page featuring high-quality 3D MacBook Pro models with smooth scroll animations, dynamic video textures, and real-time customization options including color switching and model size toggling between 14\" and 16\" variants.",
-      image: "/images/mac-page.png",
+      image: "/images/mac-page.webp",
       tags: [
         "React",
         "Three.js",
@@ -416,7 +416,7 @@ export const projects = [
       title: "Medication Reminder System",
       description:
         "Developed an automated healthcare communication system using Twilio for voice/SMS medication reminders with Google Cloud STT (Speech-to-Text) for real-time transcription. Integrated call recording, live transcription, and a call log API (Application Programming Interface) for healthcare providers with data stored in MongoDB.",
-      image: "/images/twilio_reminder.png",
+      image: "/images/twilio_reminder.webp",
       tags: [
         "Node.js",
         "Express",
@@ -435,7 +435,7 @@ export const projects = [
       title: "Scrollytelling with D3.js - Fast Food Industry Evolution",
       description:
         "Created an interactive scrollytelling visualization on the U.S. fast-food industry using D3.js and Scrollama.js with 10 dynamic charts. Built with vanilla JavaScript and Vite for modular, responsive design featuring real-time data processing, tooltips, and smooth scroll-triggered transitions.",
-      image: "/images/scrollytelling.png",
+      image: "/images/scrollytelling.webp",
       tags: [
         "D3.js",
         "JavaScript",
@@ -453,7 +453,7 @@ export const projects = [
     {
   title: "Mini Sudoku (Open Source)",
   description: "Developed a web-based 6×6 Mini Sudoku game inspired by LinkedIn’s version, featuring responsive UI, dark mode, and mobile-optimized gameplay. Implemented backtracking and Fisher–Yates shuffle algorithms for puzzle generation and solving, with Firebase-enabled cloud sync and a modular ES6 architecture tested with Jest (90–100% coverage).",
-  image: "/images/sudoku.png",
+  image: "/images/sudoku.webp",
   tags: [
     "JavaScript",
     "TailwindCSS v4",
@@ -473,7 +473,7 @@ export const projects = [
     {
       title: "D3.js Visualizer",
       description: "An AI-powered D3.js visualization generator that automatically creates interactive data visualizations. Users upload CSV or JSON datasets, and the system uses Google Gemini AI models (with OpenAI fallback) to intelligently select optimal chart types and generate production-ready D3.js code with responsive design, interactive tooltips, smooth animations, and data-driven insights.",
-      image: "/images/d3.png",
+      image: "/images/d3.webp",
       tags: [
         "Next.js",
         "React",

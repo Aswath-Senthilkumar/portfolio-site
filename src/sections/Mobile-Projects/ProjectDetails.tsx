@@ -35,6 +35,8 @@ export default function ProjectDetails({
                   src={project.image}
                   alt={project.title}
                   className="object-cover w-full h-full"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
 

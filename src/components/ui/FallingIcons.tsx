@@ -225,15 +225,17 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
       Runner.run(runner, engine);
       Render.run(render);
 
+      // Runner already advances the engine — only sync DOM positions here
+      // Skip sleeping bodies to avoid unnecessary style writes
       const updateLoop = () => {
         iconBodies.forEach(({ body, elem }) => {
+          if ((body as Matter.Body & { isSleeping?: boolean }).isSleeping) return;
           const { x, y } = body.position;
-          (elem as HTMLElement).style.left = `${x}px`;
-          (elem as HTMLElement).style.top = `${y}px`;
-          (elem as HTMLElement).style.transform =
-            `translate(-50%, -50%) rotate(${body.angle}rad)`;
+          const htmlElem = elem as HTMLElement;
+          htmlElem.style.left = `${x}px`;
+          htmlElem.style.top = `${y}px`;
+          htmlElem.style.transform = `translate(-50%, -50%) rotate(${body.angle}rad)`;
         });
-        Matter.Engine.update(engine);
         animationFrameRef.current = requestAnimationFrame(updateLoop);
       };
 
@@ -256,16 +258,12 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
           const entry = entries[0];
 
           if (!entry.isIntersecting) {
-            // Pause physics simulation when not visible
-            console.log("⏸️ FallingIcons not visible - pausing physics");
             if (animationFrameRef.current) {
               cancelAnimationFrame(animationFrameRef.current);
               animationFrameRef.current = null;
             }
             Runner.stop(runner);
           } else {
-            // Resume physics simulation when visible
-            console.log("▶️ FallingIcons visible - resuming physics");
             Runner.run(runner, engine);
             if (!animationFrameRef.current) {
               updateLoop();
@@ -341,7 +339,6 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
     const handleReset = useCallback(() => {
       if (!iconsContainerRef.current || !effectStarted || isResetting) return;
 
-      console.log("Resetting icons...");
       setIsResetting(true);
 
       // Clean up mouse constraint event listeners FIRST
@@ -399,8 +396,6 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
 
       // Schedule state reset guaranteed
       setTimeout(() => {
-        console.log("Reset complete, setting effectStarted to false");
-
         // Reset container styles to ensure next click works
         if (containerRef.current) {
           containerRef.current.style.touchAction = "auto";
@@ -457,13 +452,11 @@ const FallingIcons = forwardRef<FallingIconsRef, FallingIconsProps>(
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log("Overlay clicked, triggering effect");
               handleTrigger();
             }}
             onTouchEnd={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log("Overlay touched, triggering effect");
               handleTrigger();
             }}
             style={{

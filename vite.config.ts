@@ -35,8 +35,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor-3d': ['three', '@react-three/fiber', '@react-three/drei'],
-          'vendor-gsap': ['gsap'],
+          'vendor-3d':      ['three', '@react-three/fiber', '@react-three/drei'],
+          'vendor-gsap':    ['gsap'],
+          'vendor-motion':  ['motion'],
+          'vendor-physics': ['matter-js', 'ogl', 'gl-matrix'],
+          'vendor-ui':      ['radix-ui', 'lucide-react', 'vaul'],
         }
       }
     }

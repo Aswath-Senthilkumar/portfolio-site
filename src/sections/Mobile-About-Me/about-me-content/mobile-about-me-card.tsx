@@ -20,9 +20,11 @@ const MobileAboutMeCard = forwardRef<HTMLDivElement, MobileAboutMeCardProps>(
           >
             <div className="w-full h-64 md:h-120 bg-gradient-to-br from-purple-600 via-blue-500 to-cyan-400 overflow-hidden">
               <img
-                src="/images/about1.jpeg"
+                src="/images/about1.webp"
                 alt="grad pic"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>
@@ -51,9 +53,11 @@ const MobileAboutMeCard = forwardRef<HTMLDivElement, MobileAboutMeCardProps>(
           >
             <div className="w-full h-64 md:h-120 bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600 overflow-hidden">
               <img
-                src="/images/about2.png"
+                src="/images/about2.webp"
                 alt="personal photo"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>

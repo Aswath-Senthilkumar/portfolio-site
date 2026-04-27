@@ -344,16 +344,12 @@ void main() {
           const entry = entries[0];
 
           if (!entry.isIntersecting && isRunningRef.current) {
-            // Pause animation when not visible
-            console.log("⏸️ LightRays not visible - pausing animation");
             if (animationIdRef.current) {
               cancelAnimationFrame(animationIdRef.current);
               animationIdRef.current = null;
             }
             isRunningRef.current = false;
           } else if (entry.isIntersecting && !isRunningRef.current) {
-            // Resume animation when visible
-            console.log("▶️ LightRays visible - resuming animation");
             isRunningRef.current = true;
             animationIdRef.current = requestAnimationFrame(loop);
           }
@@ -463,17 +459,11 @@ void main() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Optimization --
-      // if (!containerRef.current || !rendererRef.current) return;
-      // const rect = containerRef.current.getBoundingClientRect();
-      // Use cached rect to avoid layout thrashing
       if (!rectRef.current) return;
-
       const rect = rectRef.current;
-
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      mouseRef.current = { x, y };
+      // Mutate in place to avoid allocating a new object on every mousemove
+      mouseRef.current.x = (e.clientX - rect.left) / rect.width;
+      mouseRef.current.y = (e.clientY - rect.top) / rect.height;
     };
 
     if (followMouse) {

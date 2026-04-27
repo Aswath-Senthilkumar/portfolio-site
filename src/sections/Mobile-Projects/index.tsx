@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { projects } from "../../constants";
 import ProjectCard from "./ProjectCard";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "motion/react";
 
 export default function MobileProjects() {
   const [cards, setCards] = useState(projects);

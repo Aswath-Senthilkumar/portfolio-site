@@ -7,7 +7,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "motion/react";
 import { X } from "lucide-react";
 import { useDrawerStore } from "@/stores/drawerStore";
 import { useContactForm } from "@/hooks/useContactForm";

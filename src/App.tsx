@@ -1,6 +1,5 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, lazy, Suspense, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useEffect } from "react";
 import LoadingAnimation from "@/components/animations/LoadingAnimation";
 import { GlobalDrawer } from "@/components/drawer/global-drawer";
 import { Analytics } from "@vercel/analytics/react";
@@ -17,28 +16,40 @@ const DesktopView = lazy(() => import("@/pages/DesktopView"));
 const MobileView = lazy(() => import("@/pages/MobileView"));
 
 function App() {
-  const [animationComplete, setAnimationComplete] = useState(false);
+  const [animationDone, setAnimationDone] = useState(false);
+  const [overlayMounted, setOverlayMounted] = useState(true);
   const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
 
   useEffect(() => {
-    // Preload logic: Start fetching heavy assets immediately
-    const preloadAssets = async () => {
+    // Preload code chunks immediately — model preload moved to after LCP
+    const preloadChunks = async () => {
       try {
-        // Preload the main 3D model
-        useGLTF.preload("/desktop_pc/scene.compressed.glb");
-
-        // Preload code chunks
-        const desktopPromise = import("@/pages/DesktopView");
-        const mobilePromise = import("@/pages/MobileView");
-
-        await Promise.all([desktopPromise, mobilePromise]);
+        await Promise.all([
+          import("@/pages/DesktopView"),
+          import("@/pages/MobileView"),
+        ]);
       } catch (error) {
         console.error("Preload error:", error);
       }
     };
-
-    preloadAssets();
+    preloadChunks();
   }, []);
+
+  // Preload 3D model after LCP paint — don't compete with fonts/CSS on first load
+  useEffect(() => {
+    const id = setTimeout(() => {
+      useGLTF.preload("/desktop_pc/scene.compressed.glb");
+    }, 1500);
+    return () => clearTimeout(id);
+  }, []);
+
+  // Unmount overlay from DOM after fade-out completes (400ms)
+  useEffect(() => {
+    if (animationDone) {
+      const t = setTimeout(() => setOverlayMounted(false), 400);
+      return () => clearTimeout(t);
+    }
+  }, [animationDone]);
 
   return (
     <div className="dark min-h-screen bg-black text-white overflow-hidden">
@@ -48,9 +59,9 @@ function App() {
           "@graph": [getPersonStructuredData(), getWebSiteStructuredData()],
         }}
       />
-      {!animationComplete ? (
-        <LoadingAnimation onComplete={() => setAnimationComplete(true)} />
-      ) : (
+
+      {/* Content renders only when animation done — chunks pre-fetched so mount is instant */}
+      {animationDone && (
         <Suspense fallback={<HeroSkeleton />}>
           {isMobile ? (
             <MobileView key="mobile-view" />
@@ -59,6 +70,24 @@ function App() {
           )}
         </Suspense>
       )}
+
+      {/* Fixed overlay — fades out when animation completes, then unmounts */}
+      {overlayMounted && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 50,
+            backgroundColor: "black",
+            opacity: animationDone ? 0 : 1,
+            transition: "opacity 0.4s ease",
+            pointerEvents: animationDone ? "none" : "auto",
+          }}
+        >
+          <LoadingAnimation onComplete={() => setAnimationDone(true)} />
+        </div>
+      )}
+
       <GlobalDrawer />
       <Analytics />
       <SpeedInsights />

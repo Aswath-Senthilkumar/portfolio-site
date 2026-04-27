@@ -8,7 +8,6 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
     <link rel="apple-touch-icon" href="/favicon-192x192.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="preload" href="/desktop_pc/scene.compressed.glb" as="fetch" crossorigin="anonymous">
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -27,7 +26,9 @@
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#000000" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <!-- Font imports -->
+    <!-- Preload critical above-fold fonts -->
+    <link rel="preload" href="/fonts/Azonix.woff" as="font" type="font/woff" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/Inter-Regular.woff" as="font" type="font/woff" crossorigin="anonymous" />
     <title>Aswath Senthilkumar | Portfolio | AshxProjects</title>
   </head>
 

@@ -1,5 +1,5 @@
 import { GithubIcon, LinkedinIcon } from "@/components/icons";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 const socialLinks = [
   {

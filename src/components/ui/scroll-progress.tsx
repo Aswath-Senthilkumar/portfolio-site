@@ -1,4 +1,4 @@
-import { motion, type MotionProps, useSpring } from "framer-motion";
+import { motion, type MotionProps, useSpring } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface ScrollProgressProps extends Omit<MotionProps, "style"> {

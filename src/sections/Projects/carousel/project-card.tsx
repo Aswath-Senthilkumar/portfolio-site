@@ -22,7 +22,7 @@ export const ProjectCard: FC<ProjectCardProps> = ({
     <div className="relative w-[70vw] h-[60vh] bg-gradient-to-br from-slate-900/95 to-black/95 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-2xl flex flex-shrink-0">
       {/* Left Side - Image */}
       <div className="w-2/5 relative overflow-hidden flex-shrink-0">
-        <img src={image} alt={title} className="w-full h-full object-cover" />
+        <img src={image} alt={title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-r from-transparent to-slate-900/30"></div>
       </div>
 

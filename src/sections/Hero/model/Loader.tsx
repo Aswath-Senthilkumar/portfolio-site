@@ -1,5 +1,5 @@
 import { useProgress } from "@react-three/drei";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import "@/index.css"
 
 const CanvasLoader = () => {

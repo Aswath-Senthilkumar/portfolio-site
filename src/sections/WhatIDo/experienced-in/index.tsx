@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { ServiceCard } from "../../../components/ui/service-card";
 import { services } from "./constants";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
-import { motion, AnimatePresence, useMotionValue } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue } from "motion/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 

@@ -5,7 +5,7 @@ import {
   useAnimation,
   type PanInfo,
   animate,
-} from "framer-motion";
+} from "motion/react";
 import { Info } from "lucide-react";
 import { useState, useEffect } from "react";
 import ProjectDetails from "./ProjectDetails";
@@ -122,6 +122,8 @@ export default function ProjectCard({
             src={project.image}
             alt={project.title}
             className="w-full h-full object-cover pointer-events-none"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 

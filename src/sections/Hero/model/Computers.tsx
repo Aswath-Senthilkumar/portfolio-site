@@ -14,7 +14,7 @@ import {
   useProgress,
   useTexture,
 } from "@react-three/drei";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -42,6 +42,18 @@ const Computers: React.FC<ComputersProps> = ({
     // Ensure we start at the top of the page
     window.scrollTo(0, 0);
 
+    // RAF gate: coalesce multiple onUpdate calls into one invalidate per frame
+    let rafPending = false;
+    const scheduleInvalidate = () => {
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(() => {
+          invalidate();
+          rafPending = false;
+        });
+      }
+    };
+
     // Phase 1 & 2: Model zoom animation (0-50%: top top to center top)
     const zoomTimeline = gsap.timeline({
       scrollTrigger: {
@@ -50,7 +62,7 @@ const Computers: React.FC<ComputersProps> = ({
         end: "bottom top", // 50%: Hero completely exited, About fades in
         scrub: 0.5,
         invalidateOnRefresh: true,
-        onUpdate: () => invalidate(), // Re-render when zooming/rotating model
+        onUpdate: scheduleInvalidate,
         // markers: { startColor: "green", endColor: "red", fontSize: "12px" },
       },
     });
@@ -101,12 +113,9 @@ const Computers: React.FC<ComputersProps> = ({
       );
 
     return () => {
+      // Kill only the triggers owned by this component
       zoomTimeline.kill();
       pinTrigger.kill();
-      // Lazy loading
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-      // Do NOT kill all ScrollTriggers, as this breaks other sections
-      // ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, [invalidate]);
 
@@ -147,12 +156,8 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
   const isDisposedRef = useRef(false);
   const [isHidden, setIsHidden] = useState(false);
 
-  // GPU resource disposal function
-  const disposeGPUResources = useCallback(() => {
-    console.log("🗑️ Pausing 3D render loop...");
-    // Purely rely on frameloop="never" to stop GPU usage.
-    // Clearing Cache here might cause stutter if synchronous.
-  }, []);
+  // GPU resource disposal function — relies on frameloop="never" to stop GPU usage
+  const disposeGPUResources = useCallback(() => {}, []);
 
   // Monitor wrapper section visibility for cleanup and restoration
   useEffect(() => {
@@ -164,14 +169,10 @@ const ComputersCanvas: React.FC<ComputersCanvasProps> = ({ modelPath }) => {
         const entry = entries[0];
 
         if (!entry.isIntersecting && !isDisposedRef.current) {
-          // When wrapper exits viewport, hide and clean up
-          console.log("🧹 Wrapper exited viewport - hiding model");
           disposeGPUResources();
           setIsHidden(true);
           isDisposedRef.current = true;
         } else if (entry.isIntersecting && isDisposedRef.current) {
-          // When scrolling back, show the model again
-          console.log("♻️ Wrapper re-entered viewport - showing model");
           setIsHidden(false);
           isDisposedRef.current = false;
         }
