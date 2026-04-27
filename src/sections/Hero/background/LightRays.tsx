@@ -301,36 +301,44 @@ void main() {
         uniforms.rayDir.value = dir;
       };
 
+      // Constant 30fps cap. RAF still fires every native frame, but we
+      // only render every other frame (or so). IntersectionObserver below
+      // pauses the loop entirely when the hero is off-screen.
+      const RENDER_INTERVAL_MS = 1000 / 30;
+      let lastRenderMs = 0;
+
       const loop = (t: number) => {
         if (!rendererRef.current || !uniformsRef.current || !meshRef.current) {
           return;
         }
 
-        uniforms.iTime.value = t * 0.001;
+        if (t - lastRenderMs >= RENDER_INTERVAL_MS) {
+          uniforms.iTime.value = t * 0.001;
 
-        if (followMouse && mouseInfluence > 0.0) {
-          const smoothing = 0.92;
+          if (followMouse && mouseInfluence > 0.0) {
+            const smoothing = 0.92;
+            smoothMouseRef.current.x =
+              smoothMouseRef.current.x * smoothing +
+              mouseRef.current.x * (1 - smoothing);
+            smoothMouseRef.current.y =
+              smoothMouseRef.current.y * smoothing +
+              mouseRef.current.y * (1 - smoothing);
+            uniforms.mousePos.value = [
+              smoothMouseRef.current.x,
+              smoothMouseRef.current.y,
+            ];
+          }
 
-          smoothMouseRef.current.x =
-            smoothMouseRef.current.x * smoothing +
-            mouseRef.current.x * (1 - smoothing);
-          smoothMouseRef.current.y =
-            smoothMouseRef.current.y * smoothing +
-            mouseRef.current.y * (1 - smoothing);
-
-          uniforms.mousePos.value = [
-            smoothMouseRef.current.x,
-            smoothMouseRef.current.y,
-          ];
+          try {
+            renderer.render({ scene: mesh });
+            lastRenderMs = t;
+          } catch (error) {
+            console.warn("WebGL rendering error:", error);
+            return;
+          }
         }
 
-        try {
-          renderer.render({ scene: mesh });
-          animationIdRef.current = requestAnimationFrame(loop);
-        } catch (error) {
-          console.warn("WebGL rendering error:", error);
-          return;
-        }
+        animationIdRef.current = requestAnimationFrame(loop);
       };
 
       window.addEventListener("resize", updatePlacement);
@@ -458,6 +466,8 @@ void main() {
   ]);
 
   useEffect(() => {
+    if (!followMouse) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!rectRef.current) return;
       const rect = rectRef.current;
@@ -466,10 +476,8 @@ void main() {
       mouseRef.current.y = (e.clientY - rect.top) / rect.height;
     };
 
-    if (followMouse) {
-      window.addEventListener("mousemove", handleMouseMove);
-      return () => window.removeEventListener("mousemove", handleMouseMove);
-    }
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [followMouse]);
 
   return (

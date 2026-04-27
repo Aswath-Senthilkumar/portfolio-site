@@ -30,8 +30,8 @@ export default function Wrapper() {
           raysSpeed={1.5}
           lightSpread={0.8}
           rayLength={0.8}
-          followMouse={true}
-          mouseInfluence={0.1}
+          followMouse={false}
+          mouseInfluence={0}
           noiseAmount={0.1}
           distortion={0.05}
           className="custom-rays"

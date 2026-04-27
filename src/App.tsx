@@ -27,6 +27,7 @@ function App() {
         await Promise.all([
           import("@/pages/DesktopView"),
           import("@/pages/MobileView"),
+          import("@/sections/Mobile-Hero"),
         ]);
       } catch (error) {
         console.error("Preload error:", error);
