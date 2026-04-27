@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
 import { Sidebar } from "@/components/navigation/sidebar/sidebar";
+import MobileHero from "@/sections/Mobile-Hero";
 import Footer from "@/components/Footer";
 
-const MobileHero = lazy(() => import("@/sections/Mobile-Hero"));
 const MobileAboutMe = lazy(() => import("@/sections/Mobile-About-Me"));
 const MobileWhatIDo = lazy(() => import("@/sections/Mobile-WhatIDo"));
 const MobileExperience = lazy(() => import("@/sections/Mobile-Experience"));
@@ -14,17 +14,13 @@ export function MobileHome() {
   return (
     <div className="flex min-h-svh flex-col">
       <Sidebar />
-      <Suspense fallback={<div className="min-h-screen" />}>
-        <MobileHero />
-      </Suspense>
-      <Suspense fallback={<div className="min-h-screen" />}>
-        <MobileAboutMe />
-        <MobileWhatIDo />
-        <MobileExperience />
-        <MobileProjects />
-        <MobileSkills />
-        <Contact />
-      </Suspense>
+      <MobileHero />
+      <Suspense fallback={null}><MobileAboutMe /></Suspense>
+      <Suspense fallback={null}><MobileWhatIDo /></Suspense>
+      <Suspense fallback={null}><MobileExperience /></Suspense>
+      <Suspense fallback={null}><MobileProjects /></Suspense>
+      <Suspense fallback={null}><MobileSkills /></Suspense>
+      <Suspense fallback={null}><Contact /></Suspense>
       <Footer />
     </div>
   );

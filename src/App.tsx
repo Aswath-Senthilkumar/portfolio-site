@@ -10,7 +10,6 @@ import {
   getWebSiteStructuredData,
 } from "@/utils/structured-data";
 import { useGLTF } from "@react-three/drei";
-import HeroSkeleton from "@/components/ui/HeroSkeleton";
 
 const DesktopView = lazy(() => import("@/pages/DesktopView"));
 const MobileView = lazy(() => import("@/pages/MobileView"));
@@ -27,7 +26,6 @@ function App() {
         await Promise.all([
           import("@/pages/DesktopView"),
           import("@/pages/MobileView"),
-          import("@/sections/Mobile-Hero"),
         ]);
       } catch (error) {
         console.error("Preload error:", error);
@@ -63,7 +61,7 @@ function App() {
 
       {/* Content renders only when animation done — chunks pre-fetched so mount is instant */}
       {animationDone && (
-        <Suspense fallback={<HeroSkeleton />}>
+        <Suspense fallback={null}>
           {isMobile ? (
             <MobileView key="mobile-view" />
           ) : (
