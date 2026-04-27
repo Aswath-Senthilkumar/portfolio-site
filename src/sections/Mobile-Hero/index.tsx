@@ -3,8 +3,11 @@ import { LazyParticleSphere } from "./model/LazyParticleSphere";
 import { HomeTitle } from "../Hero/hero-content/greet";
 import { Taglines } from "../Hero/hero-content/taglines";
 import { HomeInfoGridMobile } from "../Mobile-Hero/hero-content/info";
+import { useLoaderStore } from "@/stores/loaderStore";
 
 export default function MobileHero() {
+  const loaderDone = useLoaderStore((s) => s.done);
+
   return (
     <section
       id="home-mobile"
@@ -18,26 +21,26 @@ export default function MobileHero() {
         className="absolute inset-0 z-12 flex flex-col pt-20 md:pt-40 pointer-events-none overflow-hidden"
       >
         <div className="pointer-events-auto mx-auto">
-          {/* Title animates FIRST (waits for global loader: approx 2.2s) */}
-          <HomeTitle startDelay={0.5} />
+          {/* Title animates FIRST after loader fades */}
+          <HomeTitle startDelay={0.2} play={loaderDone} />
         </div>
 
-        {/* Taglines: Enters from LEFT (after title finishes: 3.2s) */}
+        {/* Taglines: Enters from LEFT after title settles */}
         <motion.div
           className="pointer-events-auto mt-18 lg:mt-20 md:mb-20 mx-auto"
           initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2, ease: "easeOut" }}
+          animate={loaderDone ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
         >
           <Taglines />
         </motion.div>
 
-        {/* Info Grid: Enters from RIGHT (after title finishes: 3.2s) */}
+        {/* Info Grid: Enters from RIGHT after title settles */}
         <motion.div
           className="pointer-events-auto mt-10 mx-auto"
           initial={{ x: 100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2, ease: "easeOut" }}
+          animate={loaderDone ? { x: 0, opacity: 1 } : { x: 100, opacity: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
         >
           <HomeInfoGridMobile />
         </motion.div>

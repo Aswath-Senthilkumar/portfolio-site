@@ -2,9 +2,10 @@ import SplitText from "@/components/animations/SplitText";
 
 interface HomeTitleProps {
   startDelay?: number;
+  play?: boolean;
 }
 
-export function HomeTitle({ startDelay = 0 }: HomeTitleProps) {
+export function HomeTitle({ startDelay = 0, play = true }: HomeTitleProps) {
   return (
     <div className="w-full">
       <h1
@@ -24,6 +25,7 @@ export function HomeTitle({ startDelay = 0 }: HomeTitleProps) {
           threshold={0.1}
           rootMargin="-100px"
           textAlign="center"
+          play={play}
         />
       </h1>
     </div>

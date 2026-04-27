@@ -3,8 +3,11 @@ import { HomeTitle } from "./hero-content/greet";
 import { Taglines } from "./hero-content/taglines";
 import { HomeInfoGrid } from "./hero-content/info";
 import { ScrollDown } from "./hero-content/scroll-down";
+import { useLoaderStore } from "@/stores/loaderStore";
 
 export default function Hero() {
+  const loaderDone = useLoaderStore((s) => s.done);
+
   return (
     <section
       id="home"
@@ -16,15 +19,15 @@ export default function Hero() {
         className="absolute inset-0 z-12 flex flex-col items-start justify-start pt-32 xl:pt-28 2xl:pt-40 pl-8 md:pl-20 pointer-events-none"
       >
         <div className="pointer-events-auto">
-          {/* Title animates FIRST (waits for global loader: approx 2.2s) */}
-          <HomeTitle startDelay={0.5} />
+          {/* Title animates FIRST after loader fades */}
+          <HomeTitle startDelay={0.2} play={loaderDone} />
         </div>
 
-        {/* Content Section: Enters from LEFT (after title finishes: 3.2s) */}
+        {/* Content Section: Enters from LEFT after title settles */}
         <motion.div
           initial={{ x: -100, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 1, delay: 2.2, ease: "easeOut" }}
+          animate={loaderDone ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }}
+          transition={{ duration: 1, delay: 0.6, ease: "easeOut" }}
         >
           <div className="pointer-events-auto mt-10 xl:mt-8">
             <Taglines />
@@ -36,7 +39,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll Indicator */}
-      <ScrollDown />
+      <ScrollDown play={loaderDone} />
     </section>
   );
 }
