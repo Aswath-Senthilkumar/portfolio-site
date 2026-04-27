@@ -5,6 +5,7 @@ import { Tab } from "./tab";
 import { Cursor } from "./cursor";
 import { Sidebar } from "./sidebar/sidebar";
 import { useNavigationStore } from "@/stores/navigationStore";
+import { useLoaderStore } from "@/stores/loaderStore";
 import type { Position } from "./types";
 
 interface NavBarProps {
@@ -13,6 +14,7 @@ interface NavBarProps {
 
 export function NavBar({ show = true }: NavBarProps) {
   const navRef = useRef<HTMLElement>(null);
+  const loaderDone = useLoaderStore((s) => s.done);
   const [position, setPosition] = useState<Position>({
     left: 0,
     width: 0,
@@ -24,7 +26,7 @@ export function NavBar({ show = true }: NavBarProps) {
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (show) {
+    if (show && loaderDone) {
       // Small delay to ensure DOM is ready and transition triggers
       timer = setTimeout(() => setMounted(true), 100);
     } else {
@@ -32,7 +34,7 @@ export function NavBar({ show = true }: NavBarProps) {
       timer = setTimeout(() => setMounted(false), 0);
     }
     return () => clearTimeout(timer);
-  }, [show]);
+  }, [show, loaderDone]);
 
   // Get active navigation item using optimized selector
   const activeNavigationItem = useNavigationStore((state) =>
