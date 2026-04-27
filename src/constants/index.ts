@@ -354,6 +354,25 @@ export const projects = [
       }
     },
     {
+      title: "Medication Reminder System",
+      description:
+        "Developed an automated healthcare communication system using Twilio for voice/SMS medication reminders with Google Cloud STT (Speech-to-Text) for real-time transcription. Integrated call recording, live transcription, and a call log API (Application Programming Interface) for healthcare providers with data stored in MongoDB.",
+      image: "/images/twilio_reminder.webp",
+      tags: [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Twilio API",
+        "Google Cloud Speech-to-Text",
+        "RESTful API",
+        "Healthcare Tech",
+      ],
+      links: {
+        github: "https://github.com/Aswath-Senthilkumar/twilio_reminder",
+        demo: "#",
+      },
+    },
+    {
       title: "Smart Automated Library Management System",
       description:
         "Developed an IoT (Internet of Things) and RFID-enabled library management system with real-time tracking, secure authentication, and automated SMS/email alerts. Added multi-attribute search, personalized book recommendations, and online fine payment for seamless user experience.",
@@ -362,9 +381,9 @@ export const projects = [
       links: {
         github:
           "https://github.com/Aswath-Senthilkumar/LibraryManagementSystem-main",
-        demo: "#",
+          demo: "#",
+        },
       },
-    },
     // {
     //   title: "Smart Plant Monitoring System",
     //   description:
@@ -409,25 +428,6 @@ export const projects = [
       links: {
         github:
           "https://github.com/Aswath-Senthilkumar/software-bug-severity-detection",
-        demo: "#",
-      },
-    },
-    {
-      title: "Medication Reminder System",
-      description:
-        "Developed an automated healthcare communication system using Twilio for voice/SMS medication reminders with Google Cloud STT (Speech-to-Text) for real-time transcription. Integrated call recording, live transcription, and a call log API (Application Programming Interface) for healthcare providers with data stored in MongoDB.",
-      image: "/images/twilio_reminder.webp",
-      tags: [
-        "Node.js",
-        "Express",
-        "MongoDB",
-        "Twilio API",
-        "Google Cloud Speech-to-Text",
-        "RESTful API",
-        "Healthcare Tech",
-      ],
-      links: {
-        github: "https://github.com/Aswath-Senthilkumar/twilio_reminder",
         demo: "#",
       },
     },

@@ -1,10 +1,15 @@
 import { useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Link } from "react-router";
+import { ArrowRight } from "lucide-react";
 import { projects } from "../../../constants";
 import { ProjectCard } from "./project-card";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const VISIBLE_PROJECTS = 4;
+const visibleProjects = projects.slice(0, VISIBLE_PROJECTS);
 
 export const HorizontalCarousel = () => {
   useEffect(() => {
@@ -17,8 +22,13 @@ export const HorizontalCarousel = () => {
 
     const cards = carousel.querySelectorAll(".project-card");
 
-    // Calculate total scroll width
-    const totalWidth = carousel.scrollWidth - window.innerWidth;
+    // Total horizontal scroll = carousel content width minus the visible
+    // area (the overflow-hidden parent, which clips to the frame's width).
+    // Using window.innerWidth here would over-scroll on viewports wider than
+    // the max-w-7xl frame and leave the last card clipped on the right.
+    const visibleWidth =
+      carousel.parentElement?.clientWidth ?? window.innerWidth;
+    const totalWidth = carousel.scrollWidth - visibleWidth;
 
     // Create horizontal scroll animation with onUpdate for dynamic scaling
     gsap.to(carousel, {
@@ -90,8 +100,19 @@ export const HorizontalCarousel = () => {
 
         {/* Carousel Container */}
         <div className="absolute inset-0 overflow-hidden rounded-3xl">
-          <div className="projects-carousel absolute top-0 left-0 h-full flex items-center gap-12 pl-[9vw] pr-[calc(12vw+9vw)]">
-            {projects.map((project, index) => (
+          <div
+            className="projects-carousel absolute top-0 left-0 h-full flex items-center gap-12"
+            style={{
+              // Symmetric padding so the first and last cards center
+              // horizontally in the frame at scroll start/end. Falls to 0
+              // on very wide viewports where the card overflows the frame
+              // — in that case the visible (clipped) portion is still
+              // centered because pl/pr are equal.
+              paddingLeft: "max(0px, calc((100% - 70vw) / 2))",
+              paddingRight: "max(0px, calc((100% - 70vw) / 2))",
+            }}
+          >
+            {visibleProjects.map((project, index) => (
               <div key={index} className="project-card">
                 <ProjectCard
                   title={project.title}
@@ -102,6 +123,27 @@ export const HorizontalCarousel = () => {
                 />
               </div>
             ))}
+
+            {/* 5th slot — "View all" CTA card. Same shape as project cards so
+                the carousel scroll naturally lands on it after the 4th card
+                and the GSAP scale-on-center logic treats it like the rest. */}
+            <div className="project-card">
+              <div className="relative w-[70vw] h-[60vh] bg-gradient-to-br from-purple-900/40 via-slate-900/95 to-blue-900/40 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden flex flex-col items-center justify-center gap-6 shadow-2xl flex-shrink-0">
+                <h3 className="font-heading text-3xl md:text-5xl text-white text-center px-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+                  Want to see more?
+                </h3>
+                <p className="text-white/60 text-base md:text-lg max-w-md text-center px-8">
+                  Browse the full collection with detailed descriptions and tech stacks.
+                </p>
+                <Link
+                  to="/projects"
+                  className="font-heading text-sm tracking-wide inline-flex items-center gap-2 px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/20 hover:border-white/40 text-white transition-colors shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] mt-2"
+                >
+                  View all projects
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 

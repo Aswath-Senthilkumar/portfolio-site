@@ -6,6 +6,7 @@ import Sitemap from 'vite-plugin-sitemap';
 
 const dynamicRoutes = [
   '/',
+  '/projects',
 ];
 
 // https://vite.dev/config/
