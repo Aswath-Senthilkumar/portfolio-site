@@ -36,12 +36,12 @@ function App() {
     preloadChunks();
   }, []);
 
-  // Preload 3D model after LCP paint — don't compete with fonts/CSS on first load
+  // Start preloading the 3D model immediately. Fonts are already preloaded in
+  // index.html with higher priority, so this fetch won't delay text rendering.
+  // The loader gates content for ~3s — getting the GLB in flight that whole
+  // window means the canvas can render as soon as the loader fades.
   useEffect(() => {
-    const id = setTimeout(() => {
-      useGLTF.preload("/desktop_pc/scene.compressed.glb");
-    }, 1500);
-    return () => clearTimeout(id);
+    useGLTF.preload("/desktop_pc/scene.compressed.glb");
   }, []);
 
   // Unmount overlay from DOM after fade-out completes (400ms)
